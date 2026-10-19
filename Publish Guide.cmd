@@ -31,7 +31,7 @@ for /f "delims=" %%L in ('git status --porcelain') do set "CHANGED=1"
 if defined GUIDE_NODE (
   echo.
   echo Running the tests...
-  "%GUIDE_NODE%" --test tests/
+  "%GUIDE_NODE%" --test "tests/*.test.mjs"
   if errorlevel 1 (
     echo.
     echo The tests failed, so nothing was published. Fix the problem above and run this again.
