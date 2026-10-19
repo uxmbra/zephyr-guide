@@ -1,0 +1,74 @@
+[
+  {
+    "id": "business-repair-kit",
+    "name": "Repair Kit",
+    "categoryId": "business",
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 10,
+    "ingredients": [
+      {
+        "itemId": "copper",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 1
+      },
+      {
+        "itemId": "steel",
+        "quantity": 1
+      },
+      {
+        "itemId": "metal-scrap",
+        "quantity": 2
+      }
+    ],
+    "notes": "Al’s Mechanic recipe. The source calculator assumes 10 seconds per craft. Applicability to other mechanics is unverified.",
+    "source": "User-supplied crafting_calculator.html (Al’s Mechanic)"
+  },
+  {
+    "id": "business-advanced-repairkit",
+    "name": "Advanced Repairkit",
+    "categoryId": "business",
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 10,
+    "ingredients": [
+      {
+        "itemId": "steel",
+        "quantity": 2
+      },
+      {
+        "itemId": "iron",
+        "quantity": 2
+      },
+      {
+        "itemId": "copper",
+        "quantity": 2
+      },
+      {
+        "itemId": "metal-scrap",
+        "quantity": 4
+      }
+    ],
+    "notes": "Al’s Mechanic recipe. The source calculator assumes 10 seconds per craft. Applicability to other mechanics is unverified.",
+    "source": "User-supplied crafting_calculator.html (Al’s Mechanic)"
+  },
+  {
+    "id": "business-performance-parts",
+    "name": "Performance Parts",
+    "categoryId": "business",
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 10,
+    "ingredients": [
+      {
+        "itemId": "metal-scrap",
+        "quantity": 2
+      }
+    ],
+    "notes": "Al’s Mechanic recipe. The source calculator assumes 10 seconds per craft. Applicability to other mechanics is unverified.",
+    "source": "User-supplied crafting_calculator.html (Al’s Mechanic)"
+  }
+]

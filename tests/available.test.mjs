@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {calculateAvailable,calculate} from '../dist/core.js';
+const recipes=JSON.parse(await readFile(new URL('../dist/data/smelting.json',import.meta.url)));
+const get=id=>recipes.find(r=>r.id==='smelting-'+id);
+test('103 copper ore makes 240 ingots using 100 coal and leaves 3 ore',()=>{const r=calculateAvailable(get('copper'),'copper-ore',103);assert.equal(r.batches,20);assert.equal(r.output,240);assert.equal(r.used,100);assert.equal(r.leftover,3);assert.equal(r.materials.find(i=>i.itemId==='coal-ore').quantity,100);assert.equal(r.totalTimeSeconds,200);assert.equal(calculate(get('copper'),r.output).batches,r.batches);});
+test('insufficient or zero ore cannot create partial crafts',()=>{for(const n of [0,4]){const r=calculateAvailable(get('copper'),'copper-ore',n);assert.equal(r.output,0);assert.equal(r.leftover,n);assert.equal(r.totalTimeSeconds,0);assert.ok(r.materials.every(i=>i.quantity===0));}});
+test('alternate recipes use their own ratios',()=>{const r=calculateAvailable(get('iron-trash'),'iron-trash',25);assert.equal(r.output,36);assert.equal(r.leftover,5);assert.equal(r.materials.find(i=>i.itemId==='coal-ore').quantity,10);});
+test('non-coal recipes calculate other requirements and support either input',()=>{const r=calculateAvailable(get('brass'),'copper-ore',103);assert.equal(r.output,120);assert.equal(r.materials.find(i=>i.itemId==='zinc-ore').quantity,50);const steel=calculateAvailable(get('steel'),'carbon',95);assert.equal(steel.output,3);assert.equal(steel.leftover,5);assert.equal(steel.materials.find(i=>i.itemId==='iron').quantity,15);});
+test('invalid quantities and unknown ingredients are rejected',()=>{for(const n of [-1,NaN,Infinity,1.5,1000001])assert.throws(()=>calculateAvailable(get('copper'),'copper-ore',n));assert.throws(()=>calculateAvailable(get('copper'),'iron',10));});
+test('large valid output stays accurate and known durations scale by full crafts',()=>{const r=calculateAvailable({...get('iron'),craftTimeSeconds:30},'iron-ore',1000000);assert.equal(r.output,3600000);assert.equal(r.totalTimeSeconds,6000000);});

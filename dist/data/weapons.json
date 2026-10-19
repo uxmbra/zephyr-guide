@@ -1,0 +1,277 @@
+[
+  {
+    "id": "weapon-xm7",
+    "name": "XM7",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "xm7-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 185
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "brass",
+        "quantity": 135
+      },
+      {
+        "itemId": "gold-ingot",
+        "quantity": 25
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 8
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-ppsh41",
+    "name": "PPSH41",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "ppsh41-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 185
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "brass",
+        "quantity": 135
+      },
+      {
+        "itemId": "gold-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 4
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-famas",
+    "name": "Famas",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "famas-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 185
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "brass",
+        "quantity": 135
+      },
+      {
+        "itemId": "gold-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 4
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-scar-l-black",
+    "name": "SCAR-L Black",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "scar-l-black-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 185
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "brass",
+        "quantity": 135
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 4
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-ak47",
+    "name": "AK47",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "ak47-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 185
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "brass",
+        "quantity": 135
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 4
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-assault-rifle",
+    "name": "Assault Rifle",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "assault-rifle-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 280
+      },
+      {
+        "itemId": "steel",
+        "quantity": 235
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 120
+      },
+      {
+        "itemId": "brass",
+        "quantity": 165
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 4
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-special-carbine",
+    "name": "Special Carbine",
+    "categoryId": "weapons",
+    "tier": 3,
+    "benchId": "weapons-tier-3",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "special-carbine-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 185
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "brass",
+        "quantity": 135
+      },
+      {
+        "itemId": "gold-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 4
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  }
+]

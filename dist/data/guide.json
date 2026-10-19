@@ -1,0 +1,300 @@
+{
+  "version": 1,
+  "updated": "2026-10-07",
+  "categories": [
+    {
+      "id": "ammo",
+      "name": "Ammo Crafting",
+      "file": "ammo.json"
+    },
+    {
+      "id": "weapons",
+      "name": "Weapon Crafting",
+      "file": "weapons.json"
+    },
+    {
+      "id": "substances",
+      "name": "Substance Guides",
+      "file": "substances.json"
+    },
+    {
+      "id": "attachments",
+      "name": "Attachment Crafting",
+      "file": "attachments.json"
+    },
+    {
+      "id": "heist",
+      "name": "Heist Related Items",
+      "file": "heist.json"
+    },
+    {
+      "id": "generic",
+      "name": "Generic Items",
+      "file": "generic.json"
+    },
+    {
+      "id": "melee",
+      "name": "Melee Items",
+      "file": "melee.json"
+    },
+    {
+      "id": "smelting",
+      "name": "Smelting",
+      "file": "smelting.json"
+    },
+    {
+      "id": "mining",
+      "name": "Mining",
+      "file": "mining.json"
+    },
+    {
+      "id": "business",
+      "name": "Business Crafting",
+      "file": "business.json"
+    }
+  ],
+  "items": [
+    {
+      "id": "bullet-casings",
+      "name": "Bullet Casings"
+    },
+    {
+      "id": "brass",
+      "name": "Brass"
+    },
+    {
+      "id": "gun-powder",
+      "name": "Gun Powder"
+    },
+    {
+      "id": "copper",
+      "name": "Copper"
+    },
+    {
+      "id": "coal-ore",
+      "name": "Coal Ore"
+    },
+    {
+      "id": "copper-ore",
+      "name": "Copper Ore"
+    },
+    {
+      "id": "iron-ore",
+      "name": "Iron Ore"
+    },
+    {
+      "id": "iron-trash",
+      "name": "Iron Trash"
+    },
+    {
+      "id": "gold-ore",
+      "name": "Gold Ore"
+    },
+    {
+      "id": "iron",
+      "name": "Iron"
+    },
+    {
+      "id": "carbon",
+      "name": "Carbon"
+    },
+    {
+      "id": "steel-trash",
+      "name": "Steel Trash"
+    },
+    {
+      "id": "bottle-caps",
+      "name": "Bottle Caps"
+    },
+    {
+      "id": "zinc-ore",
+      "name": "Zinc Ore"
+    },
+    {
+      "id": "silver-fragments",
+      "name": "Silver Fragments"
+    },
+    {
+      "id": "gold-flakes",
+      "name": "Gold Flakes"
+    },
+    {
+      "id": "steel",
+      "name": "Steel"
+    },
+    {
+      "id": "rubber",
+      "name": "Rubber"
+    },
+    {
+      "id": "gold-ingot",
+      "name": "Gold Ingot"
+    },
+    {
+      "id": "zephyr-lubricant-spray",
+      "name": "Zephyr Lubricant Spray"
+    },
+    {
+      "id": "xm7-blueprint",
+      "name": "XM7 Rifle Blueprint"
+    },
+    {
+      "id": "ppsh41-blueprint",
+      "name": "PPSH41 Blueprint"
+    },
+    {
+      "id": "famas-blueprint",
+      "name": "Famas Blueprint"
+    },
+    {
+      "id": "scar-l-black-blueprint",
+      "name": "SCAR-L Black Blueprint"
+    },
+    {
+      "id": "ak47-blueprint",
+      "name": "AK47 Blueprint"
+    },
+    {
+      "id": "assault-rifle-blueprint",
+      "name": "Assault Rifle Blueprint"
+    },
+    {
+      "id": "special-carbine-blueprint",
+      "name": "Special Carbine Rifle Blueprint"
+    },
+    {
+      "id": "carbon-fiber",
+      "name": "Carbon Fiber"
+    },
+    {
+      "id": "heavy-suppressor-blueprint",
+      "name": "Heavy Suppressor Blueprint"
+    },
+    {
+      "id": "extended-pistol-clip-blueprint",
+      "name": "Extended Pistol Blueprint"
+    },
+    {
+      "id": "suppressor-blueprint",
+      "name": "Suppressor Blueprint"
+    },
+    {
+      "id": "extended-smg-clip-blueprint",
+      "name": "Extended SMG Blueprint"
+    },
+    {
+      "id": "metal-scrap",
+      "name": "Metal Scrap"
+    }
+  ],
+  "locations": [
+    {
+      "id": "weapons-tier-3-2008",
+      "name": "Tier 3 Weapon Crafting",
+      "postcode": "2008",
+      "mapImage": "",
+      "mapAlt": "Map showing Tier 3 weapon crafting at postcode 2008",
+      "notes": "Tier 3 weapon crafting at postcode 2008."
+    },
+    {
+      "id": "smelter-174",
+      "name": "Smelter",
+      "postcode": "174",
+      "mapImage": "images/smelter-174-map.png",
+      "mapAlt": "Map showing the smelter at postcode 174",
+      "notes": "Smelter at postcode 174."
+    },
+    {
+      "id": "mainland-938",
+      "name": "Main Land",
+      "postcode": "938",
+      "mapImage": "images/mainland-938-map.png",
+      "mapAlt": "Map showing the mainland ammo crafting location at postcode 938",
+      "notes": "Postcode 938 — Redwood Lights Track."
+    },
+    {
+      "id": "attachments-1007",
+      "name": "Attachment Crafting",
+      "postcode": "1007",
+      "postcodeType": "closest",
+      "mapImage": "images/attachments-1007-map.png",
+      "mapAlt": "Map showing attachment crafting near closest postal 1007",
+      "notes": "1007 is the closest postal to the attachment crafting bench."
+    }
+  ],
+  "benches": [
+    {
+      "id": "weapons-tier-3",
+      "name": "Tier 3 Weapon Crafting",
+      "locationId": "weapons-tier-3-2008",
+      "image": "",
+      "imageAlt": "Tier 3 weapon crafting bench and surroundings at postcode 2008",
+      "notes": ""
+    },
+    {
+      "id": "smelter-174",
+      "name": "Smelter",
+      "locationId": "smelter-174",
+      "image": "images/smelter-174-bench.png",
+      "imageAlt": "Smelter and its surroundings at postcode 174",
+      "notes": ""
+    },
+    {
+      "id": "mainland-ammo",
+      "name": "Ammo Crafting (Main Land)",
+      "locationId": "mainland-938",
+      "image": "images/mainland-ammo-bench.png",
+      "imageAlt": "Ammo crafting bench and its surroundings at postcode 938",
+      "notes": "Use the surroundings photo to identify the wall-mounted crafting bench."
+    },
+    {
+      "id": "attachments-1007",
+      "name": "Attachment Crafting",
+      "locationId": "attachments-1007",
+      "image": "images/attachments-1007-bench.png",
+      "imageAlt": "Attachment crafting bench and surroundings near postal 1007",
+      "notes": ""
+    }
+  ],
+  "pendingCraftTimeRecipeIds": [
+    "smelting-iron",
+    "smelting-iron-trash",
+    "smelting-silver",
+    "smelting-steel",
+    "smelting-steel-trash",
+    "smelting-plastic",
+    "smelting-brass",
+    "smelting-silver-fragments",
+    "smelting-gold-flakes"
+  ],
+  "substanceGuides": {
+    "meth": {
+      "overview": "",
+      "requirements": "",
+      "locations": "",
+      "steps": "",
+      "tips": ""
+    },
+    "cocaine": {
+      "overview": "",
+      "requirements": "",
+      "locations": "",
+      "steps": "",
+      "tips": ""
+    },
+    "weed": {
+      "overview": "",
+      "requirements": "",
+      "locations": "",
+      "steps": "",
+      "tips": ""
+    },
+    "lsd": {
+      "overview": "",
+      "requirements": "",
+      "locations": "",
+      "steps": "",
+      "tips": ""
+    }
+  }
+}

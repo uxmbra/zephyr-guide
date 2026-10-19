@@ -1,0 +1,235 @@
+[
+  {
+    "id": "smelting-copper",
+    "name": "Copper",
+    "outputName": "Copper Ingot",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 12,
+    "craftTimeSeconds": 10,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 5
+      },
+      {
+        "itemId": "copper-ore",
+        "quantity": 5
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-iron",
+    "name": "Iron",
+    "outputName": "Iron Ingot",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 18,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 10
+      },
+      {
+        "itemId": "iron-ore",
+        "quantity": 5
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "maxCraftsPerRun": 220,
+    "maxRunTimeSeconds": 3300
+  },
+  {
+    "id": "smelting-iron-trash",
+    "name": "Iron (Iron Trash)",
+    "outputName": "Iron",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 18,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 5
+      },
+      {
+        "itemId": "iron-trash",
+        "quantity": 10
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-silver",
+    "name": "Silver",
+    "outputName": "Silver Ingot",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 15
+      },
+      {
+        "itemId": "gold-ore",
+        "quantity": 5
+      }
+    ],
+    "notes": "Uses Gold Ore as supplied. Ingredient confirmation pending.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-gold",
+    "name": "Gold Ingot",
+    "outputName": "Gold Ingot",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 25,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 20
+      },
+      {
+        "itemId": "gold-ore",
+        "quantity": 5
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-steel",
+    "name": "Steel",
+    "outputName": "Steel",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "iron",
+        "quantity": 5
+      },
+      {
+        "itemId": "carbon",
+        "quantity": 30
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-steel-trash",
+    "name": "Steel (Steel Trash)",
+    "outputName": "Steel",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 18,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 5
+      },
+      {
+        "itemId": "steel-trash",
+        "quantity": 10
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-plastic",
+    "name": "Plastic",
+    "outputName": "Plastic",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 62,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "coal-ore",
+        "quantity": 1
+      },
+      {
+        "itemId": "bottle-caps",
+        "quantity": 100
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-brass",
+    "name": "Brass",
+    "outputName": "Brass",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 12,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "zinc-ore",
+        "quantity": 5
+      },
+      {
+        "itemId": "copper-ore",
+        "quantity": 10
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-silver-fragments",
+    "name": "Silver (Silver Fragments)",
+    "outputName": "Silver",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "silver-fragments",
+        "quantity": 20
+      },
+      {
+        "itemId": "coal-ore",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "smelting-gold-flakes",
+    "name": "Gold (Gold Flakes)",
+    "outputName": "Gold Ingot",
+    "categoryId": "smelting",
+    "benchId": "smelter-174",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "gold-flakes",
+        "quantity": 25
+      },
+      {
+        "itemId": "coal-ore",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  }
+]

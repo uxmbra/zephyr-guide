@@ -1,0 +1,146 @@
+[
+  {
+    "id": "attachment-heavy-suppressor",
+    "name": "Heavy Suppressor (Assault Rifles)",
+    "categoryId": "attachments",
+    "benchId": "attachments-1007",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "heavy-suppressor-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 200
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 160
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "attachment-extended-pistol-clip",
+    "name": "Extended Pistol Clip (Pistols)",
+    "categoryId": "attachments",
+    "benchId": "attachments-1007",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "extended-pistol-clip-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 100
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 80
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "attachment-suppressor",
+    "name": "Suppressor (Pistol/SMG)",
+    "categoryId": "attachments",
+    "benchId": "attachments-1007",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "suppressor-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 100
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 80
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "attachment-extended-smg-clip",
+    "name": "Extended SMG Clip",
+    "categoryId": "attachments",
+    "benchId": "attachments-1007",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "extended-smg-clip-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 100
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 100
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  }
+]
