@@ -6,9 +6,25 @@ A static guide site. Everything the public sees is in `dist/`: HTML, CSS and JS 
 
 1. Edit the JSON in `dist/data/` (or use **Manage guide data** in the guide and export the file into `dist/data/`), and add screenshots to `dist/images/`.
 2. Preview locally: double-click `Start Guide.cmd` and open http://127.0.0.1:4173.
-3. Commit and push to `main`.
+3. Double-click `Publish Guide.cmd`. It gets the latest version from GitHub, lists your changes, runs the tests, asks for a short description, then commits and pushes.
 
-Each push to `main` runs the tests and, if they pass, publishes `dist/` to GitHub Pages. If the tests fail, the live site stays as it was; the failure shows on the repository's Actions tab.
+The live site at https://uxmbra.github.io/zephyr-guide/ updates about a minute after a push. GitHub runs the tests again before publishing; if they fail, the live site stays as it was and the failure shows on the repository's Actions tab.
+
+### Doing it by hand
+
+From this folder in Git Bash:
+
+    git pull --rebase origin main
+    git add -A
+    git commit -m "What changed"
+    git push
+
+### If something goes wrong
+
+- **Tests failed:** read the first failing test's message, fix the JSON it names, and run the publish again. Nothing was published.
+- **Push rejected or sign-in prompt:** sign in to GitHub in the browser window that opens, then run the publish again.
+- **A conflict while getting the latest version:** this only happens if the same file was changed on GitHub and on your PC. Run `git rebase --abort`, then ask for help before publishing.
+- **The site didn't change:** open the Actions tab and check the latest "Publish guide" run, then hard-refresh the site with Ctrl+F5.
 
 ## Running the tests
 
