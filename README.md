@@ -25,6 +25,7 @@ From this folder in Git Bash:
 - **Push rejected or sign-in prompt:** sign in to GitHub in the browser window that opens, then run the publish again.
 - **A conflict while getting the latest version:** this only happens if the same file was changed on GitHub and on your PC. Run `git rebase --abort`, then ask for help before publishing.
 - **The site didn't change:** open the Actions tab and check the latest "Publish guide" run, then hard-refresh the site with Ctrl+F5.
+- **Changed a CSS or JS file:** raise the `?v=` number on its link in `dist/index.html` (for example `theme.css?v=2` to `theme.css?v=3`) so visitors' browsers fetch the new file instead of a cached copy.
 
 ## Running the tests
 
