@@ -47,6 +47,8 @@ function route(){if(!guide)return;const id=location.hash.slice(1);category=id===
 function render(){
   const navigationFocused=$('#navigation').contains(document.activeElement);
   $('#navigation').innerHTML=guide.categories.map(c=>categoryLink(c.id,c.name,recipes.filter(r=>r.categoryId===c.id).length)).join('')+categoryLink('locations','Locations & benches',guide.locations.length);
+  // On narrow screens the menu scrolls sideways, so keep the current page in view.
+  const nav=$('#navigation'),activeLink=nav.querySelector('.active');if(activeLink&&nav.scrollWidth>nav.clientWidth)nav.scrollLeft=activeLink.offsetLeft-(nav.clientWidth-activeLink.offsetWidth)/2;
   if(navigationFocused)$('#navigation [aria-current="page"]')?.focus({preventScroll:true});
   const c=guide.categories.find(c=>c.id===category);
   renderWeaponTiers();
