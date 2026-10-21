@@ -26,7 +26,7 @@ export function validateData(guide,recipes){
     if(!guide.substanceGuides||typeof guide.substanceGuides!=='object'||Array.isArray(guide.substanceGuides))fail('Substance guides must be an object.');
     for(const [id,entry] of Object.entries(guide.substanceGuides)){
       if(!Object.hasOwn(SUBSTANCE_SECTIONS,id)||!entry||typeof entry!=='object'||Array.isArray(entry))fail('Invalid substance guide.');
-      for(const [key,value] of Object.entries(entry))if(!['overview','requirements','locations','steps','tips'].includes(key)||typeof value!=='string')fail('Guide sections must contain plain text.');
+      for(const [key,value] of Object.entries(entry)){if(key==='images'){if(!Array.isArray(value)||value.some(image=>!image||typeof image!=='object'||typeof image.src!=='string'||!image.src||!safeImage(image.src)||typeof (image.title??'')!=='string'||typeof (image.alt??'')!=='string'||typeof (image.detail??'')!=='string'))fail('Guide images need an HTTPS URL or images/ path.');continue;}if(!['overview','requirements','locations','steps','tips'].includes(key)||typeof value!=='string')fail('Guide sections must contain plain text.');}
     }
   }
   for(const key of ['categories','items','locations','benches'])if(!Array.isArray(guide[key]))fail('Missing '+key+' array.');
