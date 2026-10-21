@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-10-07",
+  "updated": "2026-10-21",
   "categories": [
     {
       "id": "ammo",
@@ -280,7 +280,7 @@
       "requirements": "",
       "locations": "",
       "steps": "",
-      "tips": ""
+      "tips": "Use 8 bags of concrete per 200 leaves in the mixer.\nUse 1 gasoline per 10 Coca Blend.\nUse 1 acid per 2 Paste."
     },
     "weed": {
       "overview": "",
