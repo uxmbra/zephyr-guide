@@ -222,6 +222,8 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .guide-chapter p:last-child{margin-bottom:0}
 .guide-chapter li{padding-left:6px;margin-bottom:12px}
 .guide-chapter li::marker{color:var(--gold);font-weight:700}
+.guide-photos{margin-top:18px}
+.guide-photos .photo-slot img{height:240px}
 
 /* Empty "coming soon" pages. */
 .empty{grid-column:1/-1;text-align:center;padding:64px 24px;border-style:dashed;border-color:var(--line-strong)}

@@ -276,11 +276,49 @@
       "tips": ""
     },
     "cocaine": {
-      "overview": "",
-      "requirements": "",
-      "locations": "",
-      "steps": "",
-      "tips": "Use 8 bags of concrete per 200 leaves in the mixer.\nUse 1 gasoline per 10 Coca Blend.\nUse 1 acid per 2 Paste."
+      "overview": "Gather the requirements, head to one of the coke islands, pick coca leaves, then process them into Fresh Cocaine Bricks and take them to the lab.",
+      "requirements": "Coca Leaves (picked on the islands)\nCement (8 bags per 200 leaves)\nGasoline (1 per 10 Coca Blend)\nHydrochloric Acid (1 per 2 Coca Paste)",
+      "locations": "Island 1: Above Cayo Perico.\nIsland 2 (hidden): In line with the mining area, a few hundred metres out to sea.\nIsland 3: Top right of the map.\nIsland 4: Left side of the map, in line with Zancudo.\nCoke lab: Postal 720.",
+      "steps": "Gather coca leaves.\nGather Gasoline and Hydrochloric Acid.\nHead to an island with the Gasoline, Hydrochloric Acid and leaves.\nGo to the pit and put in 200 leaves (50 at a time) and 8 Cement (2 at a time).\nRun around the pit (use /walk quick) collecting all the paste until you are out of leaves and Cement.\nPut the Coca Blend and Gasoline into the barrels, 10 Coca Blend per 1 Gasoline.\nPut the Coca Paste and Hydrochloric Acid into the cooking wok, 2 Paste per 1 Hydrochloric Acid.\nTake the Fresh Cocaine Bricks to the lab at postal 720.",
+      "tips": "Use 8 bags of Cement per 200 leaves in the mixer.\nUse 1 Gasoline per 10 Coca Blend.\nUse 1 Hydrochloric Acid per 2 Paste.\nThe coke lab is owned by La Raza. They don't care about the islands, but they tax or rob at the lab.\nIf you are avoiding the tax, have someone watch the lab from a distance so you are ready.\nYou can carry someone while stomping the coca leaves and Cement. It speeds things up because two people are technically doing it, which is handy if someone is in head.",
+      "images": [
+        {
+          "src": "images/cocaine-island-leaves.webp",
+          "title": "Coca leaf field",
+          "detail": "What the leaf rows look like on the islands",
+          "alt": "Rows of coca bushes on a coke island"
+        },
+        {
+          "src": "images/cocaine-island-1-map.webp",
+          "title": "Island 1",
+          "detail": "Above Cayo Perico",
+          "alt": "Map showing coke island 1 above Cayo Perico"
+        },
+        {
+          "src": "images/cocaine-island-2-map.webp",
+          "title": "Island 2 (hidden)",
+          "detail": "In line with mining, a few hundred metres out",
+          "alt": "Map showing hidden coke island 2 off the coast in line with the mining area"
+        },
+        {
+          "src": "images/cocaine-island-3-map.webp",
+          "title": "Island 3",
+          "detail": "Top right of the map",
+          "alt": "Map showing coke island 3 at the top right of the map"
+        },
+        {
+          "src": "images/cocaine-island-4-map.webp",
+          "title": "Island 4",
+          "detail": "Left side of the map, in line with Zancudo",
+          "alt": "Map showing coke island 4 off the west coast in line with Zancudo"
+        },
+        {
+          "src": "images/cocaine-lab-720-map.webp",
+          "title": "Coke lab",
+          "detail": "Postal 720",
+          "alt": "Map showing the coke lab at postal 720"
+        }
+      ]
     },
     "weed": {
       "overview": "",
