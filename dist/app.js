@@ -1,6 +1,6 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,SUBSTANCE_SECTIONS} from './core.js';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,SUBSTANCE_SECTIONS} from './core.js?v=4';
 const $=s=>document.querySelector(s);
-import {renderBusiness,configureBusiness} from './business.js';
+import {renderBusiness,configureBusiness} from './business.js?v=4';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>n.toLocaleString('en-AU');
 let guide,recipes=[],category='ammo',selectedId,quantity=60,plan=[],inventory={},editorTab='photos';
