@@ -43,11 +43,6 @@
       "file": "smelting.json"
     },
     {
-      "id": "mining",
-      "name": "Mining",
-      "file": "mining.json"
-    },
-    {
       "id": "business",
       "name": "Business Crafting",
       "file": "business.json"
