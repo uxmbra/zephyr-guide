@@ -109,6 +109,7 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .method-row{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:center;border-top:1px solid var(--line);padding-top:18px}
 .method-row label{font-size:.85rem;color:var(--muted)}
 .method-row select{display:block;width:100%;margin-top:8px}
+.method-row.facts-only{grid-template-columns:1fr}
 .recipe-facts{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:12px;font-size:.75rem;color:var(--muted)}
 .recipe-facts>*{flex:1 1 120px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#0e141880}
 .recipe-facts strong{display:block;margin-top:4px;font-size:1rem;font-weight:700;color:var(--text)}
