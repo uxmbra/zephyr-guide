@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-10-21",
+  "updated": "2026-10-23",
   "categories": [
     {
       "id": "ammo",
@@ -185,6 +185,42 @@
     {
       "id": "metal-scrap",
       "name": "Metal Scrap"
+    },
+    {
+      "id": "plastic",
+      "name": "Plastic"
+    },
+    {
+      "id": "fabric-scrap",
+      "name": "Fabric Scrap"
+    },
+    {
+      "id": "wood-plank",
+      "name": "Wood Plank"
+    },
+    {
+      "id": "marshmallows",
+      "name": "Marshmallows"
+    },
+    {
+      "id": "electric-scrap",
+      "name": "Electric Scrap"
+    },
+    {
+      "id": "mallowstick-blueprint",
+      "name": "Mallowstick Blueprint"
+    },
+    {
+      "id": "karambit-blueprint",
+      "name": "Karambit Blueprint"
+    },
+    {
+      "id": "katana-blueprint",
+      "name": "Katana Blueprint"
+    },
+    {
+      "id": "electric-guitar-blueprint",
+      "name": "Electric Guitar Blueprint"
     }
   ],
   "locations": [
@@ -220,6 +256,14 @@
       "mapImage": "images/attachments-1007-map.png",
       "mapAlt": "Map showing attachment crafting near closest postal 1007",
       "notes": "1007 is the closest postal to the attachment crafting bench."
+    },
+    {
+      "id": "melee-906",
+      "name": "Melee Crafting",
+      "postcode": "906",
+      "mapImage": "images/melee-906-map.png",
+      "mapAlt": "Map showing the melee crafting bench on the Chumash pier at postcode 906",
+      "notes": "On the pier at Chumash, postcode 906."
     }
   ],
   "benches": [
@@ -254,6 +298,14 @@
       "image": "images/attachments-1007-bench.png",
       "imageAlt": "Attachment crafting bench and surroundings near postal 1007",
       "notes": ""
+    },
+    {
+      "id": "melee-906",
+      "name": "Melee Crafting",
+      "locationId": "melee-906",
+      "image": "",
+      "imageAlt": "Melee crafting bench on the Chumash pier at postcode 906",
+      "notes": "The bench is out on the pier."
     }
   ],
   "pendingCraftTimeRecipeIds": [
@@ -265,7 +317,15 @@
     "smelting-plastic",
     "smelting-brass",
     "smelting-silver-fragments",
-    "smelting-gold-flakes"
+    "smelting-gold-flakes",
+    "melee-baseball-bat",
+    "melee-marshmallow-stick",
+    "melee-knife",
+    "melee-brass-knuckles",
+    "melee-karambit",
+    "melee-katana",
+    "melee-sledgehammer",
+    "melee-pink-electric-guitar"
   ],
   "substanceGuides": {
     "meth": {

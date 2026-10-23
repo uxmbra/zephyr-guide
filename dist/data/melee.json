@@ -1,1 +1,215 @@
-[]
+[
+  {
+    "id": "melee-baseball-bat",
+    "name": "Baseball Bat",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "iron",
+        "quantity": 1
+      },
+      {
+        "itemId": "copper",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-marshmallow-stick",
+    "name": "Marshmallow Stick",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "mallowstick-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "fabric-scrap",
+        "quantity": 75
+      },
+      {
+        "itemId": "wood-plank",
+        "quantity": 1
+      },
+      {
+        "itemId": "marshmallows",
+        "quantity": 20
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-knife",
+    "name": "Knife",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "iron",
+        "quantity": 1
+      },
+      {
+        "itemId": "steel",
+        "quantity": 1
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-brass-knuckles",
+    "name": "Brass Knuckles",
+    "outputName": "Knuckle Duster",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "brass",
+        "quantity": 200
+      },
+      {
+        "itemId": "iron",
+        "quantity": 150
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-karambit",
+    "name": "Karambit",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "karambit-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 75
+      },
+      {
+        "itemId": "steel",
+        "quantity": 60
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 20
+      },
+      {
+        "itemId": "metal-scrap",
+        "quantity": 65
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-katana",
+    "name": "Katana",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "katana-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 85
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 30
+      },
+      {
+        "itemId": "metal-scrap",
+        "quantity": 95
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-sledgehammer",
+    "name": "Sledgehammer",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "plastic",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 125
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "metal-scrap",
+        "quantity": 125
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "melee-pink-electric-guitar",
+    "name": "Pink Electric Guitar",
+    "categoryId": "melee",
+    "benchId": "melee-906",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "electric-guitar-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "fabric-scrap",
+        "quantity": 75
+      },
+      {
+        "itemId": "wood-plank",
+        "quantity": 6
+      },
+      {
+        "itemId": "electric-scrap",
+        "quantity": 20
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  }
+]
