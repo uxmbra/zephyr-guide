@@ -27,7 +27,7 @@
     "categoryId": "smelting",
     "benchId": "smelter-174",
     "outputQuantity": 18,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "coal-ore",
@@ -38,7 +38,7 @@
         "quantity": 5
       }
     ],
-    "notes": "",
+    "notes": "Time per craft is approximate: 220 smelts took about 55 minutes.",
     "source": "Supplied by guide maintainer",
     "maxCraftsPerRun": 220,
     "maxRunTimeSeconds": 3300
