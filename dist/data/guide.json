@@ -316,15 +316,7 @@
     "smelting-plastic",
     "smelting-brass",
     "smelting-silver-fragments",
-    "smelting-gold-flakes",
-    "melee-baseball-bat",
-    "melee-marshmallow-stick",
-    "melee-knife",
-    "melee-brass-knuckles",
-    "melee-karambit",
-    "melee-katana",
-    "melee-sledgehammer",
-    "melee-pink-electric-guitar"
+    "smelting-gold-flakes"
   ],
   "substanceGuides": {
     "meth": {

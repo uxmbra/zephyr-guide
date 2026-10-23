@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {validateData,calculate,combinePlan} from '../dist/core.js';
+import {validateData,calculate,combinePlan,planDuration} from '../dist/core.js';
 const read=name=>JSON.parse(fs.readFileSync(new URL('../dist/data/'+name,import.meta.url)));
 const guide=read('guide.json'),melee=read('melee.json');
 test('eight melee recipes are valid, single output and use the postal 906 pier bench',()=>{
@@ -17,9 +17,10 @@ test('melee quantities match the supplied recipes',()=>{
  const items=new Set(guide.items.map(i=>i.id));
  assert.ok(melee.every(r=>r.ingredients.every(i=>items.has(i.itemId))));
 });
-test('melee craft times are pending until supplied',()=>{
- assert.ok(melee.every(r=>r.craftTimeSeconds===null&&guide.pendingCraftTimeRecipeIds.includes(r.id)));
- assert.equal(calculate(melee[0],3).totalTimeSeconds,null);
+test('every melee item takes 15 seconds per craft',()=>{
+ assert.ok(melee.every(r=>r.craftTimeSeconds===15&&!guide.pendingCraftTimeRecipeIds.includes(r.id)));
+ assert.equal(calculate(melee[0],3).totalTimeSeconds,45);
+ assert.equal(planDuration(melee,[{recipeId:'melee-katana',quantity:2},{recipeId:'melee-knife',quantity:4}]).totalSeconds,90);
  const totals=combinePlan(melee,[{recipeId:'melee-katana',quantity:2},{recipeId:'melee-sledgehammer',quantity:1}]);
  assert.equal(totals.find(i=>i.itemId==='steel').quantity,295);
  assert.equal(totals.find(i=>i.itemId==='katana-blueprint').quantity,2);
