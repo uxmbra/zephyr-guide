@@ -18,15 +18,26 @@ export function combinePlan(recipes,plan,inventory={}){
   for(const entry of plan){const recipe=recipes.find(r=>r.id===entry.recipeId);if(!recipe)throw new Error('A planned recipe no longer exists.');for(const i of calculate(recipe,entry.quantity).materials)totals[i.itemId]=(totals[i.itemId]||0)+i.quantity;}
   return Object.entries(totals).map(([itemId,quantity])=>({itemId,quantity,owned:inventory[itemId]||0,missing:Math.max(0,quantity-(inventory[itemId]||0))}));
 }
+export const GUIDE_TEXT_FIELDS=['overview','requirements','locations','steps','tips'];
+const validGuideImages=value=>Array.isArray(value)&&!value.some(image=>!image||typeof image!=='object'||typeof image.src!=='string'||!image.src||!safeImage(image.src)||typeof (image.title??'')!=='string'||typeof (image.alt??'')!=='string'||typeof (image.detail??'')!=='string');
 export function safeImage(value){return typeof value==='string'&&(value===''||/^https:\/\//i.test(value)||/^images\/[a-z0-9_./-]+\.(png|jpe?g|webp|gif)$/i.test(value)&&!value.includes('..'));}
-export function validateData(guide,recipes){
+// Pass {links:false} to check guide.json on its own, before the recipe files are loaded.
+export function validateData(guide,recipes,{links=true}={}){
   const fail=m=>{throw new Error(m);};
   if(guide.version!==1)fail('Unsupported guide version. Expected version 1.');
   if(guide.substanceGuides!==undefined){
     if(!guide.substanceGuides||typeof guide.substanceGuides!=='object'||Array.isArray(guide.substanceGuides))fail('Substance guides must be an object.');
     for(const [id,entry] of Object.entries(guide.substanceGuides)){
       if(!Object.hasOwn(SUBSTANCE_SECTIONS,id)||!entry||typeof entry!=='object'||Array.isArray(entry))fail('Invalid substance guide.');
-      for(const [key,value] of Object.entries(entry)){if(key==='images'){if(!Array.isArray(value)||value.some(image=>!image||typeof image!=='object'||typeof image.src!=='string'||!image.src||!safeImage(image.src)||typeof (image.title??'')!=='string'||typeof (image.alt??'')!=='string'||typeof (image.detail??'')!=='string'))fail('Guide images need an HTTPS URL or images/ path.');continue;}if(!['overview','requirements','locations','steps','tips'].includes(key)||typeof value!=='string')fail('Guide sections must contain plain text.');}
+      for(const [key,value] of Object.entries(entry)){if(key==='images'){if(!validGuideImages(value))fail('Guide images need an HTTPS URL or images/ path.');continue;}if(!GUIDE_TEXT_FIELDS.includes(key)||typeof value!=='string')fail('Guide sections must contain plain text.');}
+    }
+  }
+  if(guide.heistGuides!==undefined){
+    if(!Array.isArray(guide.heistGuides))fail('Heist guides must be a list.');
+    const seen=new Set();
+    for(const entry of guide.heistGuides){
+      if(!entry||typeof entry!=='object'||Array.isArray(entry)||typeof entry.id!=='string'||!/^[a-z0-9-]+$/.test(entry.id)||seen.has(entry.id)||typeof entry.name!=='string'||!entry.name.trim())fail('Heist guides need unique IDs and names.');seen.add(entry.id);
+      for(const [key,value] of Object.entries(entry)){if(key==='id'||key==='name')continue;if(key==='images'){if(!validGuideImages(value))fail('Guide images need an HTTPS URL or images/ path.');continue;}if(key==='itemIds'){if(!Array.isArray(value)||value.some(id=>typeof id!=='string')||new Set(value).size!==value.length)fail('Heist guide items must be a list of unique recipe IDs.');continue;}if(!GUIDE_TEXT_FIELDS.includes(key)||typeof value!=='string')fail('Guide sections must contain plain text.');}
     }
   }
   for(const key of ['categories','items','locations','benches'])if(!Array.isArray(guide[key]))fail('Missing '+key+' array.');
@@ -41,6 +52,7 @@ export function validateData(guide,recipes){
   for(const r of recipes)if(r?.categoryId==='weapons'&&![1,2,3].includes(r.tier))fail('Weapon recipes require tier 1, 2 or 3.');
   for(const r of recipes)if(r?.categoryId==='substances'&&!Object.hasOwn(SUBSTANCE_SECTIONS,r.substance))fail('Substance recipes require a section: meth, cocaine, weed or lsd.');
   for(const r of recipes){if(!r||typeof r.id!=='string'||!/^[a-z0-9-]+$/.test(r.id)||seen.has(r.id)||typeof r.name!=='string'||!r.name.trim())fail('Recipes need unique IDs and names.');seen.add(r.id);if(r.craftTimeSeconds===null){if(!guide.pendingCraftTimeRecipeIds?.includes(r.id))fail('Craft time is required for '+r.name+'.');}else if(!Number.isSafeInteger(r.craftTimeSeconds)||r.craftTimeSeconds<1||r.craftTimeSeconds>86400)fail('Craft time must be a whole number of seconds from 1 to 86,400 for '+r.name+'.');if(!ids.categories.has(r.categoryId)||(r.benchId!==null&&!ids.benches.has(r.benchId)))fail('Recipe references an unknown category or bench.');if(!Number.isSafeInteger(r.outputQuantity)||r.outputQuantity<1||r.outputQuantity>MAX_QUANTITY)fail('Recipe output must be a positive whole number up to 1,000,000.');if(!Array.isArray(r.ingredients)||!r.ingredients.length)fail('Recipes need at least one ingredient.');const ing=new Set();for(const i of r.ingredients){if(!ids.items.has(i.itemId)||ing.has(i.itemId)||!Number.isSafeInteger(i.quantity)||i.quantity<1||i.quantity>MAX_QUANTITY)fail('Ingredient IDs must exist, appear once, and have positive whole quantities up to 1,000,000.');ing.add(i.itemId);}}
+  if(links)for(const entry of guide.heistGuides||[])for(const id of entry.itemIds||[])if(!recipes.some(r=>r.id===id&&r.categoryId==='heist'))fail('Heist guide '+entry.name+' links to '+id+', which is not a heist item recipe.');
   return true;
 }
 

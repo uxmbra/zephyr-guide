@@ -23,6 +23,11 @@
       "file": "attachments.json"
     },
     {
+      "id": "heist-guides",
+      "name": "Heist Guides",
+      "file": "heist-guides.json"
+    },
+    {
       "id": "heist",
       "name": "Heist Related Items",
       "file": "heist.json"
@@ -328,5 +333,6 @@
       "steps": "",
       "tips": ""
     }
-  }
+  },
+  "heistGuides": []
 }
