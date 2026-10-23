@@ -5,7 +5,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "iron",
@@ -25,7 +25,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "mallowstick-blueprint",
@@ -53,7 +53,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "iron",
@@ -78,7 +78,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "brass",
@@ -98,7 +98,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "karambit-blueprint",
@@ -130,7 +130,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "katana-blueprint",
@@ -162,7 +162,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "plastic",
@@ -190,7 +190,7 @@
     "categoryId": "melee",
     "benchId": "melee-906",
     "outputQuantity": 1,
-    "craftTimeSeconds": null,
+    "craftTimeSeconds": 15,
     "ingredients": [
       {
         "itemId": "electric-guitar-blueprint",
