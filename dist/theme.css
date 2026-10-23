@@ -359,3 +359,18 @@ dialog p{line-height:1.7}
   #content>*,#weapon-tiers,#substance-sections{animation:rise .35s ease-out both}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}}
 }
+
+/* Heist guides ⇄ heist items */
+.guide-picker{grid-column:1/-1;margin-bottom:18px}
+.tier-options.heist-guide-options{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.item-links{list-style:none;display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0}
+.guide-chapter .item-links li{padding:0;margin:0;display:grid;gap:2px}
+.guide-chapter .item-links small{color:var(--muted);font-size:.75rem;line-height:1.4;padding:0 4px}
+.item-link{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--line-strong);border-radius:999px;background:var(--panel);color:var(--text);font-weight:600;text-decoration:none}
+.item-link::after{content:'→';color:var(--accent)}
+.item-link:hover,.item-link:focus-visible{background:var(--panel-2);border-color:var(--accent)}
+.used-in{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:18px}
+.used-in .eyebrow,.used-in p{margin:0}
+.item-picker{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.item-picker legend{font-size:.875rem;font-weight:600;padding:0 6px}
+.item-picker label{display:flex;align-items:center;gap:8px;font-weight:500}
