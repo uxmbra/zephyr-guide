@@ -1,1 +1,70 @@
-[]
+[
+  {
+    "id": "heist-bolt-cutters",
+    "name": "Bolt Cutters",
+    "categoryId": "heist",
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 30,
+    "ingredients": [
+      {
+        "itemId": "iron",
+        "quantity": 100
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 50
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "heist-thermite",
+    "name": "Thermite",
+    "categoryId": "heist",
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 30,
+    "ingredients": [
+      {
+        "itemId": "gun-powder",
+        "quantity": 200
+      },
+      {
+        "itemId": "iron",
+        "quantity": 150
+      },
+      {
+        "itemId": "glass",
+        "quantity": 125
+      },
+      {
+        "itemId": "electronic-kit",
+        "quantity": 1
+      }
+    ],
+    "notes": "Needs 1 Electronic Kit, which is also crafted in this section.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "heist-electronic-kit",
+    "name": "Electronic Kit",
+    "categoryId": "heist",
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 15,
+    "ingredients": [
+      {
+        "itemId": "plastic",
+        "quantity": 125
+      },
+      {
+        "itemId": "electric-scrap",
+        "quantity": 20
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  }
+]
