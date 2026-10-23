@@ -219,6 +219,14 @@
       "name": "Katana Blueprint"
     },
     {
+      "id": "glass",
+      "name": "Glass"
+    },
+    {
+      "id": "electronic-kit",
+      "name": "Electronic Kit"
+    },
+    {
       "id": "electric-guitar-blueprint",
       "name": "Electric Guitar Blueprint"
     }
