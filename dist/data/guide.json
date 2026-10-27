@@ -423,9 +423,9 @@
       "id": "weapons-tier-1",
       "name": "Tier 1 Weapon Crafting",
       "locationId": "weapons-tier-1-817",
-      "image": "",
-      "imageAlt": "Tier 1 weapon crafting bench on the lower level near postcode 817",
-      "notes": "On the lower level, closest postal 817."
+      "image": "images/weapons-tier-1-817-bench.webp",
+      "imageAlt": "Tier 1 weapon crafting bench at the end of the wooden dock on the lower level near postcode 817",
+      "notes": "On the lower level, closest postal 817. Walk down the wooden dock; the bench is against the wall at the end."
     },
     {
       "id": "weapons-tier-2",

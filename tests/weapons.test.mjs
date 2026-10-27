@@ -44,6 +44,7 @@ test('fourteen tier 1 pistols use one of three carbon fiber cost sizes and one l
  }
  const bench=guide.benches.find(b=>b.id==='weapons-tier-1'),loc=guide.locations.find(l=>l.id===bench.locationId);
  assert.equal(loc.postcode,'817');
+ assert.ok(fs.existsSync(new URL('../dist/'+bench.image,import.meta.url)));
  assert.ok(fs.existsSync(new URL('../dist/'+loc.mapImage,import.meta.url)));
 });
 test('multi-weapon plans aggregate common materials and multiply time',()=>{
