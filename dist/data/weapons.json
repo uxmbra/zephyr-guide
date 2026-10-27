@@ -273,5 +273,698 @@
     ],
     "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
     "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-vector",
+    "name": "Vector",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "vector-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-pump-shotgun",
+    "name": "Pump Shotgun",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "pump-shotgun-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-double-barrel-shotgun",
+    "name": "Double Barrel Shotgun",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "double-barrel-shotgun-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-h2-smg",
+    "name": "H2 SMG",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "h2-smg-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-assault-smg",
+    "name": "Assault SMG",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "assault-smg-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-mp9",
+    "name": "MP9",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "mp9-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-pump-shotgun-mk2",
+    "name": "Pump Shotgun MK2",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "pump-shotgun-mk2-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-smg",
+    "name": "SMG",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "smg-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-heavy-smg",
+    "name": "Heavy SMG",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "heavy-smg-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-combat-pdw",
+    "name": "Combat PDW",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "combat-pdw-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-sawn-off-shotgun",
+    "name": "Sawn Off Shotgun",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "sawn-off-shotgun-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-mp5x",
+    "name": "MP5X",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "mp5x-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-bullpup-smg",
+    "name": "Bullpup SMG",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "bullpup-smg-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-sr-3m-vvs",
+    "name": "SR-3M VVS",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "sr-3m-vvs-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-machine-pistol",
+    "name": "Machine Pistol",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "machine-pistol-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-tommygun-chrome",
+    "name": "Tommygun Chrome",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "tommygun-chrome-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-sweeper-shotgun",
+    "name": "Sweeper Shotgun",
+    "categoryId": "weapons",
+    "tier": 2,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "sweeper-shotgun-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 180
+      },
+      {
+        "itemId": "steel",
+        "quantity": 135
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 60
+      },
+      {
+        "itemId": "plastic",
+        "quantity": 85
+      },
+      {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 2
+      }
+    ],
+    "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
+    "source": "Supplied by guide maintainer"
   }
 ]
