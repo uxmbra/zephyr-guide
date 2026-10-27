@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {validateData,calculate,combinePlan,planDuration} from '../dist/core.js';
 const read=name=>JSON.parse(fs.readFileSync(new URL('../dist/data/'+name,import.meta.url)));
-const guide=read('guide.json'),weapons=read('weapons.json');
+const guide=read('guide.json'),all=read('weapons.json'),weapons=all.filter(r=>r.tier===3),tier2=all.filter(r=>r.tier===2);
 test('seven tier 3 recipes have valid references, single output and observed 90 second time',()=>{
  assert.equal(validateData(guide,weapons),true);
  assert.deepEqual(weapons.map(r=>[r.name,r.tier,r.outputQuantity,r.craftTimeSeconds]),['XM7','PPSH41','Famas','SCAR-L Black','AK47','Assault Rifle','Special Carbine'].map(name=>[name,3,1,90]));
@@ -14,6 +14,20 @@ test('weapon quantities preserve gold exclusions, assault costs and distinct blu
  assert.deepEqual(weapons.map(r=>r.ingredients.map(i=>i.quantity)),[[1,220,185,100,135,25,8],[1,220,185,100,135,20,4],[1,220,185,100,135,20,4],[1,220,185,100,135,4],[1,220,185,100,135,4],[1,280,235,120,165,4],[1,220,185,100,135,20,4]]);
  assert.equal(new Set(weapons.map(r=>r.ingredients[0].itemId)).size,7);
  assert.deepEqual(weapons.filter(r=>r.ingredients.some(i=>i.itemId==='gold-ingot')).map(r=>r.name),['XM7','PPSH41','Famas','Special Carbine']);
+});
+test('seventeen tier 2 recipes share costs, skip silver only on the double barrel and take 90 seconds',()=>{
+ assert.equal(validateData(guide,all),true);
+ assert.equal(all.length,24);
+ assert.deepEqual(tier2.map(r=>r.name),['Vector','Pump Shotgun','Double Barrel Shotgun','H2 SMG','Assault SMG','MP9','Pump Shotgun MK2','SMG','Heavy SMG','Combat PDW','Sawn Off Shotgun','MP5X','Bullpup SMG','SR-3M VVS','Machine Pistol','Tommygun Chrome','Sweeper Shotgun']);
+ for(const r of tier2){
+  assert.deepEqual([r.outputQuantity,r.craftTimeSeconds],[1,90]);
+  const expected=[['iron',180],['steel',135],['rubber',60],['plastic',85],...(r.name==='Double Barrel Shotgun'?[]:[['silver-ingot',20]]),['zephyr-lubricant-spray',2]];
+  assert.deepEqual(r.ingredients.slice(1).map(i=>[i.itemId,i.quantity]),expected);
+  assert.equal(r.ingredients[0].quantity,1);
+  assert.match(r.ingredients[0].itemId,/-blueprint$/);
+ }
+ assert.equal(new Set(all.map(r=>r.ingredients[0].itemId)).size,24);
+ assert.equal(guide.items.find(i=>i.id==='tommygun-chrome-blueprint')?.name,'Blueprint - Gusenberg');
 });
 test('multi-weapon plans aggregate common materials and multiply time',()=>{
  const xm7=weapons[0],ak47=weapons[4],plan=[{recipeId:xm7.id,quantity:2},{recipeId:ak47.id,quantity:1}];

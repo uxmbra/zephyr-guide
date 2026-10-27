@@ -229,6 +229,78 @@
     {
       "id": "electric-guitar-blueprint",
       "name": "Electric Guitar Blueprint"
+    },
+    {
+      "id": "silver-ingot",
+      "name": "Silver Ingot"
+    },
+    {
+      "id": "vector-blueprint",
+      "name": "Vector Blueprint"
+    },
+    {
+      "id": "pump-shotgun-blueprint",
+      "name": "Pump Shotgun Blueprint"
+    },
+    {
+      "id": "double-barrel-shotgun-blueprint",
+      "name": "Double Barrel Shotgun Blueprint"
+    },
+    {
+      "id": "h2-smg-blueprint",
+      "name": "H2 SMG Blueprint"
+    },
+    {
+      "id": "assault-smg-blueprint",
+      "name": "Assault SMG Blueprint"
+    },
+    {
+      "id": "mp9-blueprint",
+      "name": "MP9 Blueprint"
+    },
+    {
+      "id": "pump-shotgun-mk2-blueprint",
+      "name": "Pump Shotgun MK2 Blueprint"
+    },
+    {
+      "id": "smg-blueprint",
+      "name": "SMG Blueprint"
+    },
+    {
+      "id": "heavy-smg-blueprint",
+      "name": "Heavy SMG Blueprint"
+    },
+    {
+      "id": "combat-pdw-blueprint",
+      "name": "Combat PDW Blueprint"
+    },
+    {
+      "id": "sawn-off-shotgun-blueprint",
+      "name": "Sawn Off Shotgun Blueprint"
+    },
+    {
+      "id": "mp5x-blueprint",
+      "name": "MP5X Blueprint"
+    },
+    {
+      "id": "bullpup-smg-blueprint",
+      "name": "Bullpup SMG Blueprint"
+    },
+    {
+      "id": "sr-3m-vvs-blueprint",
+      "name": "SRVS Blueprint"
+    },
+    {
+      "id": "machine-pistol-blueprint",
+      "name": "Machine Pistol Blueprint"
+    },
+    {
+      "id": "tommygun-chrome-blueprint",
+      "name": "Blueprint - Gusenberg"
+    },
+    {
+      "id": "sweeper-shotgun-blueprint",
+      "name": "Sweeper Shotgun Blueprint"
     }
   ],
   "locations": [
