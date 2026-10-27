@@ -1373,5 +1373,116 @@
     ],
     "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
     "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-combat-pistol",
+    "name": "Combat Pistol",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "combat-pistol-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 70
+      },
+      {
+        "itemId": "steel",
+        "quantity": 70
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 70
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 35
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-revolver-mk2",
+    "name": "Revolver MK2",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "revolver-mk2-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 140
+      },
+      {
+        "itemId": "steel",
+        "quantity": 130
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 130
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 70
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-fnx45",
+    "name": "FNX45",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "fnx45-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 70
+      },
+      {
+        "itemId": "steel",
+        "quantity": 70
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 70
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 35
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
   }
 ]

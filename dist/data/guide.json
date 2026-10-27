@@ -345,6 +345,18 @@
     {
       "id": "ap-pistol-blueprint",
       "name": "AP Pistol Blueprint"
+    },
+    {
+      "id": "combat-pistol-blueprint",
+      "name": "Combat Pistol BP"
+    },
+    {
+      "id": "revolver-mk2-blueprint",
+      "name": "Blueprint - Revolver MK2 BP"
+    },
+    {
+      "id": "fnx45-blueprint",
+      "name": "FNX45 BP"
     }
   ],
   "locations": [
