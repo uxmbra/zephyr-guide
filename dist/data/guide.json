@@ -431,9 +431,9 @@
       "id": "weapons-tier-2",
       "name": "Tier 2 Weapon Crafting",
       "locationId": "weapons-tier-2-54",
-      "image": "",
-      "imageAlt": "Tier 2 weapon crafting bench inside the main shed at postcode 54",
-      "notes": "Inside the main shed, behind the white box."
+      "image": "images/weapons-tier-2-54-bench.webp",
+      "imageAlt": "Tier 2 weapon crafting bench inside the main shed at postcode 54, behind the white box",
+      "notes": ""
     },
     {
       "id": "weapons-tier-3",

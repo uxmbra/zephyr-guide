@@ -29,7 +29,7 @@ test('seventeen tier 2 recipes share costs, skip silver only on the double barre
  assert.equal(new Set(all.map(r=>r.ingredients[0].itemId)).size,38);
  const bench=guide.benches.find(b=>b.id==='weapons-tier-2'),loc=guide.locations.find(l=>l.id===bench.locationId);
  assert.equal(loc.postcode,'54');
- assert.ok(fs.existsSync(new URL('../dist/'+loc.mapImage,import.meta.url)));
+ for(const src of [loc.mapImage,bench.image])assert.ok(src&&fs.existsSync(new URL('../dist/'+src,import.meta.url)),src);
  assert.equal(guide.items.find(i=>i.id==='tommygun-chrome-blueprint')?.name,'Blueprint - Gusenberg');
 });
 test('fourteen tier 1 pistols use one of three carbon fiber cost sizes and one lubricant',()=>{
