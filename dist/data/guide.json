@@ -361,6 +361,14 @@
   ],
   "locations": [
     {
+      "id": "weapons-tier-1-817",
+      "name": "Tier 1 Weapon Crafting",
+      "postcode": "817",
+      "mapImage": "images/weapons-tier-1-817-map.webp",
+      "mapAlt": "Map showing Tier 1 weapon crafting near postcode 817 in Tongva Valley",
+      "notes": "Lower level, closest postal 817 in Tongva Valley."
+    },
+    {
       "id": "weapons-tier-2-54",
       "name": "Tier 2 Weapon Crafting",
       "postcode": "54",
@@ -411,6 +419,14 @@
     }
   ],
   "benches": [
+    {
+      "id": "weapons-tier-1",
+      "name": "Tier 1 Weapon Crafting",
+      "locationId": "weapons-tier-1-817",
+      "image": "",
+      "imageAlt": "Tier 1 weapon crafting bench on the lower level near postcode 817",
+      "notes": "On the lower level, closest postal 817."
+    },
     {
       "id": "weapons-tier-2",
       "name": "Tier 2 Weapon Crafting",
