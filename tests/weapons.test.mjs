@@ -38,10 +38,13 @@ test('fourteen tier 1 pistols use one of three carbon fiber cost sizes and one l
  const sizes={small:[70,70,70,35],medium:[140,130,130,70],large:[220,210,210,120]};
  const expected={'Ruger 57':'small','Glock 19X Green':'small','V17 Neutral':'small','Pistol .50':'medium','Revolver':'medium','Combat Pistol':'small','Revolver MK2':'medium','FNX45':'small'};
  for(const r of tier1){
-  assert.deepEqual([r.outputQuantity,r.craftTimeSeconds,r.benchId],[1,90,null]);
+  assert.deepEqual([r.outputQuantity,r.craftTimeSeconds,r.benchId],[1,90,'weapons-tier-1']);
   assert.deepEqual(r.ingredients.map(i=>i.itemId),[r.id.replace(/^weapon-/,'')+'-blueprint','iron','steel','rubber','carbon-fiber','zephyr-lubricant-spray']);
   assert.deepEqual(r.ingredients.map(i=>i.quantity),[1,...sizes[expected[r.name]||'large'],1]);
  }
+ const bench=guide.benches.find(b=>b.id==='weapons-tier-1'),loc=guide.locations.find(l=>l.id===bench.locationId);
+ assert.equal(loc.postcode,'817');
+ assert.ok(fs.existsSync(new URL('../dist/'+loc.mapImage,import.meta.url)));
 });
 test('multi-weapon plans aggregate common materials and multiply time',()=>{
  const xm7=weapons[0],ak47=weapons[4],plan=[{recipeId:xm7.id,quantity:2},{recipeId:ak47.id,quantity:1}];

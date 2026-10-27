@@ -972,7 +972,7 @@
     "name": "Ruger 57",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1001,7 +1001,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1009,7 +1009,7 @@
     "name": "Musket",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1038,7 +1038,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1046,7 +1046,7 @@
     "name": "Marksmen Pistol",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1075,7 +1075,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1083,7 +1083,7 @@
     "name": "Glock 19X Green",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1112,7 +1112,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1120,7 +1120,7 @@
     "name": "Pistol .50",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1149,7 +1149,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1157,7 +1157,7 @@
     "name": "Revolver",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1186,7 +1186,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1194,7 +1194,7 @@
     "name": "M270D Pistol",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1223,7 +1223,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1231,7 +1231,7 @@
     "name": "V17 Neutral",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1260,7 +1260,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1268,7 +1268,7 @@
     "name": "HKUS Pistol",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1297,7 +1297,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1305,7 +1305,7 @@
     "name": "Double Action Revolver",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1334,7 +1334,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1342,7 +1342,7 @@
     "name": "AP Pistol",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1371,7 +1371,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1379,7 +1379,7 @@
     "name": "Combat Pistol",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1408,7 +1408,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1416,7 +1416,7 @@
     "name": "Revolver MK2",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1445,7 +1445,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   },
   {
@@ -1453,7 +1453,7 @@
     "name": "FNX45",
     "categoryId": "weapons",
     "tier": 1,
-    "benchId": null,
+    "benchId": "weapons-tier-1",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -1482,7 +1482,7 @@
         "quantity": 1
       }
     ],
-    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1.",
     "source": "Supplied by guide maintainer"
   }
 ]
