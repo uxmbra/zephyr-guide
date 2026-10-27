@@ -279,7 +279,7 @@
     "name": "Vector",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -320,7 +320,7 @@
     "name": "Pump Shotgun",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -361,7 +361,7 @@
     "name": "Double Barrel Shotgun",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -398,7 +398,7 @@
     "name": "H2 SMG",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -439,7 +439,7 @@
     "name": "Assault SMG",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -480,7 +480,7 @@
     "name": "MP9",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -521,7 +521,7 @@
     "name": "Pump Shotgun MK2",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -562,7 +562,7 @@
     "name": "SMG",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -603,7 +603,7 @@
     "name": "Heavy SMG",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -644,7 +644,7 @@
     "name": "Combat PDW",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -685,7 +685,7 @@
     "name": "Sawn Off Shotgun",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -726,7 +726,7 @@
     "name": "MP5X",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -767,7 +767,7 @@
     "name": "Bullpup SMG",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -808,7 +808,7 @@
     "name": "SR-3M VVS",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -849,7 +849,7 @@
     "name": "Machine Pistol",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -890,7 +890,7 @@
     "name": "Tommygun Chrome",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
@@ -931,7 +931,7 @@
     "name": "Sweeper Shotgun",
     "categoryId": "weapons",
     "tier": 2,
-    "benchId": null,
+    "benchId": "weapons-tier-2",
     "outputQuantity": 1,
     "craftTimeSeconds": 90,
     "ingredients": [
