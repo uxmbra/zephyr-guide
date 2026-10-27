@@ -20,13 +20,16 @@ test('seventeen tier 2 recipes share costs, skip silver only on the double barre
  assert.equal(all.length,24);
  assert.deepEqual(tier2.map(r=>r.name),['Vector','Pump Shotgun','Double Barrel Shotgun','H2 SMG','Assault SMG','MP9','Pump Shotgun MK2','SMG','Heavy SMG','Combat PDW','Sawn Off Shotgun','MP5X','Bullpup SMG','SR-3M VVS','Machine Pistol','Tommygun Chrome','Sweeper Shotgun']);
  for(const r of tier2){
-  assert.deepEqual([r.outputQuantity,r.craftTimeSeconds],[1,90]);
+  assert.deepEqual([r.outputQuantity,r.craftTimeSeconds,r.benchId],[1,90,'weapons-tier-2']);
   const expected=[['iron',180],['steel',135],['rubber',60],['plastic',85],...(r.name==='Double Barrel Shotgun'?[]:[['silver-ingot',20]]),['zephyr-lubricant-spray',2]];
   assert.deepEqual(r.ingredients.slice(1).map(i=>[i.itemId,i.quantity]),expected);
   assert.equal(r.ingredients[0].quantity,1);
   assert.match(r.ingredients[0].itemId,/-blueprint$/);
  }
  assert.equal(new Set(all.map(r=>r.ingredients[0].itemId)).size,24);
+ const bench=guide.benches.find(b=>b.id==='weapons-tier-2'),loc=guide.locations.find(l=>l.id===bench.locationId);
+ assert.equal(loc.postcode,'54');
+ assert.ok(fs.existsSync(new URL('../dist/'+loc.mapImage,import.meta.url)));
  assert.equal(guide.items.find(i=>i.id==='tommygun-chrome-blueprint')?.name,'Blueprint - Gusenberg');
 });
 test('multi-weapon plans aggregate common materials and multiply time',()=>{

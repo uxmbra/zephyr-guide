@@ -305,6 +305,14 @@
   ],
   "locations": [
     {
+      "id": "weapons-tier-2-54",
+      "name": "Tier 2 Weapon Crafting",
+      "postcode": "54",
+      "mapImage": "images/weapons-tier-2-54-map.webp",
+      "mapAlt": "Map showing Tier 2 weapon crafting at postcode 54 near Murrieta Oil Field",
+      "notes": "Inside the main shed at postcode 54, behind the white box."
+    },
+    {
       "id": "weapons-tier-3-2008",
       "name": "Tier 3 Weapon Crafting",
       "postcode": "2008",
@@ -347,6 +355,14 @@
     }
   ],
   "benches": [
+    {
+      "id": "weapons-tier-2",
+      "name": "Tier 2 Weapon Crafting",
+      "locationId": "weapons-tier-2-54",
+      "image": "",
+      "imageAlt": "Tier 2 weapon crafting bench inside the main shed at postcode 54",
+      "notes": "Inside the main shed, behind the white box."
+    },
     {
       "id": "weapons-tier-3",
       "name": "Tier 3 Weapon Crafting",
