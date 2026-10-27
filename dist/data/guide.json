@@ -439,8 +439,8 @@
       "id": "weapons-tier-3",
       "name": "Tier 3 Weapon Crafting",
       "locationId": "weapons-tier-3-2008",
-      "image": "",
-      "imageAlt": "Tier 3 weapon crafting bench and surroundings at postcode 2008",
+      "image": "images/weapons-tier-3-2008-bench.webp",
+      "imageAlt": "Tier 3 weapon crafting bench, a wooden workbench between the machinery inside the shed at postcode 2008",
       "notes": ""
     },
     {
