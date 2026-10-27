@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {calculate,validateData,planDuration,formatDuration} from '../dist/core.js';
 const load=async name=>JSON.parse(await readFile(new URL('../dist/data/'+name,import.meta.url)));
 const guide=await load('guide.json'),ammo=await load('ammo.json'),smelting=await load('smelting.json');
-test('six ammo durations match supplied times',()=>assert.deepEqual(ammo.map(r=>r.craftTimeSeconds),[30,60,60,20,30,30]));
+test('six mainland ammo durations match supplied times',()=>assert.deepEqual(ammo.filter(r=>r.method==='mainland').map(r=>r.craftTimeSeconds),[30,60,60,20,30,30]));
 test('duration counts complete batches, not individual items',()=>{assert.equal(calculate(ammo[3],61).totalTimeSeconds,40);assert.equal(calculate(ammo[1],21).totalTimeSeconds,120);assert.equal(calculate(ammo[0],1).totalTimeSeconds,30);});
 test('unknown durations never appear as a zero estimate',()=>{const pending=smelting.find(r=>r.id==='smelting-iron-trash');assert.equal(calculate(pending,13).totalTimeSeconds,null);assert.equal(formatDuration(null),'Not supplied');const p=planDuration([...ammo,...smelting],[{recipeId:ammo[0].id,quantity:61},{recipeId:pending.id,quantity:12}]);assert.deepEqual(p,{knownSeconds:60,unknownRecipes:1,totalSeconds:null});});
 test('known plan times sum full crafts across recipes',()=>assert.deepEqual(planDuration(ammo,[{recipeId:ammo[0].id,quantity:61},{recipeId:ammo[3].id,quantity:60}]),{knownSeconds:80,unknownRecipes:0,totalSeconds:80}));
