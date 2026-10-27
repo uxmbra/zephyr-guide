@@ -172,5 +172,208 @@
     "notes": "",
     "source": "Supplied by guide maintainer",
     "craftTimeSeconds": 30
+  },
+  {
+    "id": "ammo-cayo-9mm",
+    "name": "9mm",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 120,
+    "ingredients": [
+      {
+        "itemId": "bullet-casings",
+        "quantity": 60
+      },
+      {
+        "itemId": "brass",
+        "quantity": 60
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 60
+      },
+      {
+        "itemId": "copper",
+        "quantity": 60
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 30
+  },
+  {
+    "id": "ammo-cayo-38-lc",
+    "name": ".38 LC",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 40,
+    "ingredients": [
+      {
+        "itemId": "steel",
+        "quantity": 20
+      },
+      {
+        "itemId": "brass",
+        "quantity": 20
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 20
+      },
+      {
+        "itemId": "copper",
+        "quantity": 20
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 60
+  },
+  {
+    "id": "ammo-cayo-44-magnum",
+    "name": ".44 Magnum",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 40,
+    "ingredients": [
+      {
+        "itemId": "steel",
+        "quantity": 10
+      },
+      {
+        "itemId": "brass",
+        "quantity": 10
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 10
+      },
+      {
+        "itemId": "copper",
+        "quantity": 10
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 60
+  },
+  {
+    "id": "ammo-cayo-556x45",
+    "name": "5.56x45",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 120,
+    "ingredients": [
+      {
+        "itemId": "bullet-casings",
+        "quantity": 60
+      },
+      {
+        "itemId": "brass",
+        "quantity": 90
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 90
+      },
+      {
+        "itemId": "copper",
+        "quantity": 90
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 20
+  },
+  {
+    "id": "ammo-cayo-45-acp",
+    "name": ".45 ACP",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 120,
+    "ingredients": [
+      {
+        "itemId": "bullet-casings",
+        "quantity": 60
+      },
+      {
+        "itemId": "brass",
+        "quantity": 60
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 60
+      },
+      {
+        "itemId": "copper",
+        "quantity": 60
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 30
+  },
+  {
+    "id": "ammo-cayo-50-ae",
+    "name": ".50 AE",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 120,
+    "ingredients": [
+      {
+        "itemId": "bullet-casings",
+        "quantity": 60
+      },
+      {
+        "itemId": "brass",
+        "quantity": 60
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 60
+      },
+      {
+        "itemId": "copper",
+        "quantity": 60
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 30
+  },
+  {
+    "id": "ammo-cayo-12-gauge",
+    "name": "12 Gauge",
+    "categoryId": "ammo",
+    "benchId": null,
+    "method": "cayo",
+    "outputQuantity": 40,
+    "ingredients": [
+      {
+        "itemId": "steel",
+        "quantity": 20
+      },
+      {
+        "itemId": "brass",
+        "quantity": 20
+      },
+      {
+        "itemId": "gun-powder",
+        "quantity": 20
+      },
+      {
+        "itemId": "copper",
+        "quantity": 20
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer",
+    "craftTimeSeconds": 60
   }
 ]
