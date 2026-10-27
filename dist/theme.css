@@ -88,8 +88,7 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 #jump-location{border-color:var(--line-strong)}
 
 /* Weapon tiers and substance sections. */
-#ammo-methods,#weapon-tiers,#substance-sections{margin-bottom:20px}
-.tier-options.method-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+#weapon-tiers,#substance-sections{margin-bottom:20px}
 .tier-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .tier-options.substance-options{grid-template-columns:repeat(4,minmax(0,1fr))}
 .tier-options button{display:block;text-align:left;padding:16px 18px;border-radius:14px;background:var(--panel);min-height:0}
@@ -358,7 +357,7 @@ dialog p{line-height:1.7}
   html{scroll-behavior:smooth}
   button,a,input,select,textarea{transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .1s}
   .photo-slot img{transition:transform .25s}
-  #content>*,#ammo-methods,#weapon-tiers,#substance-sections{animation:rise .35s ease-out both}
+  #content>*,#weapon-tiers,#substance-sections{animation:rise .35s ease-out both}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}}
 }
 
