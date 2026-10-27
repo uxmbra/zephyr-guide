@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-10-23",
+  "updated": "2026-10-27",
   "categories": [
     {
       "id": "ammo",
@@ -301,6 +301,62 @@
     {
       "id": "sweeper-shotgun-blueprint",
       "name": "Sweeper Shotgun Blueprint"
+    },
+    {
+      "id": "ruger-57-blueprint",
+      "name": "Ruger 57 BP"
+    },
+    {
+      "id": "musket-blueprint",
+      "name": "Blueprint - Musket"
+    },
+    {
+      "id": "marksmen-pistol-blueprint",
+      "name": "Blueprint - Marksmen Pistol"
+    },
+    {
+      "id": "glock-19x-green-blueprint",
+      "name": "Glock 19x Green BP"
+    },
+    {
+      "id": "pistol-50-blueprint",
+      "name": "Pistol 50 BP"
+    },
+    {
+      "id": "revolver-blueprint",
+      "name": "Revolver BP"
+    },
+    {
+      "id": "m270d-pistol-blueprint",
+      "name": "Blueprint - M270D Pistol"
+    },
+    {
+      "id": "v17-neutral-blueprint",
+      "name": "V17 Neutral BP"
+    },
+    {
+      "id": "hkus-pistol-blueprint",
+      "name": "Blueprint - HKUS Pistol BP"
+    },
+    {
+      "id": "double-action-revolver-blueprint",
+      "name": "Double-Action Blueprint"
+    },
+    {
+      "id": "ap-pistol-blueprint",
+      "name": "AP Pistol Blueprint"
+    },
+    {
+      "id": "combat-pistol-blueprint",
+      "name": "Combat Pistol BP"
+    },
+    {
+      "id": "revolver-mk2-blueprint",
+      "name": "Blueprint - Revolver MK2 BP"
+    },
+    {
+      "id": "fnx45-blueprint",
+      "name": "FNX45 BP"
     }
   ],
   "locations": [
