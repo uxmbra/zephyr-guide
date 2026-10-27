@@ -386,6 +386,10 @@
         "quantity": 85
       },
       {
+        "itemId": "silver-ingot",
+        "quantity": 20
+      },
+      {
         "itemId": "zephyr-lubricant-spray",
         "quantity": 2
       }

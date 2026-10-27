@@ -15,13 +15,13 @@ test('weapon quantities preserve gold exclusions, assault costs and distinct blu
  assert.equal(new Set(weapons.map(r=>r.ingredients[0].itemId)).size,7);
  assert.deepEqual(weapons.filter(r=>r.ingredients.some(i=>i.itemId==='gold-ingot')).map(r=>r.name),['XM7','PPSH41','Famas','Special Carbine']);
 });
-test('seventeen tier 2 recipes share costs, skip silver only on the double barrel and take 90 seconds',()=>{
+test('seventeen tier 2 recipes share one cost and take 90 seconds',()=>{
  assert.equal(validateData(guide,all),true);
  assert.equal(all.length,38);
  assert.deepEqual(tier2.map(r=>r.name),['Vector','Pump Shotgun','Double Barrel Shotgun','H2 SMG','Assault SMG','MP9','Pump Shotgun MK2','SMG','Heavy SMG','Combat PDW','Sawn Off Shotgun','MP5X','Bullpup SMG','SR-3M VVS','Machine Pistol','Tommygun Chrome','Sweeper Shotgun']);
  for(const r of tier2){
   assert.deepEqual([r.outputQuantity,r.craftTimeSeconds,r.benchId],[1,90,'weapons-tier-2']);
-  const expected=[['iron',180],['steel',135],['rubber',60],['plastic',85],...(r.name==='Double Barrel Shotgun'?[]:[['silver-ingot',20]]),['zephyr-lubricant-spray',2]];
+  const expected=[['iron',180],['steel',135],['rubber',60],['plastic',85],['silver-ingot',20],['zephyr-lubricant-spray',2]];
   assert.deepEqual(r.ingredients.slice(1).map(i=>[i.itemId,i.quantity]),expected);
   assert.equal(r.ingredients[0].quantity,1);
   assert.match(r.ingredients[0].itemId,/-blueprint$/);
