@@ -966,5 +966,412 @@
     ],
     "notes": "Craft time is approximately 1 minute 30 seconds per weapon, based on maintainer observations.",
     "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-ruger-57",
+    "name": "Ruger 57",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "ruger-57-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 70
+      },
+      {
+        "itemId": "steel",
+        "quantity": 70
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 70
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 35
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-musket",
+    "name": "Musket",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "musket-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 210
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 210
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 120
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-marksmen-pistol",
+    "name": "Marksmen Pistol",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "marksmen-pistol-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 210
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 210
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 120
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-glock-19x-green",
+    "name": "Glock 19X Green",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "glock-19x-green-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 70
+      },
+      {
+        "itemId": "steel",
+        "quantity": 70
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 70
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 35
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-pistol-50",
+    "name": "Pistol .50",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "pistol-50-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 140
+      },
+      {
+        "itemId": "steel",
+        "quantity": 130
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 130
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 70
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-revolver",
+    "name": "Revolver",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "revolver-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 140
+      },
+      {
+        "itemId": "steel",
+        "quantity": 130
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 130
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 70
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-m270d-pistol",
+    "name": "M270D Pistol",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "m270d-pistol-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 210
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 210
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 120
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-v17-neutral",
+    "name": "V17 Neutral",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "v17-neutral-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 70
+      },
+      {
+        "itemId": "steel",
+        "quantity": 70
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 70
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 35
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-hkus-pistol",
+    "name": "HKUS Pistol",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "hkus-pistol-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 210
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 210
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 120
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-double-action-revolver",
+    "name": "Double Action Revolver",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "double-action-revolver-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 210
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 210
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 120
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "weapon-ap-pistol",
+    "name": "AP Pistol",
+    "categoryId": "weapons",
+    "tier": 1,
+    "benchId": null,
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "ap-pistol-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 220
+      },
+      {
+        "itemId": "steel",
+        "quantity": 210
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 210
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 120
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "Craft time assumed to match the 1 minute 30 seconds observed for Tier 2 and Tier 3 weapons; not yet confirmed for Tier 1. Bench location not supplied yet.",
+    "source": "Supplied by guide maintainer"
   }
 ]
