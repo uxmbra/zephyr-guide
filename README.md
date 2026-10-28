@@ -1,32 +1,64 @@
-# Zephyr RP — City Field Guide
+<div align="center">
 
-A static guide site. Everything the public sees is in `dist/`: HTML, CSS and JS for the interface, JSON in `dist/data/` for the content and screenshots in `dist/images/`.
+# Zephyr City Field Guide
 
-## Updating the live site
+**Your pocket companion for life in Zephyr RP.**
 
-1. Edit the JSON in `dist/data/` (or use **Manage guide data** in the guide and export the file into `dist/data/`), and add screenshots to `dist/images/`.
-2. Preview locally: double-click `Start Guide.cmd` and open http://127.0.0.1:4173.
-3. Double-click `Publish Guide.cmd`. It gets the latest version from GitHub, lists your changes, runs the tests, asks for a short description, then commits and pushes.
+Recipes, materials, maps and benches, all in one place, so you can spend less time asking around and more time playing.
 
-The live site at https://uxmbra.github.io/zephyr-guide/ updates about a minute after a push. GitHub runs the tests again before publishing; if they fail, the live site stays as it was and the failure shows on the repository's Actions tab.
+### [Open the guide →](https://uxmbra.github.io/zephyr-guide/)
 
-### Doing it by hand
+<br>
 
-From this folder in Git Bash:
+<img src=".github/readme/guide-preview.jpg" alt="The Zephyr City Field Guide showing the Ammo Crafting page" width="900">
 
-    git pull --rebase origin main
-    git add -A
-    git commit -m "What changed"
-    git push
+</div>
 
-### If something goes wrong
+<br>
 
-- **Tests failed:** read the first failing test's message, fix the JSON it names, and run the publish again. Nothing was published.
-- **Push rejected or sign-in prompt:** sign in to GitHub in the browser window that opens, then run the publish again.
-- **A conflict while getting the latest version:** this only happens if the same file was changed on GitHub and on your PC. Run `git rebase --abort`, then ask for help before publishing.
-- **The site didn't change:** open the Actions tab and check the latest "Publish guide" run, then hard-refresh the site with Ctrl+F5.
-- **Changed a CSS or JS file:** raise the `?v=` number on its link in `dist/index.html` (for example `theme.css?v=2` to `theme.css?v=3`) so visitors' browsers fetch the new file instead of a cached copy.
+## What is it?
 
-## Running the tests
+The Field Guide is a free, community-made handbook for the city. Pick what you want to make, and it tells you exactly what you need, how long it takes, and where to go to craft it, with a map and a photo of the bench so you know you're in the right spot.
 
-    node --test tests/*.test.mjs
+Everything in the guide has been gathered from real play in the city. Nothing is guessed. Where a detail isn't confirmed yet, the guide says so.
+
+## What's inside
+
+| | Section | What you'll find |
+|:-:|---|---|
+| 🎯 | **Ammo** | Every calibre from 9mm to 12 Gauge, with recipes for both the Mainland and Cayo |
+| 🔫 | **Weapons** | Pistols, SMGs, shotguns and rifles, sorted by bench tier |
+| 🧪 | **Substances** | Step-by-step guides with field and lab locations |
+| 🔧 | **Attachments** | Suppressors, extended clips and more |
+| 🧰 | **Heist items** | Bolt cutters, thermite and electronic kits |
+| 🗡️ | **Melee** | From a humble baseball bat to a katana (and a pink electric guitar) |
+| 🔥 | **Smelting** | Turn raw ore into brass, steel, copper, gold and more |
+| 🔩 | **Business** | Repair kits and performance parts for mechanics |
+| 📍 | **Locations & benches** | Postcodes, map screenshots and bench photos for every spot |
+
+Heist guides and generic items are on the way.
+
+## Handy features
+
+- **Crafting calculator.** Say how many you need and the guide works out how many crafts it takes and every material to gather.
+- **"What can I make?"** Tell the smelter how much ore you've got and see what it turns into.
+- **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have.
+- **Time estimates.** See roughly how long a batch will take before you commit to it.
+- **Maps and photos.** Tap any picture to enlarge it.
+- **Works on your phone.** Keep it open on a second screen or your phone while you play.
+
+## How to open it
+
+Just visit **[uxmbra.github.io/zephyr-guide](https://uxmbra.github.io/zephyr-guide/)** in any browser. There's nothing to install and no account needed. Bookmark it and you're set.
+
+## Spotted something wrong?
+
+Recipes change and new things get added to the city all the time. If a recipe looks off, a bench has moved, or you know something the guide doesn't, let us know and we'll get it updated.
+
+<br>
+
+<div align="center">
+<sub>Made by the community, for the city.</sub>
+<br>
+<sub>Looking after the guide? See <a href="MAINTAINING.md">MAINTAINING.md</a>.</sub>
+</div>
