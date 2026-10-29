@@ -66,5 +66,129 @@
     ],
     "notes": "",
     "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "heist-thermite-bomb",
+    "name": "Thermite Bomb",
+    "categoryId": "heist",
+    "benchId": "heist-924",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "gun-powder",
+        "quantity": 20
+      },
+      {
+        "itemId": "aluminum",
+        "quantity": 35
+      },
+      {
+        "itemId": "copper",
+        "quantity": 30
+      },
+      {
+        "itemId": "electric-scrap",
+        "quantity": 15
+      },
+      {
+        "itemId": "glass",
+        "quantity": 15
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "heist-big-bomb",
+    "name": "Big Bomb",
+    "categoryId": "heist",
+    "benchId": "heist-924",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "gun-powder",
+        "quantity": 40
+      },
+      {
+        "itemId": "aluminum",
+        "quantity": 35
+      },
+      {
+        "itemId": "copper",
+        "quantity": 30
+      },
+      {
+        "itemId": "electric-scrap",
+        "quantity": 45
+      },
+      {
+        "itemId": "glass",
+        "quantity": 15
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "heist-c4-explosive",
+    "name": "C4 Explosive",
+    "categoryId": "heist",
+    "benchId": "heist-924",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "gun-powder",
+        "quantity": 40
+      },
+      {
+        "itemId": "aluminum",
+        "quantity": 35
+      },
+      {
+        "itemId": "copper",
+        "quantity": 30
+      },
+      {
+        "itemId": "electric-scrap",
+        "quantity": 45
+      },
+      {
+        "itemId": "glass",
+        "quantity": 15
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "heist-big-drill",
+    "name": "Big Drill",
+    "categoryId": "heist",
+    "benchId": "heist-924",
+    "outputQuantity": 1,
+    "craftTimeSeconds": null,
+    "ingredients": [
+      {
+        "itemId": "steel",
+        "quantity": 20
+      },
+      {
+        "itemId": "aluminum",
+        "quantity": 35
+      },
+      {
+        "itemId": "copper",
+        "quantity": 30
+      },
+      {
+        "itemId": "electric-scrap",
+        "quantity": 15
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
   }
 ]

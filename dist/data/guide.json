@@ -223,6 +223,10 @@
       "name": "Katana Blueprint"
     },
     {
+      "id": "aluminum",
+      "name": "Aluminum"
+    },
+    {
       "id": "glass",
       "name": "Glass"
     },
@@ -497,6 +501,10 @@
     }
   ],
   "pendingCraftTimeRecipeIds": [
+    "heist-thermite-bomb",
+    "heist-big-bomb",
+    "heist-c4-explosive",
+    "heist-big-drill",
     "smelting-iron-trash",
     "smelting-silver",
     "smelting-steel",
