@@ -78,11 +78,11 @@
         "quantity": 15
       },
       {
-        "itemId": "gold-ore",
+        "itemId": "silver-ore",
         "quantity": 5
       }
     ],
-    "notes": "Uses Gold Ore as supplied. Ingredient confirmation pending.",
+    "notes": "",
     "source": "Supplied by guide maintainer"
   },
   {
