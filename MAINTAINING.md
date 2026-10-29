@@ -4,7 +4,7 @@ A static guide site. Everything the public sees is in `dist/`: HTML, CSS and JS 
 
 ## Updating the live site
 
-1. Edit the JSON in `dist/data/` (or use **Manage guide data** in the guide and export the file into `dist/data/`), and add screenshots to `dist/images/`.
+1. Edit the JSON in `dist/data/` (or open the guide with `?edit` on the end of the address, use **Manage guide data**, and export the file into `dist/data/`), and add screenshots to `dist/images/`.
 2. Preview locally: double-click `Start Guide.cmd` and open http://127.0.0.1:4173.
 3. Double-click `Publish Guide.cmd`. It gets the latest version from GitHub, lists your changes, runs the tests, asks for a short description, then commits and pushes.
 

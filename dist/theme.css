@@ -17,8 +17,8 @@ code{font-family:ui-monospace,'Cascadia Code',Consolas,monospace;font-size:.9em}
 
 /* Buttons: one shape, three weights (default, primary, quiet) and a shared pressed state. */
 button,input,select,textarea{font:inherit}
-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--line-strong);background:linear-gradient(180deg,#25313b,#1d272f);color:var(--text);font-size:.9rem;font-weight:600;line-height:1.2;cursor:pointer;box-shadow:0 1px 0 #ffffff0d inset,0 1px 2px #0006}
-button:hover{border-color:#4d606e;background:linear-gradient(180deg,#2b3843,#222d36)}
+button,a.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--line-strong);background:linear-gradient(180deg,#25313b,#1d272f);color:var(--text);font-size:.9rem;font-weight:600;line-height:1.2;cursor:pointer;box-shadow:0 1px 0 #ffffff0d inset,0 1px 2px #0006}
+button:hover,a.button:hover{border-color:#4d606e;background:linear-gradient(180deg,#2b3843,#222d36)}
 button:active{transform:translateY(1px)}
 button:disabled{opacity:.45;cursor:default;transform:none}
 .primary,.calculator .primary{background:linear-gradient(180deg,var(--accent-strong),var(--accent));color:var(--ink);border-color:transparent;font-weight:700;box-shadow:0 1px 0 #ffffff59 inset,0 6px 18px -6px #3dd6c380}
@@ -56,8 +56,8 @@ select{cursor:pointer}
 .nav-label{font-size:.9rem;font-weight:600;line-height:1.25;color:inherit}
 .nav-label small{display:block;margin-top:3px;font-size:.7rem;font-weight:500;color:var(--faint)}
 #navigation a.active .nav-label small{color:var(--accent)}
-#manage{width:100%;border:1px solid var(--line-strong);color:var(--muted)}
-#manage:hover{background:#ffffff0a;color:var(--text)}
+#feedback,#manage{width:100%;border:1px solid var(--line-strong);color:var(--muted)}
+#feedback:hover,#manage:hover{background:#ffffff0a;color:var(--text)}
 .workspace{min-width:0}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:.68rem;font-weight:600;letter-spacing:.14em;color:var(--faint)}
 .top-actions{display:flex;align-items:center;gap:14px}
@@ -238,6 +238,7 @@ dialog::backdrop{background:#05080acc;backdrop-filter:blur(6px)}
 dialog p{line-height:1.7}
 .dialog-heading{display:flex;justify-content:space-between;align-items:start;gap:15px}
 #photo-dialog{max-width:1200px}
+#feedback-dialog{max-width:520px}
 #photo-dialog img{display:block;max-width:100%;max-height:72vh;margin:15px auto;border-radius:10px;object-fit:contain}
 #photo-dialog .close{float:right}
 #photo-caption{text-align:center;color:var(--muted);margin:0}
@@ -281,7 +282,8 @@ dialog p{line-height:1.7}
 @media(max-width:1000px){
   html{scroll-padding-top:150px}
   .sidebar{display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px 20px 12px;background:#0f1519e6;backdrop-filter:blur(12px);border-right:0;border-bottom:1px solid var(--line)}
-  #manage{grid-column:2;grid-row:1;width:auto;min-height:36px;padding:7px 12px;font-size:.8rem}
+  #feedback,#manage{grid-column:2;grid-row:1;width:auto;min-height:36px;padding:7px 12px;font-size:.8rem}
+  #manage{grid-column:1/-1;grid-row:auto}
   #navigation{grid-column:1/-1;flex-direction:row;gap:6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 -20px;padding:0 20px 2px}
   #navigation::-webkit-scrollbar{display:none}
   #navigation a{flex:0 0 auto;gap:8px;padding:6px 12px 6px 6px;border-color:var(--line);border-radius:999px;background:var(--panel);white-space:nowrap;scroll-snap-align:center}

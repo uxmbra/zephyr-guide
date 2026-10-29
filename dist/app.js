@@ -164,6 +164,12 @@ $('.skip').onclick=e=>{e.preventDefault();$('#main').focus();$('#main').scrollIn
 $('#reload').onclick=()=>{if(confirm('Reload published data? This clears your current plan and any unexported editor preview.'))load();};
 window.addEventListener('hashchange',route);
 document.querySelectorAll('dialog .close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+// Where players report missing or outdated guide info. Leave empty to show the fallback message.
+const FEEDBACK_URL='';
+if(FEEDBACK_URL){$('#feedback-link').href=FEEDBACK_URL;$('#feedback-link').hidden=false;$('#feedback-fallback').hidden=true;}
+$('#feedback').onclick=()=>$('#feedback-dialog').showModal();
+// The data editor is for maintainers only: open the guide with ?edit to show it.
+$('#manage').hidden=!new URLSearchParams(location.search).has('edit');
 $('#manage').onclick=()=>{if(!guide)return;renderEditor();$('#manager').showModal();};
 function editorStatus(message,error=false){$('#editor-status').textContent=message;$('#editor-status').classList.toggle('error',error);}
 function download(name,value){const blob=new Blob([JSON.stringify(value,null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);editorStatus('Exported '+name+'. Replace dist/data/'+name+' and republish to update the shared guide.');}
