@@ -420,6 +420,14 @@
       "mapImage": "images/melee-906-map.png",
       "mapAlt": "Map showing the melee crafting bench on the Chumash pier at postcode 906",
       "notes": "On the pier at Chumash, postcode 906."
+    },
+    {
+      "id": "heist-924",
+      "name": "Heist Crafting",
+      "postcode": "924",
+      "mapImage": "images/heist-924-map.webp",
+      "mapAlt": "Map showing the heist crafting bench in Harmony at postcode 924",
+      "notes": "In Harmony, postcode 924. The table is at the back of the red shipping container, under the metal gantry."
     }
   ],
   "benches": [
@@ -478,6 +486,14 @@
       "image": "",
       "imageAlt": "Melee crafting bench on the Chumash pier at postcode 906",
       "notes": "The bench is out on the pier."
+    },
+    {
+      "id": "heist-924",
+      "name": "Heist Crafting",
+      "locationId": "heist-924",
+      "image": "images/heist-924-bench.webp",
+      "imageAlt": "Heist crafting bench inside a shipping container at postcode 924",
+      "notes": ""
     }
   ],
   "pendingCraftTimeRecipeIds": [
