@@ -111,6 +111,10 @@
       "name": "Zinc Ore"
     },
     {
+      "id": "silver-ore",
+      "name": "Silver Ore"
+    },
+    {
       "id": "silver-fragments",
       "name": "Silver Fragments"
     },
