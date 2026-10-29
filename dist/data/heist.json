@@ -3,7 +3,7 @@
     "id": "heist-bolt-cutters",
     "name": "Bolt Cutters",
     "categoryId": "heist",
-    "benchId": null,
+    "benchId": "melee-906",
     "outputQuantity": 1,
     "craftTimeSeconds": 30,
     "ingredients": [
@@ -23,7 +23,7 @@
     "id": "heist-thermite",
     "name": "Thermite",
     "categoryId": "heist",
-    "benchId": null,
+    "benchId": "melee-906",
     "outputQuantity": 1,
     "craftTimeSeconds": 30,
     "ingredients": [
@@ -51,7 +51,7 @@
     "id": "heist-electronic-kit",
     "name": "Electronic Kit",
     "categoryId": "heist",
-    "benchId": null,
+    "benchId": "melee-906",
     "outputQuantity": 1,
     "craftTimeSeconds": 15,
     "ingredients": [
