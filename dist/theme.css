@@ -239,6 +239,7 @@ dialog p{line-height:1.7}
 .dialog-heading{display:flex;justify-content:space-between;align-items:start;gap:15px}
 #photo-dialog{max-width:1200px}
 #feedback-dialog{max-width:520px}
+a.button{text-decoration:none}
 .feedback-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 #photo-dialog img{display:block;max-width:100%;max-height:72vh;margin:15px auto;border-radius:10px;object-fit:contain}
 #photo-dialog .close{float:right}
