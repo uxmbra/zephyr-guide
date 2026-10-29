@@ -164,9 +164,7 @@ $('.skip').onclick=e=>{e.preventDefault();$('#main').focus();$('#main').scrollIn
 $('#reload').onclick=()=>{if(confirm('Reload published data? This clears your current plan and any unexported editor preview.'))load();};
 window.addEventListener('hashchange',route);
 document.querySelectorAll('dialog .close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
-// Where players report missing or outdated guide info. Leave empty to show the fallback message.
-const FEEDBACK_URL='';
-if(FEEDBACK_URL){$('#feedback-link').href=FEEDBACK_URL;$('#feedback-link').hidden=false;$('#feedback-fallback').hidden=true;}
+$('#copy-discord').onclick=async e=>{const status=$('#copy-discord-status');try{await navigator.clipboard.writeText(e.currentTarget.dataset.username);status.textContent='Copied.';}catch{status.textContent='Copy failed. The username is uxmbra.';}};
 $('#feedback').onclick=()=>$('#feedback-dialog').showModal();
 // The data editor is for maintainers only: open the guide with ?edit to show it.
 $('#manage').hidden=!new URLSearchParams(location.search).has('edit');
