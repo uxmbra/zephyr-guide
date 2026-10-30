@@ -1,4 +1,4 @@
-import {calculate,combinePlan,planDuration,formatDuration,MAX_QUANTITY} from './core.js?v=6';
+import {calculate,combinePlan,planDuration,formatDuration,MAX_QUANTITY} from './core.js?v=7';
 let configured=null;
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>n.toLocaleString('en-AU');
