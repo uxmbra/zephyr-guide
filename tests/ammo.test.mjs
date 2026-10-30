@@ -16,6 +16,11 @@ test('ammo recipes are split into Mainland and Cayo crafting methods',()=>{
   ['.45 ACP',120,30,'bullet-casings:60,brass:60,gun-powder:60,copper:60'],
   ['.50 AE',120,30,'bullet-casings:60,brass:60,gun-powder:60,copper:60'],
   ['12 Gauge',40,60,'steel:20,brass:20,gun-powder:20,copper:20']]);
+ assert.ok(ammo.filter(r=>r.method==='cayo').every(r=>r.benchId==='cayo-ammo'));
+ const bench=guide.benches.find(b=>b.id==='cayo-ammo'),loc=guide.locations.find(l=>l.id===bench.locationId);
+ assert.equal(loc.postcode,'');
+ assert.match(loc.warning,/rob zone/i);
+ assert.throws(()=>validateData({...guide,locations:guide.locations.map(l=>l.id===loc.id?{...l,warning:1}:l)},ammo));
  for(const method of [undefined,null,'','island','Mainland'])assert.throws(()=>validateData(guide,[{...ammo[0],method}]));
  for(const method of Object.keys(AMMO_METHODS))assert.equal(validateData(guide,[{...ammo[0],method}]),true);
 });

@@ -177,7 +177,7 @@
     "id": "ammo-cayo-9mm",
     "name": "9mm",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 120,
     "ingredients": [
@@ -206,7 +206,7 @@
     "id": "ammo-cayo-38-lc",
     "name": ".38 LC",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 40,
     "ingredients": [
@@ -235,7 +235,7 @@
     "id": "ammo-cayo-44-magnum",
     "name": ".44 Magnum",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 40,
     "ingredients": [
@@ -264,7 +264,7 @@
     "id": "ammo-cayo-556x45",
     "name": "5.56x45",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 120,
     "ingredients": [
@@ -293,7 +293,7 @@
     "id": "ammo-cayo-45-acp",
     "name": ".45 ACP",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 120,
     "ingredients": [
@@ -322,7 +322,7 @@
     "id": "ammo-cayo-50-ae",
     "name": ".50 AE",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 120,
     "ingredients": [
@@ -351,7 +351,7 @@
     "id": "ammo-cayo-12-gauge",
     "name": "12 Gauge",
     "categoryId": "ammo",
-    "benchId": null,
+    "benchId": "cayo-ammo",
     "method": "cayo",
     "outputQuantity": 40,
     "ingredients": [

@@ -437,6 +437,15 @@
       "mapImage": "images/heist-924-map.webp",
       "mapAlt": "Map showing the heist crafting bench in Harmony at postcode 924",
       "notes": "In Harmony, postcode 924. The table is at the back of the red shipping container, under the metal gantry."
+    },
+    {
+      "id": "cayo-ammo",
+      "name": "Cayo Perico",
+      "postcode": "",
+      "mapImage": "images/cayo-ammo-map.png",
+      "mapAlt": "Map showing the Cayo ammo crafting bench on Cayo Perico",
+      "notes": "There are no postals on Cayo. Use the map to find the bench.",
+      "warning": "Cayo is a rob zone. Anything you carry to or from this bench can be taken, so you could lose everything. Only go if you are willing to take that risk."
     }
   ],
   "benches": [
@@ -502,6 +511,14 @@
       "locationId": "heist-924",
       "image": "images/heist-924-bench.webp",
       "imageAlt": "Heist crafting bench inside a shipping container at postcode 924",
+      "notes": ""
+    },
+    {
+      "id": "cayo-ammo",
+      "name": "Ammo Crafting (Cayo)",
+      "locationId": "cayo-ammo",
+      "image": "images/cayo-ammo-bench.png",
+      "imageAlt": "Cayo ammo crafting bench and its surroundings",
       "notes": ""
     }
   ],
