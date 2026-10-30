@@ -32,6 +32,7 @@ Everything in the guide has been gathered from real play in the city. Nothing is
 | 🔧 | **Attachments** | Suppressors, extended clips and more |
 | 🧰 | **Heist items** | Bolt cutters, thermite and electronic kits |
 | 🗡️ | **Melee** | From a humble baseball bat to a katana (and a pink electric guitar) |
+| 🌿 | **Gathering materials** | Where to collect raw materials, what to bring and what you'll get (coming soon) |
 | 🔥 | **Smelting** | Turn raw ore into brass, steel, copper, gold and more |
 | 🔩 | **Business** | Repair kits and performance parts for mechanics |
 | 📍 | **Locations & benches** | Postcodes, map screenshots and bench photos for every spot |

@@ -43,6 +43,11 @@
       "file": "melee.json"
     },
     {
+      "id": "gathering",
+      "name": "Gathering Materials",
+      "file": "gathering.json"
+    },
+    {
       "id": "smelting",
       "name": "Smelting",
       "file": "smelting.json"
