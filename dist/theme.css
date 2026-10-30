@@ -88,10 +88,10 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 #jump-location{border-color:var(--line-strong)}
 
 /* Weapon tiers and substance sections. */
-#ammo-methods,#weapon-tiers,#substance-sections{margin-bottom:20px}
+#ammo-methods,#weapon-tiers,#substance-sections,#gathering-methods{margin-bottom:20px}
 .tier-options.method-options{grid-template-columns:repeat(2,minmax(0,1fr))}
 .tier-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.tier-options.substance-options{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tier-options.substance-options,.tier-options.gathering-options{grid-template-columns:repeat(4,minmax(0,1fr))}
 .tier-options button{display:block;text-align:left;padding:16px 18px;border-radius:14px;background:var(--panel);min-height:0}
 .tier-options button:hover{background:var(--panel-2)}
 .tier-options span{display:block;font-size:1.05rem;font-weight:700}
@@ -336,7 +336,7 @@ a.button{text-decoration:none}
   .tier-options{gap:6px}
   .tier-options button{padding:12px}
   .tier-options small{font-size:.68rem}
-  .tier-options.substance-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tier-options.substance-options,.tier-options.gathering-options{grid-template-columns:repeat(2,minmax(0,1fr))}
   .batch-summary{gap:6px}
   .batch-summary>*{padding:10px}
   .batch-summary strong{font-size:1.25rem}
@@ -362,7 +362,7 @@ a.button{text-decoration:none}
   html{scroll-behavior:smooth}
   button,a,input,select,textarea{transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .1s}
   .photo-slot img{transition:transform .25s}
-  #content>*,#ammo-methods,#weapon-tiers,#substance-sections{animation:rise .35s ease-out both}
+  #content>*,#ammo-methods,#weapon-tiers,#substance-sections,#gathering-methods{animation:rise .35s ease-out both}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}}
 }
 

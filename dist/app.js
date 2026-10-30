@@ -9,6 +9,18 @@ let weaponTier=3;
 let ammoMethod='mainland';
 let substanceSection='meth';
 let heistGuideId;
+let gatheringMethod='bin-diving';
+const GATHERING_METHODS={'bin-diving':'Bin Diving / Hobo Camps','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
+function renderGatheringMethods(){
+  const host=$('#gathering-methods');host.hidden=category!=='gathering';
+  if(host.hidden){host.innerHTML='';return;}
+  host.innerHTML=`<p class="eyebrow">GATHERING METHOD</p><div class="tier-options gathering-options" role="group" aria-label="Gathering method">${Object.entries(GATHERING_METHODS).map(([id,name])=>`<button data-gathering="${id}" aria-pressed="${gatheringMethod===id}"><span>${name}</span><small>Details coming soon</small></button>`).join('')}</div>`;
+  host.querySelectorAll('[data-gathering]').forEach(b=>b.onclick=()=>{gatheringMethod=b.dataset.gathering;render();host.querySelector(`[data-gathering="${gatheringMethod}"]`).focus();});
+}
+// Gathering has no recipes, so it shows the chosen method without the calculator or crafting plan.
+function renderGathering(){
+  $('#content').innerHTML=`<div class="empty"><p class="eyebrow">THE GUIDE IS GROWING</p><h2>${esc(GATHERING_METHODS[gatheringMethod])}</h2><p class="muted">Locations, tools and yields for ${esc(GATHERING_METHODS[gatheringMethod])} have not been supplied yet.<br>Details will appear here as the guide expands.</p></div>`;
+}
 function renderSubstanceSections(){
   const host=$('#substance-sections');host.hidden=category!=='substances';
   if(host.hidden){host.innerHTML='';return;}
@@ -90,7 +102,7 @@ function render(){
   if(navigationFocused)$('#navigation [aria-current="page"]')?.focus({preventScroll:true});
   const c=guide.categories.find(c=>c.id===category);
   renderWeaponTiers();renderAmmoMethods();
-  renderSubstanceSections();
+  renderSubstanceSections();renderGatheringMethods();
   $('#page-title').innerHTML=esc(c?c.name:'Locations & benches')+'<span>.</span>';
   $('#breadcrumb').textContent=c?'CRAFTING':'LOCATIONS';
   $('#page-description').textContent=category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
@@ -101,9 +113,10 @@ function render(){
   }
   if(category==='substances'){renderSubstanceGuide();return;}
   if(category==='heist-guides'){renderHeistGuide();return;}
+  if(category==='gathering'){renderGathering();return;}
   const rows=recipes.filter(r=>r.categoryId===category&&(category!=='weapons'||r.tier===weaponTier)&&(category!=='ammo'||r.method===ammoMethod)&&(category!=='substances'||r.substance===substanceSection));
   if(rows.length&&!rows.some(r=>r.id===selectedId)){selectedId=rows[0].id;quantity=rows[0].outputQuantity;}
-  if(!rows.length){$('#content').innerHTML=`<div class="empty"><p class="eyebrow">THE GUIDE IS GROWING</p><h2>${esc(c.name)}${category==='weapons'?' · Tier '+weaponTier:category==='ammo'?' · '+AMMO_METHODS[ammoMethod]:category==='substances'?' · '+SUBSTANCE_SECTIONS[substanceSection]:''}</h2><p class="muted">${category==='gathering'?'Gathering spots, tools and yields have not been supplied yet.':category==='mining'?'Mining locations, tools and yields have not been supplied yet.':category==='weapons'?'No recipes have been supplied for Tier '+weaponTier+' yet.':category==='ammo'?'No '+AMMO_METHODS[ammoMethod]+' ammo recipes have been supplied yet.':category==='substances'?'No recipes have been supplied for '+SUBSTANCE_SECTIONS[substanceSection]+' yet.':'No recipes have been supplied for this section yet.'}<br>Details will appear here as the guide expands.</p></div><div id="plan"></div>`;renderPlan();return;}
+  if(!rows.length){$('#content').innerHTML=`<div class="empty"><p class="eyebrow">THE GUIDE IS GROWING</p><h2>${esc(c.name)}${category==='weapons'?' · Tier '+weaponTier:category==='ammo'?' · '+AMMO_METHODS[ammoMethod]:category==='substances'?' · '+SUBSTANCE_SECTIONS[substanceSection]:''}</h2><p class="muted">${category==='mining'?'Mining locations, tools and yields have not been supplied yet.':category==='weapons'?'No recipes have been supplied for Tier '+weaponTier+' yet.':category==='ammo'?'No '+AMMO_METHODS[ammoMethod]+' ammo recipes have been supplied yet.':category==='substances'?'No recipes have been supplied for '+SUBSTANCE_SECTIONS[substanceSection]+' yet.':'No recipes have been supplied for this section yet.'}<br>Details will appear here as the guide expands.</p></div><div id="plan"></div>`;renderPlan();return;}
   const current=recipe(),bench=guide.benches.find(b=>b.id===current.benchId)||{id:null,name:'Location not supplied',image:'',notes:'Bench details and photos have not been supplied.'},loc=guide.locations.find(l=>l.id===bench.locationId)||{name:'Location pending',postcode:'Not supplied',mapImage:'',notes:'The location and postcode are awaiting details.'};
   $('#content').innerHTML=`<div class="location-strip"><div><strong>⌖ &nbsp;${esc(bench.name)}</strong><div class="muted">${bench.id?rows.filter(r=>r.benchId===bench.id).length+' recipes at this bench · '+esc(loc.name):'Bench and postcode have not been supplied.'}</div></div><span class="tag">${postalLabel(loc).toUpperCase()} ${esc(loc.postcode)}</span><button id="jump-location" class="quiet">View location guide</button></div>${category==='heist'?usedInGuides(current):''}<div class="work-grid">${recipePicker(rows,current)}<section class="calculator" aria-label="Crafting calculator"><div class="calc-heading"><p class="eyebrow">CRAFTING CALCULATOR</p><h2>${esc(current.name)}</h2><p>Set your target. We’ll round up to full crafts.${current.outputName?' Output: '+esc(current.outputName)+'.':''}</p></div><div class="calc-body"><label for="quantity">How many do you need?</label><div class="quantity-row"><button id="decrement" aria-label="Decrease by one craft">−</button><input id="quantity" type="number" min="1" max="1000000" step="1" value="${quantity}" inputmode="numeric"><button id="increment" aria-label="Increase by one craft">+</button></div><div id="calculation" aria-live="polite"></div><button class="primary" id="add-plan">Add to crafting plan</button><p class="fine">${esc(current.notes||'Recipe supplied by the guide maintainer. Costs are materials per craft.')} Time estimates assume consecutive crafts, excluding travel and gathering.</p></div></section></div><section class="location-section" id="location-guide"><div class="section-header"><div><p class="eyebrow">FIND YOUR WORKBENCH</p><h2>${esc(bench.name)}</h2></div><span class="tag">${postalLabel(loc).toUpperCase()} ${esc(loc.postcode)}</span></div><div class="photos">${photo(loc.mapImage,loc.mapAlt,'01 / Map location',postalLabel(loc)+' '+loc.postcode)}${photo(bench.image,bench.imageAlt,'02 / Bench & surroundings',loc.name)}</div><p class="location-notes">${esc(loc.notes)} ${esc(bench.notes)}</p></section><div id="plan"></div>`;
   $('.calc-body').insertAdjacentHTML('beforeend',`<details class="per-craft"><summary>Original recipe · ${fmt(current.outputQuantity)} per craft</summary><dl class="ingredients">${current.ingredients.map(i=>`<div><dt>${esc(itemName(i.itemId))}</dt><dd>${fmt(i.quantity)}</dd></div>`).join('')}</dl></details>`);
