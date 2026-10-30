@@ -9,6 +9,18 @@ let weaponTier=3;
 let ammoMethod='mainland';
 let substanceSection='meth';
 let heistGuideId;
+let gatheringMethod='bin-diving';
+const GATHERING_METHODS={'bin-diving':'Bin Diving / Hobo Camps','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
+function renderGatheringMethods(){
+  const host=$('#gathering-methods');host.hidden=category!=='gathering';
+  if(host.hidden){host.innerHTML='';return;}
+  host.innerHTML=`<p class="eyebrow">GATHERING METHOD</p><div class="tier-options gathering-options" role="group" aria-label="Gathering method">${Object.entries(GATHERING_METHODS).map(([id,name])=>`<button data-gathering="${id}" aria-pressed="${gatheringMethod===id}"><span>${name}</span><small>Details coming soon</small></button>`).join('')}</div>`;
+  host.querySelectorAll('[data-gathering]').forEach(b=>b.onclick=()=>{gatheringMethod=b.dataset.gathering;render();host.querySelector(`[data-gathering="${gatheringMethod}"]`).focus();});
+}
+// Gathering has no recipes, so it shows the chosen method without the calculator or crafting plan.
+function renderGathering(){
+  $('#content').innerHTML=`<div class="empty"><p class="eyebrow">THE GUIDE IS GROWING</p><h2>${esc(GATHERING_METHODS[gatheringMethod])}</h2><p class="muted">Locations, tools and yields for ${esc(GATHERING_METHODS[gatheringMethod])} have not been supplied yet.<br>Details will appear here as the guide expands.</p></div>`;
+}
 function renderSubstanceSections(){
   const host=$('#substance-sections');host.hidden=category!=='substances';
   if(host.hidden){host.innerHTML='';return;}
@@ -77,8 +89,8 @@ const recipe=()=>recipes.find(r=>r.id===selectedId);
 const duration=seconds=>formatDuration(seconds);
 const postalLabel=location=>location.postcodeType==='closest'?'Closest postal':'Postcode';
 const itemName=id=>guide.items.find(i=>i.id===id)?.name||id;
-const categoryLabels={ammo:'Ammo',weapons:'Weapons',substances:'Substances',attachments:'Attachments','heist-guides':'Heist guides',heist:'Heist items',generic:'Generic items',melee:'Melee',smelting:'Smelting',mining:'Mining',business:'Business'};
-const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',mining:'m5 21 12-15M3 7c6-5 12-4 18 2l-2 2C13 6 9 5 3 7Z',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0'};
+const categoryLabels={ammo:'Ammo',weapons:'Weapons',substances:'Substances',attachments:'Attachments','heist-guides':'Heist guides',heist:'Heist items',generic:'Generic items',melee:'Melee',gathering:'Gathering',smelting:'Smelting',mining:'Mining',business:'Business'};
+const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',gathering:'M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7Zm0 3c0-3-2-6-7-6 0 4 2 6 7 6ZM7 21h10',mining:'m5 21 12-15M3 7c6-5 12-4 18 2l-2 2C13 6 9 5 3 7Z',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0'};
 function categoryLink(id,name,count){const active=category===id,detail=id==='substances'?'4 guides':id==='heist-guides'?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:count?`${count} recipes`:'Coming soon';return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span><span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
 async function load(){try{status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-store'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const g=await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(c=>fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;plan=[];inventory={};route();status('');}catch(e){status('Guide could not be reloaded: '+e.message+'. Check the data files, then try Reload data.',true);}}
 function route(){if(!guide)return;const id=location.hash.slice(1);category=id==='locations'||guide.categories.some(c=>c.id===id)?id:guide.categories[0].id;const choices=recipes.filter(r=>r.categoryId===category);if(!choices.some(r=>r.id===selectedId)){selectedId=choices[0]?.id;quantity=choices[0]?.outputQuantity||1;}render();}
@@ -90,10 +102,10 @@ function render(){
   if(navigationFocused)$('#navigation [aria-current="page"]')?.focus({preventScroll:true});
   const c=guide.categories.find(c=>c.id===category);
   renderWeaponTiers();renderAmmoMethods();
-  renderSubstanceSections();
+  renderSubstanceSections();renderGatheringMethods();
   $('#page-title').innerHTML=esc(c?c.name:'Locations & benches')+'<span>.</span>';
   $('#breadcrumb').textContent=c?'CRAFTING':'LOCATIONS';
-  $('#page-description').textContent=category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
+  $('#page-description').textContent=category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
   if(category==='locations'){renderLocations();return;}
   if(category==='business'){
     $('#page-description').textContent='Enter the parts you need to craft. Get the materials and time for your quota.';
@@ -101,6 +113,7 @@ function render(){
   }
   if(category==='substances'){renderSubstanceGuide();return;}
   if(category==='heist-guides'){renderHeistGuide();return;}
+  if(category==='gathering'){renderGathering();return;}
   const rows=recipes.filter(r=>r.categoryId===category&&(category!=='weapons'||r.tier===weaponTier)&&(category!=='ammo'||r.method===ammoMethod)&&(category!=='substances'||r.substance===substanceSection));
   if(rows.length&&!rows.some(r=>r.id===selectedId)){selectedId=rows[0].id;quantity=rows[0].outputQuantity;}
   if(!rows.length){$('#content').innerHTML=`<div class="empty"><p class="eyebrow">THE GUIDE IS GROWING</p><h2>${esc(c.name)}${category==='weapons'?' · Tier '+weaponTier:category==='ammo'?' · '+AMMO_METHODS[ammoMethod]:category==='substances'?' · '+SUBSTANCE_SECTIONS[substanceSection]:''}</h2><p class="muted">${category==='mining'?'Mining locations, tools and yields have not been supplied yet.':category==='weapons'?'No recipes have been supplied for Tier '+weaponTier+' yet.':category==='ammo'?'No '+AMMO_METHODS[ammoMethod]+' ammo recipes have been supplied yet.':category==='substances'?'No recipes have been supplied for '+SUBSTANCE_SECTIONS[substanceSection]+' yet.':'No recipes have been supplied for this section yet.'}<br>Details will appear here as the guide expands.</p></div><div id="plan"></div>`;renderPlan();return;}
