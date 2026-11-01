@@ -604,5 +604,28 @@
       "tips": ""
     }
   },
-  "heistGuides": []
+  "heistGuides": [],
+  "gatheringGuides": {
+    "metal-detecting": {
+      "overview": "Buy a Metal Detector from YouTool, head to Vespucci Beach and search the sand for items. Each search takes about 20 seconds, and you can keep going until you are bored or out of pocket space.",
+      "requirements": "Metal Detector (bought from YouTool, aka Bunnings, at postal 121)\nFree pocket space for what you find",
+      "locations": "YouTool (aka Bunnings): Postal 121. Buy your Metal Detector here.\nVespucci Beach: Below Sunset. This is where you metal detect.",
+      "steps": "Buy a Metal Detector from YouTool at postal 121.\nHead to Vespucci Beach, below Sunset.\nPut the Metal Detector in one of your 1-5 quick slots (usually the slots at the top of your pockets).\nPress the number for that slot to start detecting.\nComplete the 3-stage skill check by pressing the 1, 2, 3 or 4 key it asks for. The keys are random each time.\nWait about 20 seconds while the detector searches for items.\nRepeat until you are bored or out of pocket space.",
+      "tips": "",
+      "images": [
+        {
+          "src": "images/youtool-121-map.webp",
+          "title": "YouTool",
+          "detail": "Postal 121, buy the Metal Detector",
+          "alt": "Map showing the YouTool store at postal 121"
+        },
+        {
+          "src": "images/metal-detecting-beach-map.webp",
+          "title": "Vespucci Beach",
+          "detail": "Below Sunset, where you metal detect",
+          "alt": "Map showing the metal detecting spot on Vespucci Beach"
+        }
+      ]
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,SUBSTANCE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS} from './core.js?v=7';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,SUBSTANCE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS} from './core.js?v=8';
 const $=s=>document.querySelector(s);
 import {renderBusiness,configureBusiness} from './business.js?v=5';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -10,15 +10,17 @@ let ammoMethod='mainland';
 let substanceSection='meth';
 let heistGuideId;
 let gatheringMethod='bin-diving';
-const GATHERING_METHODS={'bin-diving':'Bin Diving / Hobo Camps','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
+const hasGuideText=entry=>GUIDE_TEXT_FIELDS.some(key=>entry?.[key]?.trim());
 function renderGatheringMethods(){
   const host=$('#gathering-methods');host.hidden=category!=='gathering';
   if(host.hidden){host.innerHTML='';return;}
-  host.innerHTML=`<p class="eyebrow">GATHERING METHOD</p><div class="tier-options gathering-options" role="group" aria-label="Gathering method">${Object.entries(GATHERING_METHODS).map(([id,name])=>`<button data-gathering="${id}" aria-pressed="${gatheringMethod===id}"><span>${name}</span><small>Details coming soon</small></button>`).join('')}</div>`;
+  host.innerHTML=`<p class="eyebrow">GATHERING METHOD</p><div class="tier-options gathering-options" role="group" aria-label="Gathering method">${Object.entries(GATHERING_METHODS).map(([id,name])=>`<button data-gathering="${id}" aria-pressed="${gatheringMethod===id}"><span>${name}</span><small>${hasGuideText(guide.gatheringGuides?.[id])?'Read guide':'Details coming soon'}</small></button>`).join('')}</div>`;
   host.querySelectorAll('[data-gathering]').forEach(b=>b.onclick=()=>{gatheringMethod=b.dataset.gathering;render();host.querySelector(`[data-gathering="${gatheringMethod}"]`).focus();});
 }
 // Gathering has no recipes, so it shows the chosen method without the calculator or crafting plan.
 function renderGathering(){
+  const entry=guide.gatheringGuides?.[gatheringMethod];
+  if(hasGuideText(entry)){$('#content').innerHTML=`<article class="substance-guide"><header class="guide-intro"><p class="eyebrow">ZEPHYR RP · GATHERING GUIDE</p><h2>${esc(GATHERING_METHODS[gatheringMethod])}</h2><p class="muted">Your reference for this activity in the city.</p></header><div class="guide-chapters">${Object.keys(substanceFields).map(key=>guideChapter(entry,key,'gathering')).join('')}</div></article>`;bindPhotos();return;}
   $('#content').innerHTML=`<div class="empty"><p class="eyebrow">THE GUIDE IS GROWING</p><h2>${esc(GATHERING_METHODS[gatheringMethod])}</h2><p class="muted">Locations, tools and yields for ${esc(GATHERING_METHODS[gatheringMethod])} have not been supplied yet.<br>Details will appear here as the guide expands.</p></div>`;
 }
 function renderSubstanceSections(){
@@ -92,12 +94,12 @@ const warningBanner=location=>location.warning?`<div class="warning-banner" role
 const itemName=id=>guide.items.find(i=>i.id===id)?.name||id;
 const categoryLabels={ammo:'Ammo',weapons:'Weapons',substances:'Substances',attachments:'Attachments','heist-guides':'Heist guides',heist:'Heist items',generic:'Generic items',melee:'Melee',gathering:'Gathering',smelting:'Smelting',mining:'Mining',business:'Business'};
 const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',gathering:'M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7Zm0 3c0-3-2-6-7-6 0 4 2 6 7 6ZM7 21h10',mining:'m5 21 12-15M3 7c6-5 12-4 18 2l-2 2C13 6 9 5 3 7Z',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0'};
-function categoryLink(id,name,count){const active=category===id,detail=id==='substances'?'4 guides':id==='heist-guides'?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:count?`${count} recipes`:'Coming soon';return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span><span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
+function categoryLink(id,name,count){const active=category===id,detail=id==='substances'?'4 guides':id==='heist-guides'||id==='gathering'?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:count?`${count} recipes`:'Coming soon';return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span><span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
 async function load(){try{status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-store'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const g=await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(c=>fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;plan=[];inventory={};route();status('');}catch(e){status('Guide could not be reloaded: '+e.message+'. Check the data files, then try Reload data.',true);}}
 function route(){if(!guide)return;const id=location.hash.slice(1);category=id==='locations'||guide.categories.some(c=>c.id===id)?id:guide.categories[0].id;const choices=recipes.filter(r=>r.categoryId===category);if(!choices.some(r=>r.id===selectedId)){selectedId=choices[0]?.id;quantity=choices[0]?.outputQuantity||1;}render();}
 function render(){
   const navigationFocused=$('#navigation').contains(document.activeElement);
-  $('#navigation').innerHTML=guide.categories.map(c=>categoryLink(c.id,c.name,c.id==='heist-guides'?heistGuides().length:recipes.filter(r=>r.categoryId===c.id).length)).join('')+categoryLink('locations','Locations & benches',guide.locations.length);
+  $('#navigation').innerHTML=guide.categories.map(c=>categoryLink(c.id,c.name,c.id==='heist-guides'?heistGuides().length:c.id==='gathering'?Object.values(guide.gatheringGuides||{}).filter(hasGuideText).length:recipes.filter(r=>r.categoryId===c.id).length)).join('')+categoryLink('locations','Locations & benches',guide.locations.length);
   // On narrow screens the menu scrolls sideways, so keep the current page in view.
   const nav=$('#navigation'),activeLink=nav.querySelector('.active');if(activeLink&&nav.scrollWidth>nav.clientWidth)nav.scrollLeft=activeLink.offsetLeft-(nav.clientWidth-activeLink.offsetWidth)/2;
   if(navigationFocused)$('#navigation [aria-current="page"]')?.focus({preventScroll:true});
