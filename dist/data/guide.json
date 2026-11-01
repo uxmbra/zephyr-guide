@@ -192,6 +192,10 @@
       "name": "Extended SMG Blueprint"
     },
     {
+      "id": "extended-rifle-clip-blueprint",
+      "name": "Extended Rifle Clip Blueprint"
+    },
+    {
       "id": "metal-scrap",
       "name": "Metal Scrap"
     },
