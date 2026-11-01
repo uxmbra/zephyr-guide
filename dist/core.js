@@ -1,5 +1,6 @@
 export const MAX_QUANTITY=1000000;
 export const SUBSTANCE_SECTIONS={meth:'Meth',cocaine:'Cocaine',weed:'Weed',lsd:'LSD'};
+export const GATHERING_METHODS={'bin-diving':'Bin Diving / Hobo Camps','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
 export const AMMO_METHODS={mainland:'Mainland',cayo:'Cayo'};
 export function calculateAvailable(recipe,itemId,available){
   if(!Number.isSafeInteger(available)||available<0||available>MAX_QUANTITY)throw new Error('Enter a whole number from 0 to 1,000,000.');
@@ -26,10 +27,11 @@ export function safeImage(value){return typeof value==='string'&&(value===''||/^
 export function validateData(guide,recipes,{links=true}={}){
   const fail=m=>{throw new Error(m);};
   if(guide.version!==1)fail('Unsupported guide version. Expected version 1.');
-  if(guide.substanceGuides!==undefined){
-    if(!guide.substanceGuides||typeof guide.substanceGuides!=='object'||Array.isArray(guide.substanceGuides))fail('Substance guides must be an object.');
-    for(const [id,entry] of Object.entries(guide.substanceGuides)){
-      if(!Object.hasOwn(SUBSTANCE_SECTIONS,id)||!entry||typeof entry!=='object'||Array.isArray(entry))fail('Invalid substance guide.');
+  for(const [field,sections,label] of [['substanceGuides',SUBSTANCE_SECTIONS,'substance'],['gatheringGuides',GATHERING_METHODS,'gathering']]){
+    if(guide[field]===undefined)continue;
+    if(!guide[field]||typeof guide[field]!=='object'||Array.isArray(guide[field]))fail('The '+label+' guides must be an object.');
+    for(const [id,entry] of Object.entries(guide[field])){
+      if(!Object.hasOwn(sections,id)||!entry||typeof entry!=='object'||Array.isArray(entry))fail('Invalid '+label+' guide.');
       for(const [key,value] of Object.entries(entry)){if(key==='images'){if(!validGuideImages(value))fail('Guide images need an HTTPS URL or images/ path.');continue;}if(!GUIDE_TEXT_FIELDS.includes(key)||typeof value!=='string')fail('Guide sections must contain plain text.');}
     }
   }
