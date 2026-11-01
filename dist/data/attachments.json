@@ -61,7 +61,7 @@
       },
       {
         "itemId": "carbon-fiber",
-        "quantity": 80
+        "quantity": 100
       },
       {
         "itemId": "zephyr-lubricant-spray",
@@ -109,7 +109,7 @@
   },
   {
     "id": "attachment-extended-smg-clip",
-    "name": "Extended SMG Clip",
+    "name": "Extended SMG Magazine",
     "categoryId": "attachments",
     "benchId": "attachments-1007",
     "outputQuantity": 1,
@@ -134,6 +134,42 @@
       {
         "itemId": "carbon-fiber",
         "quantity": 100
+      },
+      {
+        "itemId": "zephyr-lubricant-spray",
+        "quantity": 1
+      }
+    ],
+    "notes": "",
+    "source": "Supplied by guide maintainer"
+  },
+  {
+    "id": "attachment-extended-rifle-clip",
+    "name": "Extended Rifle Clip",
+    "categoryId": "attachments",
+    "benchId": "attachments-1007",
+    "outputQuantity": 1,
+    "craftTimeSeconds": 90,
+    "ingredients": [
+      {
+        "itemId": "extended-rifle-clip-blueprint",
+        "quantity": 1
+      },
+      {
+        "itemId": "iron",
+        "quantity": 100
+      },
+      {
+        "itemId": "steel",
+        "quantity": 100
+      },
+      {
+        "itemId": "rubber",
+        "quantity": 100
+      },
+      {
+        "itemId": "carbon-fiber",
+        "quantity": 80
       },
       {
         "itemId": "zephyr-lubricant-spray",
