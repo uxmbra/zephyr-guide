@@ -12,6 +12,12 @@ test('metal detecting guide has its steps and its images exist',()=>{
  assert.equal(metal.steps.split('\n').length,7);
  for(const image of metal.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
 });
+test('scrap yard guide has its steps and its map exists',()=>{
+ const scrap=guide.gatheringGuides['scrap-yard'];
+ for(const key of ['overview','requirements','locations','steps','tips'])assert.ok(scrap[key].trim(),key);
+ assert.equal(scrap.steps.split('\n').length,6);
+ for(const image of scrap.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
+});
 test('gathering guides only use known methods and plain sections',()=>{
  for(const guides of [[],{'gold-panning':{}},{'scrap-yard':{steps:3}},{'scrap-yard':{extra:''}},{'scrap-yard':{images:[{src:'../a.png'}]}}])assert.throws(()=>validateData(withGathering(guides),[]));
  assert.equal(validateData(withGathering({'scrap-yard':{overview:'Bring a crowbar'}}),[]),true);
