@@ -7,7 +7,7 @@ const guide=read('guide.json'),ammo=read('ammo.json');
 test('ammo recipes are split into Mainland and Cayo crafting methods',()=>{
  assert.deepEqual(AMMO_METHODS,{mainland:'Mainland',cayo:'Cayo'});
  assert.equal(validateData(guide,ammo),true);
- assert.deepEqual(ammo.filter(r=>r.method==='mainland').map(r=>r.name),['9mm','.38 LC','.44 Magnum','5.56x45','.45 ACP','.50 AE']);
+ assert.deepEqual(ammo.filter(r=>r.method==='mainland').map(r=>r.name),['9mm','.38 LC','.44 Magnum','5.56x45','.45 ACP','.50 AE','12 Gauge']);
  assert.deepEqual(ammo.filter(r=>r.method==='cayo').map(r=>[r.name,r.outputQuantity,r.craftTimeSeconds,r.ingredients.map(i=>i.itemId+':'+i.quantity).join(',')]),[
   ['9mm',120,30,'bullet-casings:60,brass:60,gun-powder:60,copper:60'],
   ['.38 LC',40,60,'steel:20,brass:20,gun-powder:20,copper:20'],
