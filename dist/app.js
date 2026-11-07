@@ -1,8 +1,10 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide} from './core.js?v=11';
-import {renderBusiness,configureBusiness} from './business.js?v=6';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate} from './core.js?v=12';
+import {renderBusiness,configureBusiness} from './business.js?v=7';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
 const PLAN_KEY='zephyr-plan';
+const CHANGELOG_KEY='zephyr-changelog-seen';
+let changelog=[];
 let guide,recipes=[],category='ammo',selectedId,quantity=60,plan=[],inventory={},editorTab='photos';
 let smeltMode=(()=>{try{return localStorage.getItem('smeltMode')==='target'?'target':'available';}catch{return 'available';}})(),availableAmount=null,availableItemId='',availableCoal=null;
 let weaponTier=3;
@@ -259,6 +261,20 @@ document.addEventListener('click',e=>{if(!e.target.closest('#search'))$('#search
 $('#search-input').onfocus=renderSearch;
 $('#copy-discord').onclick=async e=>{const status=$('#copy-discord-status');try{await navigator.clipboard.writeText(e.currentTarget.dataset.username);status.textContent='Copied.';}catch{status.textContent='Copy failed. The username is uxmbra.';}};
 $('#feedback').onclick=()=>$('#feedback-dialog').showModal();
+// What's new: the changelog loads on its own, so a problem with it never stops the guide, and the badge counts
+// the entries this visitor has not opened. Opening the list marks everything as seen.
+async function loadChangelog(){try{const r=await fetch('data/changelog.json',{cache:'no-store'});if(!r.ok)return;const rows=await r.json();validateChangelog(rows);changelog=rows;renderChangelogBadge();}catch(e){console.warn('What’s new is unavailable: '+e.message);}}
+function seenChangelog(){try{return JSON.parse(localStorage.getItem(CHANGELOG_KEY));}catch{return null;}}
+function renderChangelogBadge(){const n=unseenChanges(changelog,seenChangelog()),badge=$('#whats-new-badge');badge.hidden=!n;badge.textContent=n>9?'9+':n;$('#whats-new').setAttribute('aria-label',n?`What’s new, ${n} unread change${n===1?'':'s'}`:'What’s new');}
+function openChangelog(){
+  const unseen=unseenChanges(changelog,seenChangelog());
+  $('#changelog').innerHTML=changelog.length?changelog.map((e,i)=>`<article class="change${i<unseen?' unread':''}"><div class="change-meta"><time datetime="${esc(e.date)}">${esc(formatDate(e.date))}</time>${i<unseen?'<span class="tag">NEW</span>':''}</div><h3>${esc(e.title)}</h3>${e.notes?.length?`<ul>${e.notes.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}</article>`).join(''):'<p class="muted">No changes have been written up yet.</p>';
+  $('#changelog-dialog').showModal();
+  if(changelog.length){try{localStorage.setItem(CHANGELOG_KEY,JSON.stringify({id:changelog[0].id,date:changelog[0].date}));}catch{}}
+  renderChangelogBadge();
+}
+$('#whats-new').onclick=openChangelog;
+loadChangelog();
 // The data editor is for maintainers only: open the guide with ?edit to show it.
 $('#manage').hidden=!new URLSearchParams(location.search).has('edit');
 $('#manage').onclick=()=>{if(!guide)return;renderEditor();$('#manager').showModal();};

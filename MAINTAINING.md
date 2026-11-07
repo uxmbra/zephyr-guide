@@ -27,6 +27,16 @@ From this folder in Git Bash:
 - **The site didn't change:** open the Actions tab and check the latest "Publish guide" run, then hard-refresh the site with Ctrl+F5.
 - **Changed a CSS or JS file:** raise the `?v=` number on its link in `dist/index.html` (for example `theme.css?v=2` to `theme.css?v=3`) so visitors' browsers fetch the new file instead of a cached copy.
 
+## What's new (the changelog)
+
+The **What's new** button on the site lists changes from `dist/data/changelog.json`, newest first. Visitors see a badge with the number of entries they have not opened yet, so every change to the guide should get an entry:
+
+- `Publish Guide.cmd` adds one for you from the description you type, unless you edited the changelog yourself in the same change.
+- From a terminal: `node scripts/add-change.mjs "Add the Cayo 12 Gauge recipe" "Costs 40 casings"` (the title first, then one argument per note).
+- Or edit the file by hand. Each entry has a unique `id`, a `date` written `YYYY-MM-DD`, a `title` players will read, and optional `notes`. Keep the list newest first; the tests check all of this.
+
+Write entries for players, not for the code: say what they can now do or find, and where.
+
 ## Images
 
 Save screenshots as WebP, around 1600 px wide and under 1.5 MB. The tests refuse anything larger, and flag an image that no location, bench or guide points at. Reference images from the JSON as `images/<name>.webp`.

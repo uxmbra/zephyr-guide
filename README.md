@@ -46,6 +46,7 @@ Heist guides and generic items are on the way.
 - **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have. The plan is saved on your device, so it is still there after a refresh.
 - **Search.** Type a recipe, guide, bench or postcode and jump straight to it. Press `/` to start typing.
 - **Shareable links.** Every recipe, tier, guide and location has its own address, so you can send a mate a link straight to the Cayo 9mm recipe or the smelter.
+- **What's new.** A changelog of every update to the guide, with a badge for the changes you haven't read yet.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
 - **Maps and photos.** Tap any picture to enlarge it.
 - **Works on your phone.** Keep it open on a second screen or your phone while you play.
