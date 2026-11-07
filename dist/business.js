@@ -1,7 +1,5 @@
-import {calculate,combinePlan,planDuration,formatDuration,MAX_QUANTITY} from './core.js?v=10';
+import {calculate,combinePlan,planDuration,formatDuration,MAX_QUANTITY,esc,fmt} from './core.js?v=11';
 let configured=null;
-const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=n=>n.toLocaleString('en-AU');
 export function configureBusiness(id,quantity){configured={id,quantity};}
 export function renderBusiness(host,recipes,guide,onAdd){
   const item=id=>guide.items.find(i=>i.id===id)?.name||id;

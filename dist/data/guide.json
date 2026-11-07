@@ -405,7 +405,7 @@
       "id": "smelter-174",
       "name": "Smelter",
       "postcode": "174",
-      "mapImage": "images/smelter-174-map.png",
+      "mapImage": "images/smelter-174-map.webp",
       "mapAlt": "Map showing the smelter at postcode 174",
       "notes": "Smelter at postcode 174."
     },
@@ -413,7 +413,7 @@
       "id": "mainland-938",
       "name": "Main Land",
       "postcode": "938",
-      "mapImage": "images/mainland-938-map.png",
+      "mapImage": "images/mainland-938-map.webp",
       "mapAlt": "Map showing the mainland ammo crafting location at postcode 938",
       "notes": "Postcode 938 — Redwood Lights Track."
     },
@@ -422,7 +422,7 @@
       "name": "Attachment Crafting",
       "postcode": "1007",
       "postcodeType": "closest",
-      "mapImage": "images/attachments-1007-map.png",
+      "mapImage": "images/attachments-1007-map.webp",
       "mapAlt": "Map showing attachment crafting near closest postal 1007",
       "notes": "1007 is the closest postal to the attachment crafting bench."
     },
@@ -430,7 +430,7 @@
       "id": "melee-906",
       "name": "Melee Crafting",
       "postcode": "906",
-      "mapImage": "images/melee-906-map.png",
+      "mapImage": "images/melee-906-map.webp",
       "mapAlt": "Map showing the melee crafting bench on the Chumash pier at postcode 906",
       "notes": "On the pier at Chumash, postcode 906."
     },
@@ -446,7 +446,7 @@
       "id": "cayo-ammo",
       "name": "Cayo Perico",
       "postcode": "",
-      "mapImage": "images/cayo-ammo-map.png",
+      "mapImage": "images/cayo-ammo-map.webp",
       "mapAlt": "Map showing the Cayo ammo crafting bench on Cayo Perico",
       "notes": "There are no postals on Cayo. Use the map to find the bench.",
       "warning": "Cayo is a rob zone. Anything you carry to or from this bench can be taken, so you could lose everything. Only go if you are willing to take that risk."
@@ -481,7 +481,7 @@
       "id": "smelter-174",
       "name": "Smelter",
       "locationId": "smelter-174",
-      "image": "images/smelter-174-bench.png",
+      "image": "images/smelter-174-bench.webp",
       "imageAlt": "Smelter and its surroundings at postcode 174",
       "notes": ""
     },
@@ -489,7 +489,7 @@
       "id": "mainland-ammo",
       "name": "Ammo Crafting (Main Land)",
       "locationId": "mainland-938",
-      "image": "images/mainland-ammo-bench.png",
+      "image": "images/mainland-ammo-bench.webp",
       "imageAlt": "Ammo crafting bench and its surroundings at postcode 938",
       "notes": "Use the surroundings photo to identify the wall-mounted crafting bench."
     },
@@ -497,7 +497,7 @@
       "id": "attachments-1007",
       "name": "Attachment Crafting",
       "locationId": "attachments-1007",
-      "image": "images/attachments-1007-bench.png",
+      "image": "images/attachments-1007-bench.webp",
       "imageAlt": "Attachment crafting bench and surroundings near postal 1007",
       "notes": ""
     },
@@ -521,7 +521,7 @@
       "id": "cayo-ammo",
       "name": "Ammo Crafting (Cayo)",
       "locationId": "cayo-ammo",
-      "image": "images/cayo-ammo-bench.png",
+      "image": "images/cayo-ammo-bench.webp",
       "imageAlt": "Cayo ammo crafting bench and its surroundings",
       "notes": ""
     }

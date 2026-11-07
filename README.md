@@ -32,7 +32,7 @@ Everything in the guide has been gathered from real play in the city. Nothing is
 | 🔧 | **Attachments** | Suppressors, extended clips and more |
 | 🧰 | **Heist items** | Bolt cutters, thermite and electronic kits |
 | 🗡️ | **Melee** | From a humble baseball bat to a katana (and a pink electric guitar) |
-| 🌿 | **Gathering materials** | Where to collect raw materials, what to bring and what you'll get (coming soon) |
+| 🌿 | **Gathering materials** | Where to collect raw materials, what to bring and what you'll get |
 | 🔥 | **Smelting** | Turn raw ore into brass, steel, copper, gold and more |
 | 🔩 | **Business** | Repair kits and performance parts for mechanics |
 | 📍 | **Locations & benches** | Postcodes, map screenshots and bench photos for every spot |
@@ -43,7 +43,9 @@ Heist guides and generic items are on the way.
 
 - **Crafting calculator.** Say how many you need and the guide works out how many crafts it takes and every material to gather.
 - **"What can I make?"** Tell the smelter how much ore you've got and see what it turns into.
-- **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have.
+- **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have. The plan is saved on your device, so it is still there after a refresh.
+- **Search.** Type a recipe, guide, bench or postcode and jump straight to it. Press `/` to start typing.
+- **Shareable links.** Every recipe, tier, guide and location has its own address, so you can send a mate a link straight to the Cayo 9mm recipe or the smelter.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
 - **Maps and photos.** Tap any picture to enlarge it.
 - **Works on your phone.** Keep it open on a second screen or your phone while you play.
