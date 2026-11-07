@@ -2,12 +2,24 @@ export const MAX_QUANTITY=1000000;
 export const SUBSTANCE_SECTIONS={meth:'Meth',cocaine:'Cocaine',weed:'Weed',lsd:'LSD'};
 export const GATHERING_METHODS={'bin-diving':'Bin Diving / Hobo Camps','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
 export const AMMO_METHODS={mainland:'Mainland',cayo:'Cayo'};
-export function calculateAvailable(recipe,itemId,available){
+// limits: other ingredients the player has, e.g. {'coal-ore':200}. The scarcest one sets the number of crafts.
+export function calculateAvailable(recipe,itemId,available,limits={}){
   if(!Number.isSafeInteger(available)||available<0||available>MAX_QUANTITY)throw new Error('Enter a whole number from 0 to 1,000,000.');
   const input=recipe.ingredients.find(i=>i.itemId===itemId);
   if(!input)throw new Error('Choose an ingredient from this recipe.');
-  const batches=Math.floor(available/input.quantity),output=batches*recipe.outputQuantity;
-  return {batches,output,itemId,available,used:batches*input.quantity,leftover:available-batches*input.quantity,totalTimeSeconds:batches===0?0:recipe.craftTimeSeconds==null?null:batches*recipe.craftTimeSeconds,materials:recipe.ingredients.map(i=>({...i,quantity:i.quantity*batches}))};
+  let batches=Math.floor(available/input.quantity),limitedBy=itemId;
+  for(const [id,amount] of Object.entries(limits)){
+    const limit=recipe.ingredients.find(i=>i.itemId===id);
+    if(!limit||id===itemId)continue;
+    if(!Number.isSafeInteger(amount)||amount<0||amount>MAX_QUANTITY)throw new Error('Enter a whole number from 0 to 1,000,000.');
+    if(Math.floor(amount/limit.quantity)<batches){batches=Math.floor(amount/limit.quantity);limitedBy=id;}
+  }
+  const output=batches*recipe.outputQuantity;
+  return {batches,output,itemId,available,limitedBy,used:batches*input.quantity,leftover:available-batches*input.quantity,totalTimeSeconds:batches===0?0:recipe.craftTimeSeconds==null?null:batches*recipe.craftTimeSeconds,materials:recipe.ingredients.map(i=>({...i,quantity:i.quantity*batches}))};
+}
+export function smelterRuns(recipe,batches){
+  if(!recipe.maxCraftsPerRun||batches<=recipe.maxCraftsPerRun)return null;
+  return {runs:Math.ceil(batches/recipe.maxCraftsPerRun),perRun:recipe.maxCraftsPerRun};
 }
 export function calculate(recipe,quantity){
   if(!Number.isSafeInteger(quantity)||quantity<1||quantity>MAX_QUANTITY)throw new Error('Enter a whole number from 1 to 1,000,000.');
