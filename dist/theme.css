@@ -390,6 +390,12 @@ a.button{text-decoration:none}
 .item-link:hover,.item-link:focus-visible{background:var(--panel-2);border-color:var(--accent)}
 .used-in{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:18px}
 .used-in .eyebrow,.used-in p{margin:0}
+.used-in-recipes{margin-bottom:20px;padding:24px 26px;border:1px solid var(--line);border-radius:20px;background:var(--panel)}
+.used-in-recipes details{border-top:1px solid var(--line);padding:12px 0}
+.used-in-recipes summary{cursor:pointer;font-weight:600}
+.used-in-recipes summary small{margin-left:6px;color:var(--muted);font-weight:500}
+.used-in-recipes .item-links{margin-top:12px}
+.used-in-recipes .item-link{font:inherit;font-size:.85rem;min-height:0}
 .item-picker{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .item-picker legend{font-size:.875rem;font-weight:600;padding:0 6px}
 .item-picker label{display:flex;align-items:center;gap:8px;font-weight:500}
