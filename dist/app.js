@@ -1,5 +1,5 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme} from './core.js?v=13';
-import {renderBusiness,configureBusiness} from './business.js?v=8';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme} from './core.js?v=14';
+import {renderBusiness,configureBusiness} from './business.js?v=9';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
 const PLAN_KEY='zephyr-plan';
