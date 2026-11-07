@@ -5,6 +5,20 @@ export const AMMO_METHODS={mainland:'Mainland',cayo:'Cayo'};
 // Chapters of every written guide (substances, gathering and heists), in display order.
 export const GUIDE_SECTIONS={overview:'Overview',requirements:'Before you start',locations:'Locations',steps:'Step-by-step guide',tips:'Tips & notes'};
 export const GUIDE_TEXT_FIELDS=Object.keys(GUIDE_SECTIONS);
+// Looks a visitor can pick. Each has a block of colours in theme.css; `color` is its sidebar colour, which the browser paints around the page.
+export const THEMES=[
+ {id:'zephyr',name:'Zephyr',note:'The guide’s own look: deep slate and teal.',scheme:'dark',color:'#0f1519'},
+ {id:'light',name:'Light',note:'Clean and bright for daytime.',scheme:'light',color:'#ffffff'},
+ {id:'midnight',name:'Midnight',note:'Pure black for OLED screens.',scheme:'dark',color:'#060809'},
+ {id:'nord',name:'Nord',note:'Cool arctic blues.',scheme:'dark',color:'#292e39'},
+ {id:'dracula',name:'Dracula',note:'Purple on charcoal.',scheme:'dark',color:'#21222c'},
+ {id:'solarized-dark',name:'Solarized Dark',note:'Low-glare teal on deep blue.',scheme:'dark',color:'#00232d'},
+ {id:'solarized-light',name:'Solarized Light',note:'Warm paper tones.',scheme:'light',color:'#f4ecd7'},
+ {id:'contrast',name:'High contrast',note:'Black, white and bold colours.',scheme:'dark',color:'#000000'},
+];
+export const SYSTEM_THEME='system';
+// Turns a saved choice into a theme id: `system` follows the device, and anything unknown is the default look.
+export function resolveTheme(choice,prefersLight=false){if(choice===SYSTEM_THEME)return prefersLight?'light':'zephyr';return THEMES.some(t=>t.id===choice)?choice:THEMES[0].id;}
 export const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const fmt=n=>n.toLocaleString('en-AU');
 // Every page has an address: #category, or #category/selection for a recipe, tier, method, guide section, heist guide or location.
