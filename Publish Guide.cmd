@@ -47,8 +47,15 @@ if not defined CHANGED goto push
 echo.
 set "MSG="
 set /p "MSG=Describe your change (or press Enter for "Update guide"): "
+set "TYPED="
+if defined MSG set "TYPED=1"
 if not defined MSG set "MSG=Update guide"
 set "MSG=%MSG:"='%"
+
+rem Put the description into What's new on the site, unless you already edited the changelog yourself.
+set "CHANGELOG_EDITED="
+for /f "delims=" %%L in ('git status --porcelain dist/data/changelog.json') do set "CHANGELOG_EDITED=1"
+if defined TYPED if defined GUIDE_NODE if not defined CHANGELOG_EDITED "%GUIDE_NODE%" scripts\add-change.mjs "%MSG%"
 
 git add -A
 git commit -q -m "%MSG%"

@@ -1,0 +1,113 @@
+[
+  {
+    "id": "2026-11-07-whats-new",
+    "date": "2026-11-07",
+    "title": "A What's new button so you can see what changed",
+    "notes": [
+      "This list. The badge on What's new counts the changes you have not opened yet."
+    ]
+  },
+  {
+    "id": "2026-11-07-search-links-saved-plan",
+    "date": "2026-11-07",
+    "title": "Search, shareable links and a crafting plan that sticks around",
+    "notes": [
+      "Search the guide for a recipe, guide, bench or postcode. Press / to start typing.",
+      "Every recipe, tier, guide and location has its own address, so you can send someone a link straight to it.",
+      "Your crafting plan is saved on your device and survives a refresh. There is a Clear plan button when you are done.",
+      "Adding to the plan shows a confirmation at the bottom of the screen with a View plan shortcut.",
+      "Photos load much faster, and on phones only the section menu stays pinned while you scroll."
+    ]
+  },
+  {
+    "id": "2026-11-07-smelting-overhaul",
+    "date": "2026-11-07",
+    "title": "Smelting overhaul",
+    "notes": [
+      "Tell the smelter what you have or what you need. Quick amounts, a coal limit and an other-method switch make it faster to plan a run.",
+      "Each smelted item now shows where it is used across the guide.",
+      "The Smelting page matches the rest of the guide."
+    ]
+  },
+  {
+    "id": "2026-11-05-scrap-yard-12-gauge",
+    "date": "2026-11-05",
+    "title": "Scrap Yard gathering guide and Mainland 12 Gauge",
+    "notes": [
+      "Gathering has a Scrap Yard guide with the postal 954 map.",
+      "12 Gauge joins the Mainland ammo recipes."
+    ]
+  },
+  {
+    "id": "2026-11-01-metal-detecting-attachments",
+    "date": "2026-11-01",
+    "title": "Metal Detecting guide and updated attachments",
+    "notes": [
+      "Gathering has a Metal Detecting guide with the beach map.",
+      "Attachment recipes were updated and the Extended Rifle Clip was added."
+    ]
+  },
+  {
+    "id": "2026-10-30-cayo-bench-gathering",
+    "date": "2026-10-30",
+    "title": "Cayo ammo bench and the Gathering section",
+    "notes": [
+      "The Cayo ammo bench has its map and photo, with a rob zone warning so you know the risk before you go.",
+      "A Gathering materials section with a tab for each method."
+    ]
+  },
+  {
+    "id": "2026-10-29-heist-bench-924",
+    "date": "2026-10-29",
+    "title": "Heist crafting bench at postal 924",
+    "notes": [
+      "Thermite Bomb, Big Bomb, C4 Explosive and Big Drill at the 924 bench in Harmony.",
+      "Silver smelting now uses Silver Ore.",
+      "Guide missing something? sends a Discord DM to uxmbra."
+    ]
+  },
+  {
+    "id": "2026-10-27-weapon-tiers-cayo-ammo",
+    "date": "2026-10-27",
+    "title": "Weapon tiers and Cayo ammo",
+    "notes": [
+      "Tier 1 (postal 817) and Tier 2 (postal 54) weapon recipes with bench photos and maps.",
+      "The Tier 3 bench at postal 2008 has its map and photo.",
+      "Ammo crafting is split into Mainland and Cayo, with all seven Cayo recipes."
+    ]
+  },
+  {
+    "id": "2026-10-23-melee-heist-items",
+    "date": "2026-10-23",
+    "title": "Melee items, heist items and heist guides",
+    "notes": [
+      "Melee recipes at the Chumash pier bench, postal 906.",
+      "Bolt Cutters, Thermite and the Electronic Kit under Heist items.",
+      "A Heist guides section that links to the items each job needs."
+    ]
+  },
+  {
+    "id": "2026-10-21-cocaine-guide",
+    "date": "2026-10-21",
+    "title": "Cocaine guide",
+    "notes": [
+      "A step-by-step Cocaine guide with island maps and the lab at postal 720."
+    ]
+  },
+  {
+    "id": "2026-10-20-new-look",
+    "date": "2026-10-20",
+    "title": "A new look for the guide",
+    "notes": [
+      "New layout, theme and buttons across the whole guide."
+    ]
+  },
+  {
+    "id": "2026-10-19-guide-live",
+    "date": "2026-10-19",
+    "title": "The guide goes live",
+    "notes": [
+      "Ammo recipes, the smelter, attachments and business crafting, with the crafting calculator and plan."
+    ]
+  }
+]

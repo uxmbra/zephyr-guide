@@ -23,6 +23,31 @@ export function resolveRoute(hash,guide,recipes){
   else if(category==='locations'&&guide.locations.some(l=>l.id===sub))route.location=sub;
   return route;
 }
+// The changelog is a list of entries, newest first, that the What's new button shows.
+export function validateChangelog(rows){
+  const fail=m=>{throw new Error(m);};
+  if(!Array.isArray(rows))fail('The changelog must be a list.');
+  const ids=new Set();let previous='9999-12-31';
+  for(const row of rows){
+    if(!row||typeof row!=='object'||Array.isArray(row))fail('Each change must be an object.');
+    if(typeof row.id!=='string'||!/^[a-z0-9-]+$/.test(row.id)||ids.has(row.id))fail('Each change needs a unique lowercase ID.');ids.add(row.id);
+    if(typeof row.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(row.date)||new Date(row.date+'T00:00:00Z').toISOString().slice(0,10)!==row.date)fail('Change dates must be real dates written YYYY-MM-DD.');
+    if(row.date>previous)fail('Changes must be listed newest first.');previous=row.date;
+    if(typeof row.title!=='string'||!row.title.trim())fail('Each change needs a title.');
+    if(row.notes!==undefined&&(!Array.isArray(row.notes)||row.notes.some(n=>typeof n!=='string'||!n.trim())))fail('Change notes must be a list of sentences.');
+    for(const key of Object.keys(row))if(!['id','date','title','notes'].includes(key))fail('Unknown change field: '+key);
+  }
+  return true;
+}
+// How many changes the visitor has not opened. A visitor who has never opened the list sees the last month as new;
+// after that, everything above the entry they last saw. If that entry was edited away, its date decides instead.
+export function unseenChanges(changelog,seen,today=new Date()){
+  if(!changelog.length)return 0;
+  if(seen&&typeof seen==='object'){const index=changelog.findIndex(e=>e.id===seen.id);return index>=0?index:changelog.filter(e=>e.date>String(seen.date||'')).length;}
+  const cutoff=new Date(today.getTime()-30*864e5).toISOString().slice(0,10);
+  return changelog.filter(e=>e.date>=cutoff).length;
+}
+export function formatDate(date){return new Date(date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
 // Finds recipes, guides and locations by name or postcode. Exact names first, then names that start with the query, then any match.
 export function searchGuide(query,guide,recipes,limit=8){
   const q=String(query||'').trim().toLowerCase();

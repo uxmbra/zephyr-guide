@@ -80,6 +80,8 @@ select{cursor:pointer}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:.68rem;font-weight:600;letter-spacing:.14em;color:var(--faint)}
 .top-actions{display:flex;align-items:center;gap:14px}
 .top-actions .quiet{font-size:.8rem;letter-spacing:0}
+.badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:7px;border-radius:999px;background:var(--gold);color:var(--ink);font-size:.68rem;font-weight:800;line-height:1;letter-spacing:0}
+#whats-new:not(:has(.badge[hidden])){color:var(--text)}
 .slash{margin:0 10px;color:var(--line-strong)}
 #breadcrumb{color:var(--muted)}
 .edition{padding:4px 9px;border:1px solid var(--line);border-radius:999px;color:var(--faint)}
@@ -261,6 +263,16 @@ dialog p{line-height:1.7}
 .dialog-heading{display:flex;justify-content:space-between;align-items:start;gap:15px}
 #photo-dialog{max-width:1200px}
 #feedback-dialog{max-width:520px}
+#changelog-dialog{max-width:640px}
+#changelog{margin-top:8px}
+.change{padding:18px 0;border-top:1px solid var(--line)}
+.change:first-child{border-top:0}
+.change-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:.75rem;color:var(--muted)}
+.change-meta .tag{padding:3px 8px;font-size:.62rem}
+.change h3{margin:0 0 8px;font-size:1.05rem}
+.change.unread h3{color:var(--accent-strong)}
+.change ul{margin:0;padding-left:20px}
+.change li{margin:4px 0;line-height:1.65;color:var(--muted)}
 a.button{text-decoration:none}
 .feedback-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 #photo-dialog img{display:block;max-width:100%;max-height:72vh;margin:15px auto;border-radius:10px;object-fit:contain}
@@ -338,7 +350,9 @@ a.button{text-decoration:none}
   #navigation{padding:8px var(--gutter)}
   .brand-mark{width:36px;height:36px;border-radius:10px;font-size:1.2rem}
   .brand small{font-size:.55rem}
-  .topbar{padding-top:14px}
+  .topbar{padding-top:14px;flex-wrap:wrap;gap:4px 10px}
+  .top-actions{gap:2px;margin-left:auto}
+  .top-actions .quiet{padding:8px;white-space:nowrap}
   .edition{display:none}
   main{padding-top:18px}
   .page-heading{margin-bottom:20px}
@@ -388,6 +402,8 @@ a.button{text-decoration:none}
   .photo-slot img{transition:transform .25s}
   #content>*,#ammo-methods,#weapon-tiers,#substance-sections,#gathering-methods,#search-results{animation:rise .35s ease-out both}
   .toast{animation:lift .25s ease-out both}
+  .badge{animation:pulse 1.6s ease-out 3}
+  @keyframes pulse{40%{box-shadow:0 0 0 6px #f4b86040}}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}}
   @keyframes lift{from{opacity:0;transform:translateY(8px)}}
 }
