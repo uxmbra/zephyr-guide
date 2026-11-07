@@ -117,6 +117,12 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .method-pick>span{display:block;font-size:.85rem;color:var(--muted)}
 .method-pick .mode-switch{margin-top:8px}
 .method-row .run-limit{grid-column:1/-1;margin:0}
+.quick-amounts{display:flex;gap:6px;margin:8px 0 14px}
+.quick-amounts button{flex:1;min-height:34px;padding:6px 10px;font-size:.8rem}
+.available-controls label .muted{font-weight:400}
+.limit-note{margin:-6px 0 16px;padding:10px 14px;border-left:3px solid var(--gold-line);background:var(--gold-soft);border-radius:8px;color:#f8d7a6;font-size:.85rem}
+.other-method{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.other-method button{display:block;width:100%;text-align:left;margin-top:6px;padding:10px 14px;font-size:.85rem;font-weight:500}
 .recipe-facts{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:12px;font-size:.75rem;color:var(--muted)}
 .recipe-facts>*{flex:1 1 120px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#0e141880}
 .recipe-facts strong{display:block;margin-top:4px;font-size:1rem;font-weight:700;color:var(--text)}
