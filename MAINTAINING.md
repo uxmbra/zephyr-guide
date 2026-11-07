@@ -52,6 +52,13 @@ Every page has its own address, so links can point straight at a recipe, tier, g
 
 An unknown ID falls back to the section it names, and an unknown section falls back to the first one.
 
+## Themes
+
+The **Theme** button offers the looks listed in `THEMES` in `dist/core.js`. Each one is a block in `dist/theme.css` such as `[data-theme=nord]{...}` that sets about twenty base colours (`--bg`, `--panel`, `--accent`, `--gold` and so on); every tint, border and shadow is derived from those, so the rest of the stylesheet never names a colour.
+
+- To add a theme, copy a block, give it a new id, and add a line to `THEMES` with the same id and its `--sidebar` colour. The tests check that the two lists match.
+- When writing new styles, use `var(--…)` rather than a colour code. The tests refuse a hard-coded colour, because it would look wrong in every other theme.
+
 ## Running the tests
 
     node --test tests/*.test.mjs

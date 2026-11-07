@@ -1,9 +1,10 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate} from './core.js?v=12';
-import {renderBusiness,configureBusiness} from './business.js?v=7';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme} from './core.js?v=13';
+import {renderBusiness,configureBusiness} from './business.js?v=8';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
 const PLAN_KEY='zephyr-plan';
 const CHANGELOG_KEY='zephyr-changelog-seen';
+const THEME_KEY='zephyr-theme';
 let changelog=[];
 let guide,recipes=[],category='ammo',selectedId,quantity=60,plan=[],inventory={},editorTab='photos';
 let smeltMode=(()=>{try{return localStorage.getItem('smeltMode')==='target'?'target':'available';}catch{return 'available';}})(),availableAmount=null,availableItemId='',availableCoal=null;
@@ -275,6 +276,20 @@ function openChangelog(){
 }
 $('#whats-new').onclick=openChangelog;
 loadChangelog();
+// Themes: a script in the page head applies the saved choice before the first paint, so there is no flash. Here the picker is
+// drawn, a pick is saved and applied at once, and the browser's own colour (theme-color) is kept in step.
+const lightScheme=matchMedia('(prefers-color-scheme:light)');
+function themeChoice(){try{const c=localStorage.getItem(THEME_KEY);return c===SYSTEM_THEME||THEMES.some(t=>t.id===c)?c:THEMES[0].id;}catch{return THEMES[0].id;}}
+function applyTheme(choice){const id=resolveTheme(choice,lightScheme.matches);document.documentElement.dataset.theme=id;$('meta[name=theme-color]').content=THEMES.find(t=>t.id===id).color;document.querySelectorAll('[data-pick]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.pick===choice)));}
+function swatch(id){return `<span class="swatch" data-theme="${id}" aria-hidden="true"><i><b></b><b></b><b></b></i><i><b class="sw-text"></b><b class="sw-muted"></b><b class="sw-accent"></b><b class="sw-gold"></b></i></span>`;}
+function renderThemes(){
+  $('#theme-options').innerHTML=[...THEMES.map(t=>`<button type="button" class="theme-option" data-pick="${t.id}">${swatch(t.id)}<div><strong>${esc(t.name)}</strong><small>${esc(t.note)}</small></div></button>`),`<button type="button" class="theme-option" data-pick="${SYSTEM_THEME}"><span class="swatch split" aria-hidden="true">${swatch('zephyr')}${swatch('light')}</span><div><strong>Match my device</strong><small>Zephyr when your device is set to dark, Light when it is set to light.</small></div></button>`].join('');
+  document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{try{localStorage.setItem(THEME_KEY,b.dataset.pick);}catch{}applyTheme(b.dataset.pick);});
+  applyTheme(themeChoice());
+}
+renderThemes();
+$('#theme-button').onclick=()=>$('#theme-dialog').showModal();
+lightScheme.addEventListener('change',()=>{if(themeChoice()===SYSTEM_THEME)applyTheme(SYSTEM_THEME);});
 // The data editor is for maintainers only: open the guide with ?edit to show it.
 $('#manage').hidden=!new URLSearchParams(location.search).has('edit');
 $('#manage').onclick=()=>{if(!guide)return;renderEditor();$('#manager').showModal();};

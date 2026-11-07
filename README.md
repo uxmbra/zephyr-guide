@@ -47,6 +47,7 @@ Heist guides and generic items are on the way.
 - **Search.** Type a recipe, guide, bench or postcode and jump straight to it. Press `/` to start typing.
 - **Shareable links.** Every recipe, tier, guide and location has its own address, so you can send a mate a link straight to the Cayo 9mm recipe or the smelter.
 - **What's new.** A changelog of every update to the guide, with a badge for the changes you haven't read yet.
+- **Themes.** Pick a look from the Theme button: the guide's own dark look, Light, Midnight, Nord, Dracula, Solarized or High contrast, or match your device. Saved on your device.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
 - **Maps and photos.** Tap any picture to enlarge it.
 - **Works on your phone.** Keep it open on a second screen or your phone while you play.

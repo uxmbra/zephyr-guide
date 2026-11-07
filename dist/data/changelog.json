@@ -1,5 +1,14 @@
 [
   {
+    "id": "2026-11-07-pick-a-theme",
+    "date": "2026-11-07",
+    "title": "Pick a theme",
+    "notes": [
+      "A new Theme button at the top of the page offers the guide’s usual dark look, Light, Midnight (pure black), Nord, Dracula, Solarized Dark and Light, and High contrast.",
+      "Choose Match my device to follow your phone or PC’s dark or light setting. Your pick is saved on this device."
+    ]
+  },
+  {
     "id": "2026-11-07-whats-new",
     "date": "2026-11-07",
     "title": "A What's new button so you can see what changed",
