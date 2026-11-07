@@ -200,14 +200,23 @@ function setupAvailableMode(){
   if(smeltMode!=='available')return;
   $('.calc-body').classList.add('available-mode');
   $('label[for="quantity"]').hidden=true;$('.quantity-row').hidden=true;
-  $('.calc-body').insertAdjacentHTML('afterbegin',`<div class="available-controls"><label for="available-item">Ore or item you have</label><select id="available-item">${r.ingredients.map(i=>`<option value="${esc(i.itemId)}" ${i.itemId===availableItemId?'selected':''}>${esc(itemName(i.itemId))}</option>`).join('')}</select><label for="available-quantity">Amount available</label><input id="available-quantity" type="number" min="0" max="1000000" step="1" inputmode="numeric" value="${availableAmount}" aria-describedby="available-help"><div class="quick-amounts" role="group" aria-label="Quick amounts">${[100,500,1000].map(n=>`<button type="button" data-amount="${n}">${fmt(n)}</button>`).join('')}</div>${hasCoal(r)?`<label for="available-coal">Coal Ore you have <span class="muted">(optional)</span></label><input id="available-coal" type="number" min="0" max="1000000" step="1" inputmode="numeric" placeholder="Leave blank if you have plenty" value="${availableCoal??''}">`:''}<p class="fine" id="available-help">Full crafts only. ${hasCoal(r)?'Add your coal to see which runs out first.':'Other ingredients are requirements, not limits.'} Choose any ingredient to calculate from it.</p></div>`);
+  $('.calc-body').insertAdjacentHTML('afterbegin',`<div class="available-controls"><label for="available-item">Ore or item you have</label><select id="available-item">${r.ingredients.map(i=>`<option value="${esc(i.itemId)}" ${i.itemId===availableItemId?'selected':''}>${esc(itemName(i.itemId))}</option>`).join('')}</select><label for="available-quantity">Amount available</label><input id="available-quantity" type="number" min="0" max="1000000" step="1" inputmode="numeric" value="${availableAmount}" aria-describedby="available-help"><div class="quick-amounts" role="group" aria-label="Quick amounts">${[100,500,1000].map(n=>`<button type="button" data-amount="${n}">${fmt(n)}</button>`).join('')}</div>${hasCoal(r)?`<label for="available-coal">Coal Ore you have <span class="muted">(optional)</span></label><input id="available-coal" type="number" min="0" max="1000000" step="1" inputmode="numeric" placeholder="Leave blank if you have plenty" value="${availableCoal??''}"><div id="coal-match" class="coal-match" aria-live="polite"></div>`:''}<p class="fine" id="available-help">Full crafts only. ${hasCoal(r)?'Add your coal to see which runs out first.':'Other ingredients are requirements, not limits.'} Choose any ingredient to calculate from it.</p></div>`);
   document.querySelectorAll('[data-amount]').forEach(b=>b.onclick=()=>{availableAmount=Number(b.dataset.amount);$('#available-quantity').value=availableAmount;$('#available-quantity').removeAttribute('aria-invalid');updateCalculation();});
   if($('#available-coal'))$('#available-coal').oninput=e=>{availableCoal=e.target.value===''?null:Number(e.target.value);updateCalculation();};
   $('#available-item').onchange=e=>{availableItemId=e.target.value;availableAmount=r.ingredients.find(i=>i.itemId===availableItemId).quantity;$('#available-quantity').value=availableAmount;updateCalculation();};
   $('#available-quantity').oninput=e=>{availableAmount=e.target.value===''?NaN:Number(e.target.value);updateCalculation();};
 }
 function hasCoal(r){return r.ingredients.some(i=>i.itemId==='coal-ore')&&availableItemId!=='coal-ore';}
+function updateCoalMatch(){
+  const box=$('#coal-match');if(!box)return;
+  const r=recipe(),coal=r.ingredients.find(i=>i.itemId==='coal-ore'),input=r.ingredients.find(i=>i.itemId===availableItemId);
+  if(availableCoal===null||!Number.isSafeInteger(availableCoal)||availableCoal<0||availableCoal>MAX_QUANTITY||!coal||!input){box.innerHTML='';return;}
+  const crafts=Math.floor(availableCoal/coal.quantity),match=crafts*input.quantity;
+  box.innerHTML=crafts?`<span>Your coal covers <strong>${fmt(match)} ${esc(itemName(input.itemId))}</strong> (${fmt(crafts)} ${crafts===1?'craft':'crafts'}, ${fmt(crafts*r.outputQuantity)} ${esc(r.outputName||r.name)})</span>${match!==availableAmount&&match<=MAX_QUANTITY?`<button type="button" id="use-coal-match">Use ${fmt(match)}</button>`:''}`:`<span>Not enough coal for one craft. Each craft needs ${fmt(coal.quantity)} Coal Ore.</span>`;
+  $('#use-coal-match')?.addEventListener('click',()=>{availableAmount=match;$('#available-quantity').value=match;$('#available-quantity').removeAttribute('aria-invalid');updateCalculation();$('#available-quantity').focus();});
+}
 function updateAvailable(){
+  updateCoalMatch();
   try{
     const coalLimit=hasCoal(recipe())&&availableCoal!==null?{'coal-ore':availableCoal}:{};
     const r=calculateAvailable(recipe(),availableItemId,availableAmount,coalLimit),coal=r.materials.find(i=>i.itemId==='coal-ore');
