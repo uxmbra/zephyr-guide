@@ -27,6 +27,21 @@ From this folder in Git Bash:
 - **The site didn't change:** open the Actions tab and check the latest "Publish guide" run, then hard-refresh the site with Ctrl+F5.
 - **Changed a CSS or JS file:** raise the `?v=` number on its link in `dist/index.html` (for example `theme.css?v=2` to `theme.css?v=3`) so visitors' browsers fetch the new file instead of a cached copy.
 
+## Images
+
+Save screenshots as WebP, around 1600 px wide and under 1.5 MB. The tests refuse anything larger, and flag an image that no location, bench or guide points at. Reference images from the JSON as `images/<name>.webp`.
+
+## Links to pages
+
+Every page has its own address, so links can point straight at a recipe, tier, guide or location:
+
+- `#smelting/smelting-brass` — a recipe (the section, then the recipe ID)
+- `#weapons/tier-2` or `#ammo/cayo` — a weapon tier or ammo method
+- `#substances/cocaine`, `#gathering/scrap-yard`, `#heist-guides/<guide-id>` — a written guide
+- `#locations/smelter-174` — one entry on the Locations page
+
+An unknown ID falls back to the section it names, and an unknown section falls back to the first one.
+
 ## Running the tests
 
     node --test tests/*.test.mjs

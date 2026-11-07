@@ -8,7 +8,7 @@ test('server serves assets and handles errors without exposing project files',as
   try{
     const home=await fetch(base);assert.equal(home.status,200);assert.match(await home.text(),/Zephyr RP/);assert.equal(home.headers.get('cache-control'),'no-store');
     const data=await fetch(base+'/data/guide.json');assert.equal(data.status,200);assert.ok((await data.json()).categories.length);
-    const img=await fetch(base+'/images/mainland-938-map.png',{method:'HEAD'});assert.equal(img.status,200);assert.equal(img.headers.get('content-type'),'image/png');assert.ok(Number(img.headers.get('content-length'))>0);assert.equal(await img.text(),'');
+    const img=await fetch(base+'/images/mainland-938-map.webp',{method:'HEAD'});assert.equal(img.status,200);assert.equal(img.headers.get('content-type'),'image/webp');assert.ok(Number(img.headers.get('content-length'))>0);assert.equal(await img.text(),'');
     for(const target of ['/README.md','/server.mjs','/missing.png'])assert.equal((await fetch(base+target)).status,404);
     assert.equal((await fetch(base+'/.openai/hosting.json')).status,403);
     assert.equal((await fetch(base+'/%2e%2e%5cREADME.md')).status,403);
