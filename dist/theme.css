@@ -152,6 +152,8 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .method-row .run-limit{grid-column:1/-1;margin:0}
 .quick-amounts{display:flex;gap:6px;margin:8px 0 14px}
 .quick-amounts button{flex:1;min-height:34px;padding:6px 10px;font-size:.8rem}
+.coal-match:not(:empty){display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin:8px 0 4px;padding:10px 14px;border:1px solid var(--gold-line);border-radius:12px;background:var(--gold-soft);color:var(--gold-text);font-size:.85rem}
+.coal-match button{min-height:32px;padding:6px 12px;font-size:.8rem}
 .available-controls label .muted{font-weight:400}
 .limit-note{margin:-6px 0 16px;padding:10px 14px;border-left:3px solid var(--gold-line);background:var(--gold-soft);border-radius:8px;color:var(--gold-text);font-size:.85rem}
 .other-method{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
