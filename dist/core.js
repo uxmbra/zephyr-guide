@@ -7,7 +7,8 @@ export const GUIDE_SECTIONS={overview:'Overview',requirements:'Before you start'
 export const GUIDE_TEXT_FIELDS=Object.keys(GUIDE_SECTIONS);
 // Looks a visitor can pick. Each has a block of colours in theme.css; `color` is its sidebar colour, which the browser paints around the page.
 export const THEMES=[
- {id:'zephyr',name:'Zephyr',note:'The guide’s own look: deep slate and teal.',scheme:'dark',color:'#0f1519'},
+ {id:'zephyr',name:'Zephyr',note:'The city’s own colours: deep purple and violet.',scheme:'dark',color:'#120d1f'},
+ {id:'slate',name:'Slate',note:'The guide’s earlier look: deep slate and teal.',scheme:'dark',color:'#0f1519'},
  {id:'light',name:'Light',note:'Clean and bright for daytime.',scheme:'light',color:'#ffffff'},
  {id:'midnight',name:'Midnight',note:'Pure black for OLED screens.',scheme:'dark',color:'#060809'},
  {id:'nord',name:'Nord',note:'Cool arctic blues.',scheme:'dark',color:'#292e39'},
