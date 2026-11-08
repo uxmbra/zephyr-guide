@@ -162,7 +162,8 @@ function renderPage(){
   if($('#recipe-variant'))$('#recipe-variant').onchange=e=>{selectRecipe(e.target.value);$('#recipe-variant').focus();};
   if(category==='smelting')setupAvailableMode();
   $('#quantity').oninput=e=>{quantity=Number(e.target.value);updateCalculation();};
-  $('#decrement').onclick=()=>{quantity=Math.max(1,(Number.isSafeInteger(quantity)?quantity:1)-recipe().outputQuantity);$('#quantity').value=quantity;updateCalculation();};
+  $('#quantity').onchange=()=>{if(category!=='ammo'||!Number.isSafeInteger(quantity)||quantity<1)return;const per=recipe().outputQuantity;quantity=Math.min(Math.ceil(quantity/per)*per,Math.floor(MAX_QUANTITY/per)*per);$('#quantity').value=quantity;updateCalculation();};
+  $('#decrement').onclick=()=>{quantity=Math.max(category==='ammo'?recipe().outputQuantity:1,(Number.isSafeInteger(quantity)?quantity:1)-recipe().outputQuantity);$('#quantity').value=quantity;updateCalculation();};
   $('#increment').onclick=()=>{quantity=Math.min(MAX_QUANTITY,(Number.isSafeInteger(quantity)?quantity:0)+recipe().outputQuantity);$('#quantity').value=quantity;updateCalculation();};
   $('#add-plan').onclick=()=>{try{const plannedQuantity=category==='smelting'&&smeltMode==='available'?calculateAvailable(recipe(),availableItemId,availableAmount).output:quantity;calculate(recipe(),plannedQuantity);const found=plan.find(p=>p.recipeId===selectedId);if(found){calculate(recipe(),found.quantity+plannedQuantity);found.quantity+=plannedQuantity;}else plan.push({recipeId:selectedId,quantity:plannedQuantity});renderPlan();toast('Added '+recipe().name+' to your crafting plan.',{label:'View plan',action:()=>$('#plan').scrollIntoView()});}catch(e){status(e.message,true);}};
   document.querySelectorAll('[data-goto-recipe]').forEach(b=>b.onclick=()=>gotoRecipe(b.dataset.gotoRecipe));
