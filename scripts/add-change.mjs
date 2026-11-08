@@ -1,8 +1,6 @@
 // Adds an entry to the top of dist/data/changelog.json, the list behind the guide's What's new button.
 //
 //   node scripts/add-change.mjs "Title players will read" ["One note per argument" ...]
-//
-// Publish Guide.cmd runs this with the change description you type, unless you edited the changelog yourself.
 import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import path from 'node:path';

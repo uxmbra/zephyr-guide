@@ -1,7 +1,1 @@
 node_modules/
-.sites-runtime/
-*.tar.gz
-.openai/
-.DS_Store
-Thumbs.db
-desktop.ini
