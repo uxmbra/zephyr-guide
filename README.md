@@ -60,6 +60,8 @@ Just visit **[uxmbra.github.io/zephyr-guide](https://uxmbra.github.io/zephyr-gui
 
 Recipes change and new things get added to the city all the time. If a recipe looks off, a bench has moved, or you know something the guide doesn't, let us know and we'll get it updated.
 
+**[Report a problem →](https://github.com/uxmbra/zephyr-guide/issues/new?template=report-a-problem.yml)** (takes about a minute; screenshots welcome)
+
 <br>
 
 <div align="center">

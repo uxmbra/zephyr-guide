@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Open the guide
+    url: https://uxmbra.github.io/zephyr-guide/
+    about: Looking for a recipe? The guide itself is here.

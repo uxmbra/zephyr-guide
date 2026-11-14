@@ -1,0 +1,64 @@
+name: Report something wrong
+description: A recipe looks off, a bench has moved, or something's missing from the guide.
+title: "[Fix]: "
+labels: ["guide fix"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the guide accurate! Fill in what you can. Even a rough note helps.
+
+  - type: dropdown
+    id: section
+    attributes:
+      label: Which part of the guide?
+      options:
+        - Ammo
+        - Weapons
+        - Substances
+        - Attachments
+        - Heist items
+        - Melee
+        - Gathering materials
+        - Smelting
+        - Business
+        - Locations & benches
+        - Something else
+    validations:
+      required: true
+
+  - type: input
+    id: item
+    attributes:
+      label: Which recipe, item or location?
+      description: Or paste the link to the page, e.g. https://uxmbra.github.io/zephyr-guide/#ammo/cayo
+      placeholder: Cayo 9mm
+    validations:
+      required: true
+
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What does the guide say?
+      placeholder: Needs 20 casings
+    validations:
+      required: false
+
+  - type: textarea
+    id: right
+    attributes:
+      label: What's actually right?
+      description: What you saw in the city. A screenshot is gold. Drag it straight into this box.
+      placeholder: It needs 25 casings now, checked today at the Cayo bench
+    validations:
+      required: true
+
+  - type: dropdown
+    id: confidence
+    attributes:
+      label: How sure are you?
+      options:
+        - I checked it myself in the city
+        - Someone told me / I think so
+    validations:
+      required: true
