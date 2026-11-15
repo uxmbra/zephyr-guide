@@ -43,14 +43,16 @@ Heist guides and generic items are on the way.
 
 - **Crafting calculator.** Say how many you need and the guide works out how many crafts it takes and every material to gather.
 - **"What can I make?"** Tell the smelter how much ore you've got and see what it turns into.
-- **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have. The plan is saved on your device, so it is still there after a refresh.
-- **Search.** Type a recipe, guide, bench or postcode and jump straight to it. Press `/` to start typing.
-- **Shareable links.** Every recipe, tier, guide and location has its own address, so you can send a mate a link straight to the Cayo 9mm recipe or the smelter.
+- **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have. The plan has its own page, amounts can be changed in the list, and it is saved on your device.
+- **Materials.** Look up any material to see how to get it and every recipe that uses it. Material names in the calculator and plan link straight there.
+- **Search.** Type a recipe, material, guide, bench or postcode and jump straight to it. Several words work too, such as "cayo 9mm". Press `/` to start typing.
+- **Shareable links.** Every recipe, tier, guide, material and location has its own address. Copy link grabs it, so you can send a mate straight to the Cayo 9mm recipe or the smelter.
+- **Copy a postcode.** Tap any postcode tag to copy the number for your GPS.
 - **What's new.** A changelog of every update to the guide, with a badge for the changes you haven't read yet.
 - **Themes.** Pick a look from the Theme button: Zephyr purple, Slate, Light, Midnight, Nord, Dracula, Solarized or High contrast, or match your device. Saved on your device.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
 - **Maps and photos.** Tap any picture to enlarge it.
-- **Works on your phone.** Keep it open on a second screen or your phone while you play.
+- **Works on your phone.** Keep it open on a second screen or your phone while you play, or add it to your home screen.
 
 ## How to open it
 

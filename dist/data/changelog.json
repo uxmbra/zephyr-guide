@@ -1,5 +1,34 @@
 [
   {
+    "id": "2026-11-15-materials-plan-page",
+    "date": "2026-11-15",
+    "title": "A Materials page, a plan you can edit, and quicker loading",
+    "notes": [
+      "New Materials page: pick any material to see how to get it and every recipe that uses it. Material names in the calculator and your plan link straight to it, and search finds materials too.",
+      "Your crafting plan has its own page. The Plan button at the top shows how many recipes are in it, and you can change an amount right in the list instead of removing and re-adding.",
+      "Tap a postcode tag to copy the number, and use Copy link to share the exact page you are on.",
+      "Search understands several words, so \"cayo 9mm\" or \"tier 2 vector\" finds the right recipe.",
+      "Going to another page and back keeps the amount you had typed in the calculator.",
+      "The guide loads faster, shows a proper preview when its link is posted in Discord, and can be added to your phone's home screen with its own icon."
+    ]
+  },
+  {
+    "id": "2026-11-08-ammo-full-crafts",
+    "date": "2026-11-08",
+    "title": "Ammo amounts round up to full crafts",
+    "notes": [
+      "When you finish typing an amount on an ammo recipe it rounds up to the next full craft, and the minus button stops at one craft."
+    ]
+  },
+  {
+    "id": "2026-11-07-coal-cover",
+    "date": "2026-11-07",
+    "title": "See how much ore your coal covers",
+    "notes": [
+      "On the Smelting calculator, enter the Coal Ore you have to see how much ore it will smelt, with a button to use that amount."
+    ]
+  },
+  {
     "id": "2026-11-07-pick-a-theme",
     "date": "2026-11-07",
     "title": "Pick a theme",

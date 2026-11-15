@@ -6,11 +6,16 @@
   <script>try{var t=localStorage.getItem('zephyr-theme');if(t==='system')t=matchMedia('(prefers-color-scheme:light)').matches?'light':'zephyr';if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
   <title>Zephyr City Field Guide</title>
   <meta name="description" content="Plan your next craft. Explore Zephyr RP recipes, calculate materials, and find crafting benches across the city.">
+  <meta property="og:type" content="website"><meta property="og:site_name" content="Zephyr City Field Guide"><meta property="og:title" content="Zephyr City Field Guide">
+  <meta property="og:description" content="Recipes, materials, maps and benches for Zephyr RP. Work out what you need, how long it takes and where to craft it.">
+  <meta property="og:url" content="https://uxmbra.github.io/zephyr-guide/"><meta property="og:image" content="https://uxmbra.github.io/zephyr-guide/social-card.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23a78bfa'/%3E%3Cpath d='M11 12h18L11 28h18' fill='none' stroke='%231b0b36' stroke-width='4'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="theme.css?v=18">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="theme.css?v=19">
   <link rel="stylesheet" href="business.css?v=3">
+  <link rel="modulepreload" href="app.js?v=24"><link rel="modulepreload" href="core.js?v=15"><link rel="modulepreload" href="business.js?v=10">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -22,15 +27,16 @@
     <button id="manage" class="quiet" hidden>Manage guide data</button>
   </aside>
   <div class="workspace">
-    <header class="topbar"><span>FIELD GUIDE <span class="slash">/</span> <span id="breadcrumb">CRAFTING</span></span><div class="top-actions"><button id="theme-button" class="quiet">Theme</button><button id="whats-new" class="quiet">What’s new<span id="whats-new-badge" class="badge" hidden></span></button><button id="reload" class="quiet">Reload data</button><span class="edition">ZRP / 01</span></div></header>
+    <header class="topbar"><span>FIELD GUIDE <span class="slash">/</span> <span id="breadcrumb">CRAFTING</span></span><div class="top-actions"><a id="plan-link" class="button quiet" href="#plan">Plan<span id="plan-count" class="badge count" hidden></span></a><button id="copy-link" class="quiet">Copy link</button><button id="theme-button" class="quiet">Theme</button><button id="whats-new" class="quiet">What’s new<span id="whats-new-badge" class="badge" hidden></span></button><button id="reload" class="quiet" hidden>Reload data</button><span class="edition">ZRP / 01</span></div></header>
     <main id="main" tabindex="-1">
       <div class="page-heading"><div><p class="eyebrow">YOUR CITY COMPANION</p><h1 id="page-title">Ammo crafting</h1><p id="page-description" class="muted">Choose a recipe, prepare your materials, find your bench.</p></div></div>
-      <div id="status" class="status" role="status" aria-live="polite">Loading guide…</div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
       <div id="ammo-methods" hidden></div>
       <div id="weapon-tiers" hidden></div>
       <div id="substance-sections" hidden></div>
       <div id="gathering-methods" hidden></div>
-      <div id="content"></div>
+      <div id="content"><p class="muted loading">Loading guide…</p></div>
+      <noscript><p class="muted">The guide needs JavaScript to load its recipes and calculators. Turn it on in your browser and refresh the page.</p></noscript>
       <footer><span>ZEPHYR RP <span class="slash">/</span> COMMUNITY FIELD GUIDE</span><span>Only supplied recipes. More city knowledge to come.</span></footer>
     </main>
   </div>
@@ -38,9 +44,9 @@
   <dialog id="theme-dialog"><div class="dialog-heading"><div><p class="eyebrow">APPEARANCE</p><h2>Pick a theme</h2></div><button class="close">Close</button></div><p class="muted">Try one and watch the guide change behind this window. Your pick is saved on this device.</p><div id="theme-options" class="theme-grid" role="group" aria-label="Themes"></div></dialog>
   <dialog id="changelog-dialog"><div class="dialog-heading"><div><p class="eyebrow">WHAT’S NEW</p><h2>Changes to the guide</h2></div><button class="close">Close</button></div><div id="changelog"></div></dialog>
   <dialog id="photo-dialog"><button class="close" aria-label="Close image">Close</button><img id="large-photo" alt=""><p id="photo-caption"></p></dialog>
-  <dialog id="feedback-dialog"><div class="dialog-heading"><div><p class="eyebrow">HELP KEEP IT CURRENT</p><h2>Guide missing something?</h2></div><button class="close">Close</button></div><p>Spotted a recipe, location or price that is missing or out of date? Send a Discord DM to <strong>uxmbra</strong> with what you saw and where, and the guide will get updated.</p><p class="feedback-actions"><a class="button" href="https://discord.com/users/430499301622546432" target="_blank" rel="noopener">Open Discord profile</a><button id="copy-discord" class="quiet" data-username="uxmbra">Copy Discord username</button><span id="copy-discord-status" class="muted" role="status"></span></p></dialog>
+  <dialog id="feedback-dialog"><div class="dialog-heading"><div><p class="eyebrow">HELP KEEP IT CURRENT</p><h2>Guide missing something?</h2></div><button class="close">Close</button></div><p>Spotted a recipe, location or price that is missing or out of date? Send a Discord DM to <strong>uxmbra</strong> with what you saw and where, or fill in the short report form (it needs a GitHub account), and the guide will get updated.</p><p class="feedback-actions"><a class="button" href="https://discord.com/users/430499301622546432" target="_blank" rel="noopener">Open Discord profile</a><a class="button" href="https://github.com/uxmbra/zephyr-guide/issues/new?template=report-a-problem.yml" target="_blank" rel="noopener">Open the report form</a><button id="copy-discord" class="quiet" data-username="uxmbra">Copy Discord username</button><span id="copy-discord-status" class="muted" role="status"></span></p></dialog>
   <dialog id="manager"><div class="dialog-heading"><div><p class="eyebrow">MAINTAINER WORKSPACE</p><h2>Keep the guide current.</h2></div><button class="close">Close</button></div><p>Preview edits in this tab, then export your data. Replace the matching files in <code>dist/data</code> and republish to update the shared guide.</p><p class="muted">This editor does not write to the live site. Reloading the page discards an unexported preview.</p><div id="editor-content"></div><div id="editor-status" role="status"></div></dialog>
-  <script type="module" src="app.js?v=23"></script>
+  <script type="module" src="app.js?v=24"></script>
   <script type="module" src="easter-egg.js?v=2"></script>
 </body>
 </html>

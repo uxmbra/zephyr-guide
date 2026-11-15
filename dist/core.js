@@ -22,10 +22,12 @@ export const SYSTEM_THEME='system';
 export function resolveTheme(choice,prefersLight=false){if(choice===SYSTEM_THEME)return prefersLight?'light':'zephyr';return THEMES.some(t=>t.id===choice)?choice:THEMES[0].id;}
 export const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const fmt=n=>n.toLocaleString('en-AU');
-// Every page has an address: #category, or #category/selection for a recipe, tier, method, guide section, heist guide or location.
+// Pages that are built from the data rather than listed as a category in guide.json.
+export const EXTRA_PAGES={locations:'Locations & benches',materials:'Materials',plan:'Crafting plan'};
+// Every page has an address: #category, or #category/selection for a recipe, tier, method, guide section, heist guide, location or material.
 export function resolveRoute(hash,guide,recipes){
   const [id,sub='']=String(hash||'').replace(/^#/,'').split('/');
-  const category=id==='locations'||guide.categories.some(c=>c.id===id)?id:guide.categories[0].id;
+  const category=Object.hasOwn(EXTRA_PAGES,id)||guide.categories.some(c=>c.id===id)?id:guide.categories[0].id;
   const route={category};
   if(!sub)return route;
   const recipe=recipes.find(r=>r.id===sub&&r.categoryId===category);
@@ -36,6 +38,7 @@ export function resolveRoute(hash,guide,recipes){
   else if(category==='gathering'&&Object.hasOwn(GATHERING_METHODS,sub))route.gathering=sub;
   else if(category==='heist-guides'&&(guide.heistGuides||[]).some(g=>g.id===sub))route.heistGuide=sub;
   else if(category==='locations'&&guide.locations.some(l=>l.id===sub))route.location=sub;
+  else if(category==='materials'&&guide.items.some(i=>i.id===sub))route.material=sub;
   return route;
 }
 // The changelog is a list of entries, newest first, that the What's new button shows.
@@ -63,9 +66,14 @@ export function unseenChanges(changelog,seen,today=new Date()){
   return changelog.filter(e=>e.date>=cutoff).length;
 }
 export function formatDate(date){return new Date(date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
-// Finds recipes, guides and locations by name or postcode. Exact names first, then names that start with the query, then any match.
+// Every material with the recipes that make it and the recipes that use it, sorted by name.
+export function materialIndex(guide,recipes){
+  return guide.items.map(item=>({id:item.id,name:item.name,madeBy:recipes.filter(r=>r.outputItemId===item.id),usedIn:recipes.flatMap(r=>{const i=r.ingredients.find(i=>i.itemId===item.id);return i?[{recipe:r,quantity:i.quantity}]:[];})})).sort((a,b)=>a.name.localeCompare(b.name,'en',{numeric:true}));
+}
+// Finds recipes, guides, locations and materials by name or postcode. Exact names first, then names that start with the query,
+// then any match. Several words match when every word appears in the name or its detail line, so "cayo 9mm" finds the Cayo recipe.
 export function searchGuide(query,guide,recipes,limit=8){
-  const q=String(query||'').trim().toLowerCase();
+  const q=String(query||'').trim().toLowerCase().replace(/\s+/g,' ');
   if(!q)return [];
   const categoryName=id=>guide.categories.find(c=>c.id===id)?.name||id;
   const entries=[];
@@ -74,8 +82,15 @@ export function searchGuide(query,guide,recipes,limit=8){
   for(const [id,name] of Object.entries(GATHERING_METHODS))entries.push({label:name,detail:'Gathering guide',hash:'#gathering/'+id,keys:[name]});
   for(const g of guide.heistGuides||[])entries.push({label:g.name,detail:'Heist guide',hash:'#heist-guides/'+g.id,keys:[g.name]});
   for(const l of guide.locations){const benches=guide.benches.filter(b=>b.locationId===l.id);entries.push({label:benches.length===1?benches[0].name:l.name,detail:'Location'+(l.postcode?' · postcode '+l.postcode:''),hash:'#locations/'+l.id,keys:[l.name,l.postcode,...benches.map(b=>b.name)]});}
-  const score=keys=>keys.reduce((best,key)=>{const value=String(key||'').toLowerCase();return Math.max(best,!value?0:value===q?3:value.startsWith(q)?2:value.includes(q)?1:0);},0);
-  return entries.map(({keys,...entry})=>({...entry,score:score(keys)})).filter(entry=>entry.score).sort((a,b)=>b.score-a.score).slice(0,limit).map(({score,...entry})=>entry);
+  for(const m of materialIndex(guide,recipes))entries.push({label:m.name,detail:'Material · used in '+m.usedIn.length+(m.usedIn.length===1?' recipe':' recipes'),hash:'#materials/'+m.id,keys:[m.name]});
+  const words=q.split(' ');
+  const score=entry=>{
+    const best=entry.keys.reduce((best,key)=>{const value=String(key||'').toLowerCase();return Math.max(best,!value?0:value===q?3:value.startsWith(q)?2:value.includes(q)?1:0);},0);
+    if(best||words.length<2)return best;
+    const text=[...entry.keys,entry.detail].join(' ').toLowerCase();
+    return words.every(word=>text.includes(word))?.5:0;
+  };
+  return entries.map(({keys,...entry})=>({...entry,score:score({keys,...entry})})).filter(entry=>entry.score).sort((a,b)=>b.score-a.score).slice(0,limit).map(({score,...entry})=>entry);
 }
 // limits: other ingredients the player has, e.g. {'coal-ore':200}. The scarcest one sets the number of crafts.
 export function calculateAvailable(recipe,itemId,available,limits={}){
