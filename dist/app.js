@@ -1,4 +1,4 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES} from './core.js?v=15';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES} from './core.js?v=16';
 import {renderBusiness,configureBusiness} from './business.js?v=10';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
@@ -12,7 +12,7 @@ let weaponTier=3;
 let ammoMethod='mainland';
 let substanceSection='meth';
 let heistGuideId;
-let gatheringMethod='bin-diving';
+let gatheringMethod='hobo-camps';
 let materialId;
 const EDITING=new URLSearchParams(location.search).has('edit');
 const hasGuideText=entry=>GUIDE_TEXT_FIELDS.some(key=>entry?.[key]?.trim());

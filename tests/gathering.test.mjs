@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {validateData} from '../dist/core.js';
+import {validateData,GATHERING_METHODS} from '../dist/core.js';
 const read=name=>JSON.parse(fs.readFileSync(new URL('../dist/data/'+name,import.meta.url)));
 const guide=read('guide.json');
 const withGathering=gatheringGuides=>({...guide,gatheringGuides});
@@ -11,6 +11,13 @@ test('metal detecting guide has its steps and its images exist',()=>{
  for(const key of ['overview','requirements','locations','steps'])assert.ok(metal[key].trim(),key);
  assert.equal(metal.steps.split('\n').length,7);
  for(const image of metal.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
+});
+test('hobo camps has its own tab beside bin diving, with every photo',()=>{
+ assert.deepEqual(Object.keys(GATHERING_METHODS).slice(0,2),['hobo-camps','bin-diving']);
+ const hobo=guide.gatheringGuides['hobo-camps'];
+ for(const key of ['overview','requirements','locations','steps','tips'])assert.ok(hobo[key].trim(),key);
+ assert.equal(hobo.images.length,8);
+ for(const image of hobo.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
 });
 test('scrap yard guide has its steps and its map exists',()=>{
  const scrap=guide.gatheringGuides['scrap-yard'];
