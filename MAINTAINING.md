@@ -13,7 +13,8 @@ The live site at https://uxmbra.github.io/zephyr-guide/ updates about a minute a
 
 - **Tests failed:** read the first failing test's message, fix the file it names, and push again. Nothing was published.
 - **The site didn't change:** open the Actions tab and check the latest "Publish guide" run, then hard-refresh the site with Ctrl+F5.
-- **Changed a CSS or JS file:** raise the `?v=` number on its link in `dist/index.html` (for example `theme.css?v=2` to `theme.css?v=3`) so visitors' browsers fetch the new file instead of a cached copy.
+- **Changed a CSS or JS file:** raise the `?v=` number everywhere that file is named (for example `theme.css?v=2` to `theme.css?v=3`) so visitors' browsers fetch the new file instead of a cached copy. `core.js` and `business.js` are named in `dist/index.html` and in the `import` lines of the scripts that use them; the tests fail if the numbers disagree.
+- **Checking new data on the live site:** refresh the page. Data files are re-checked on every visit, so no version number is needed for them. The **Reload data** button only shows in `?edit` mode.
 
 ## What's new (the changelog)
 
@@ -36,8 +37,20 @@ Every page has its own address, so links can point straight at a recipe, tier, g
 - `#weapons/tier-2` or `#ammo/cayo` — a weapon tier or ammo method
 - `#substances/cocaine`, `#gathering/scrap-yard`, `#heist-guides/<guide-id>` — a written guide
 - `#locations/smelter-174` — one entry on the Locations page
+- `#materials/steel` — one material on the Materials page (the item ID)
+- `#plan` — the visitor's own crafting plan
 
 An unknown ID falls back to the section it names, and an unknown section falls back to the first one.
+
+## Materials page
+
+The **Materials** page is built from the recipes, so it needs no upkeep: every item in `guide.json` appears with the recipes that use it. A material shows a "how to get it" link when a recipe names it as its `outputItemId` (the smelting recipes do).
+
+## Link previews, icons and the font
+
+- `dist/social-card.jpg` is the picture Discord and other apps show when the guide's link is posted. The address of the live site is written into the `og:` tags in `dist/index.html`; change it there if the site ever moves.
+- `dist/manifest.webmanifest` and `dist/icons/` let phones add the guide to the home screen with its own icon.
+- The typeface is served from `dist/fonts/` (with its licence beside it), so the guide does not load anything from another site.
 
 ## Themes
 

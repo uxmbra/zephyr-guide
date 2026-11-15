@@ -1,4 +1,6 @@
 /* Zephyr field guide theme: deep purple surfaces, violet accent, amber highlights. */
+/* The typeface is served from this site, so no other server is contacted and the first paint does not wait on one. */
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/plus-jakarta-sans-latin.woff2) format('woff2')}
 /* Colours live on custom properties so a theme is one block of about twenty base tokens; everything else is derived from them below.
    The Zephyr look is the default and also answers to data-theme="zephyr" so theme swatches can show it. */
 :root,[data-theme=zephyr]{color-scheme:dark;--bg:#0e0a17;--bg-glow:#2b1b4d;--sidebar:#120d1f;--panel:#181228;--panel-2:#1e1732;--raised:#2b2245;--raised-2:#211a38;--field:#100b1b;--media:#0c0814;--line:#2a2140;--line-strong:#3c315c;--text:#eee9f8;--muted:#a69dc2;--faint:#7a7098;--accent:#a78bfa;--accent-strong:#c4b5fd;--ink:#1b0b36;--gold:#f4b860;--danger:#ff9b8f;--shade:#000}
@@ -36,8 +38,8 @@ button:active{transform:translateY(1px)}
 button:disabled{opacity:.45;cursor:default;transform:none}
 .primary,.calculator .primary{background:linear-gradient(180deg,var(--accent-strong),var(--accent));color:var(--ink);border-color:transparent;font-weight:700;box-shadow:0 1px 0 var(--gloss-strong) inset,0 6px 18px -6px var(--accent-glow)}
 .primary:hover,.calculator .primary:hover{background:linear-gradient(180deg,var(--accent-bright),var(--accent-strong));border-color:transparent}
-.quiet{background:transparent;border-color:transparent;box-shadow:none;color:var(--muted);font-weight:500;padding:8px 12px}
-.quiet:hover{background:var(--hover);border-color:transparent;color:var(--text)}
+.quiet,a.button.quiet{background:transparent;border-color:transparent;box-shadow:none;color:var(--muted);font-weight:500;padding:8px 12px}
+.quiet:hover,a.button.quiet:hover{background:var(--hover);border-color:transparent;color:var(--text)}
 button[aria-pressed=true],.editor-tabs button.active{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-strong);box-shadow:0 0 0 1px var(--accent-line) inset}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
@@ -93,8 +95,14 @@ select{cursor:pointer}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:.68rem;font-weight:600;letter-spacing:.14em;color:var(--faint)}
 .top-actions{display:flex;align-items:center;gap:14px}
 .top-actions .quiet{font-size:.8rem;letter-spacing:0}
+/* Until the data arrives the page is held open, so the footer and menu do not jump when the content lands. */
+.loading{grid-column:1/-1;margin:0}
+#content:has(.loading){min-height:100vh}
+#plan.wide{grid-column:1/-1}
 .badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:7px;border-radius:999px;background:var(--gold);color:var(--ink);font-size:.68rem;font-weight:800;line-height:1;letter-spacing:0}
-#whats-new:not(:has(.badge[hidden])){color:var(--text)}
+#whats-new:not(:has(.badge[hidden])),#plan-link:not(:has(.badge[hidden])),#plan-link[aria-current]{color:var(--text)}
+.top-actions a[aria-current]{background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent-line) inset}
+.badge.count{background:var(--accent-soft);color:var(--accent-strong);box-shadow:0 0 0 1px var(--accent-line) inset;animation:none}
 .slash{margin:0 10px;color:var(--line-strong)}
 #breadcrumb{color:var(--muted)}
 .edition{padding:4px 9px;border:1px solid var(--line);border-radius:999px;color:var(--faint)}
@@ -111,7 +119,11 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .section-header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
 .section-header h2{margin:0}
 .section-header .muted{font-size:.85rem}
-.tag{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;border:1px solid var(--gold-line);background:var(--gold-soft);color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.08em;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--gold-line);background:var(--gold-soft);color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.08em;white-space:nowrap}
+
+button.tag{min-height:0;line-height:inherit;box-shadow:none;cursor:pointer}
+button.tag:hover{background:var(--gold-line);border-color:var(--gold);color:var(--gold-text)}
+.tag svg{width:12px;height:12px;flex:0 0 auto}
 
 /* Bench strip above each crafting page. */
 .warning-banner{grid-column:1/-1;display:flex;gap:12px;align-items:baseline;margin:0;padding:14px 18px;border:1px solid var(--danger-line);border-radius:var(--radius);background:var(--danger-soft);color:var(--text);line-height:1.6}
@@ -151,7 +163,7 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .method-pick .mode-switch{margin-top:8px}
 .method-row .run-limit{grid-column:1/-1;margin:0}
 .quick-amounts{display:flex;gap:6px;margin:8px 0 14px}
-.quick-amounts button{flex:1;min-height:34px;padding:6px 10px;font-size:.8rem}
+.quick-amounts button{flex:1;min-height:38px;padding:6px 10px;font-size:.8rem}
 .coal-match:not(:empty){display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin:8px 0 4px;padding:10px 14px;border:1px solid var(--gold-line);border-radius:12px;background:var(--gold-soft);color:var(--gold-text);font-size:.85rem}
 .coal-match button{min-height:32px;padding:6px 12px;font-size:.8rem}
 .available-controls label .muted{font-weight:400}
@@ -186,7 +198,9 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .calculator .primary{grid-column:1;width:100%;min-height:48px;margin-top:18px}
 .calculator .fine{grid-column:1;margin:16px 0 0}
 .per-craft{grid-column:1/-1;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:.875rem;color:var(--muted)}
-.per-craft summary{cursor:pointer;color:var(--accent);font-weight:600}
+.per-craft summary{cursor:pointer;color:var(--accent);font-weight:600;padding:8px 0}
+.material-link{color:inherit;text-decoration:underline dotted var(--line-hover);text-underline-offset:3px}
+.material-link:hover{color:var(--accent);text-decoration-color:currentColor}
 .per-craft .ingredients{display:grid;grid-template-columns:1fr 1fr;gap:10px 25px;margin:15px 0 0}
 .ingredients div{display:flex;justify-content:space-between;gap:8px}
 .ingredients dd{margin:0;color:var(--text)}
@@ -238,6 +252,10 @@ footer{display:flex;justify-content:space-between;gap:15px;color:var(--faint);fo
 .plan ul{list-style:none;margin:0 0 15px;padding:0}
 .plan li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
 .plan small{display:block;color:var(--muted);margin-top:4px}
+.plan li a{color:inherit;font-weight:600;text-decoration:underline dotted var(--line-hover);text-underline-offset:3px}
+.plan li a:hover{color:var(--accent)}
+.plan-entry{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.plan-entry input{width:92px;max-width:none;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
 .plan button{min-height:34px;padding:6px 12px;font-size:.8rem}
 .plan button[data-remove]:hover{border-color:var(--danger-line);color:var(--danger)}
 .plan table{width:100%;border-collapse:collapse;font-size:.875rem}
@@ -345,6 +363,15 @@ a.button{text-decoration:none}
   .topbar{padding:24px 0 0}
   main{padding:30px 0 30px}
 }
+/* Shorter screens: tighten the menu so every section and the feedback button fit without scrolling the sidebar. */
+@media(min-width:1001px) and (max-height:940px){
+  .sidebar{gap:14px;padding-top:18px;padding-bottom:14px}
+  #navigation{gap:1px}
+  #navigation a{padding:5px 12px}
+  #navigation a.active::before{top:7px;bottom:7px}
+  .nav-icon{flex-basis:30px;height:30px}
+  .nav-icon svg{width:17px;height:17px}
+}
 @media(min-width:1001px) and (max-width:1250px){
   #content{grid-template-columns:minmax(0,1fr)}
   .workspace{padding:0 28px}
@@ -362,6 +389,7 @@ a.button{text-decoration:none}
   #manage{grid-area:manage;width:auto;margin:10px var(--gutter) 0}
   #navigation{grid-area:nav;position:sticky;top:0;z-index:10;flex-direction:row;gap:6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0;padding:10px var(--gutter);background:var(--glass);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   #navigation::-webkit-scrollbar{display:none}
+  #navigation:empty{min-height:63px}
   #navigation a{flex:0 0 auto;gap:8px;padding:6px 12px 6px 6px;border-color:var(--line);border-radius:999px;background:var(--panel);white-space:nowrap;scroll-snap-align:center}
   #navigation a.active::before{display:none}
   #navigation a.active{border-color:var(--accent-line)}
@@ -385,6 +413,7 @@ a.button{text-decoration:none}
   #feedback{margin-top:12px}
   #search{margin-top:10px}
   #navigation{padding:8px var(--gutter)}
+  #navigation:empty{min-height:59px}
   .brand-mark{width:36px;height:36px;border-radius:10px;font-size:1.2rem}
   .brand small{font-size:.55rem}
   .topbar{padding-top:14px;flex-wrap:wrap;gap:4px 10px}
@@ -458,10 +487,37 @@ a.button{text-decoration:none}
 .used-in .eyebrow,.used-in p{margin:0}
 .used-in-recipes{margin-bottom:20px;padding:24px 26px;border:1px solid var(--line);border-radius:20px;background:var(--panel)}
 .used-in-recipes details{border-top:1px solid var(--line);padding:12px 0}
-.used-in-recipes summary{cursor:pointer;font-weight:600}
+.used-in-recipes summary{cursor:pointer;font-weight:600;padding:6px 0}
 .used-in-recipes summary small{margin-left:6px;color:var(--muted);font-weight:500}
 .used-in-recipes .item-links{margin-top:12px}
 .used-in-recipes .item-link{font:inherit;font-size:.85rem;min-height:0}
 .item-picker{border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .item-picker legend{font-size:.875rem;font-weight:600;padding:0 6px}
 .item-picker label{display:flex;align-items:center;gap:8px;font-weight:500}
+
+/* Materials: a detail card for the chosen material above a filterable grid of every material. */
+.material-detail,.material-list{grid-column:1/-1;min-width:0;padding:24px 26px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel-2),var(--panel));box-shadow:var(--shadow)}
+.material-detail{scroll-margin-top:20px}
+.material-detail h2{font-size:1.8rem;letter-spacing:-.035em}
+.material-detail h3{margin:22px 0 10px;padding-top:18px;border-top:1px solid var(--line);color:var(--accent);font-size:1rem}
+.material-detail h4{margin:14px 0 8px;font-size:.85rem;font-weight:700;color:var(--muted)}
+.material-detail h4 small{margin-left:4px;font-weight:500;color:var(--faint)}
+.material-detail .muted{margin:0}
+.item-link small{color:var(--muted);font-size:.75rem;font-weight:500}
+.material-detail .item-link{font-size:.85rem}
+#material-filter{width:100%;margin-bottom:14px}
+.material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.material-chip{display:block;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--field-soft);color:var(--text);font-size:.9rem;font-weight:600;line-height:1.3;text-decoration:none}
+.material-chip:hover{border-color:var(--line-hover);background:var(--hover)}
+.material-chip.active{border-color:var(--accent-line);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent-line) inset}
+.material-chip small{display:block;margin-top:3px;color:var(--muted);font-size:.72rem;font-weight:500}
+.material-chip.active small{color:var(--accent)}
+@media(max-width:680px){
+  .material-detail,.material-list{padding:18px}
+  .material-detail h2{font-size:1.5rem}
+  .material-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .plan li{flex-wrap:wrap}
+  .plan-entry{width:100%;justify-content:space-between}
+  .plan-entry input{max-width:none}
+  .top-actions{flex-wrap:wrap;justify-content:flex-end}
+}
