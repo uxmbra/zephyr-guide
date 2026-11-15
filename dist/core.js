@@ -1,6 +1,6 @@
 export const MAX_QUANTITY=1000000;
 export const SUBSTANCE_SECTIONS={meth:'Meth',cocaine:'Cocaine',weed:'Weed',lsd:'LSD'};
-export const GATHERING_METHODS={'bin-diving':'Bin Diving / Hobo Camps','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
+export const GATHERING_METHODS={'hobo-camps':'Hobo Camps','bin-diving':'Bin Diving','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
 export const AMMO_METHODS={mainland:'Mainland',cayo:'Cayo'};
 // Chapters of every written guide (substances, gathering and heists), in display order.
 export const GUIDE_SECTIONS={overview:'Overview',requirements:'Before you start',locations:'Locations',steps:'Step-by-step guide',tips:'Tips & notes'};
