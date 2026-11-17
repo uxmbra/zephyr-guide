@@ -522,3 +522,53 @@ a.button{text-decoration:none}
   .plan-entry input{max-width:none}
   .top-actions{flex-wrap:wrap;justify-content:flex-end}
 }
+/* Pin button beside the page title, and the pinned pages at the top of the menu. */
+.page-heading{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 16px}
+#pin-page{flex:0 0 auto;max-width:100%;font-size:.85rem}
+#pin-page svg{width:16px;height:16px;flex:0 0 auto}
+#pin-page span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pin-page[aria-pressed=true]{color:var(--gold);background:var(--gold-soft);box-shadow:0 0 0 1px var(--gold-line) inset;border-color:transparent}
+#pin-page[aria-pressed=true] svg{fill:currentColor}
+#pins .eyebrow{margin:0 0 6px;padding:0 12px}
+#pins ul{list-style:none;display:flex;flex-direction:column;gap:2px;margin:0;padding:0}
+#pins li{display:flex;align-items:center;gap:2px;min-width:0}
+#pins a{flex:1;min-width:0;padding:6px 12px;border:1px solid transparent;border-radius:var(--radius-sm);color:var(--muted);font-size:.86rem;font-weight:600;line-height:1.25;text-decoration:none}
+#pins a span,#pins a small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pins a small{margin-top:2px;font-size:.7rem;font-weight:500;color:var(--faint)}
+#pins a:hover{background:var(--hover);color:var(--text)}
+#pins a[aria-current]{background:var(--accent-soft);border-color:var(--accent-border);color:var(--text)}
+#pins button{flex:0 0 30px;min-height:30px;padding:0;border-color:transparent;background:transparent;box-shadow:none;color:var(--faint);font-size:1.05rem}
+#pins button:hover{background:var(--hover);color:var(--danger)}
+/* Shown in the top bar while there is no connection. */
+.edition.offline{display:inline-block;border-color:var(--gold-line);background:var(--gold-soft);color:var(--gold)}
+/* Crafting plan: the raw materials switch, the two groups of rows it creates, and a plan that arrived by link. */
+.plan-raw{display:flex;align-items:flex-start;gap:12px;margin-bottom:15px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--field-soft);cursor:pointer}
+.plan-raw:hover{border-color:var(--line-hover)}
+.plan-raw input{flex:0 0 18px;width:18px;height:18px;max-width:none;margin:2px 0 0;padding:0;accent-color:var(--accent);cursor:pointer}
+.plan-raw small{margin-top:2px;line-height:1.5}
+.plan .plan-group th{padding-top:18px;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.plan tr.none td,.plan tr.none .material-link{color:var(--faint)}
+.plan td select{display:block;max-width:100%;margin-top:6px;padding:5px 8px;font-size:.78rem}
+.shared-plan{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 24px;padding:20px 24px;border:1px solid var(--accent-line);border-radius:var(--radius);background:var(--accent-soft)}
+.shared-plan>div:first-child{flex:1 1 320px;min-width:0}
+.shared-plan h2{margin:0 0 6px;font-size:1.2rem}
+.shared-plan p.muted{margin:0;line-height:1.6}
+.shared-actions{display:flex;flex-wrap:wrap;gap:8px}
+/* Enlarged photo: the small copy fills the space the full picture is about to take. */
+#photo-dialog img.filling{width:100%}
+@media(max-width:1000px){
+  body{grid-template-areas:"brand feedback" "search search" "manage manage" "pins pins" "nav nav" "work work"}
+  #pins{grid-area:pins;display:flex;align-items:center;gap:10px;min-width:0;margin-top:10px;padding:0 var(--gutter);overflow-x:auto;scrollbar-width:none}
+  #pins::-webkit-scrollbar{display:none}
+  #pins .eyebrow{flex:0 0 auto;margin:0;padding:0}
+  #pins ul{flex-direction:row;gap:6px}
+  #pins li{flex:0 0 auto;gap:0;border:1px solid var(--line);border-radius:999px;background:var(--panel)}
+  #pins a{display:flex;align-items:baseline;gap:6px;padding:7px 2px 7px 12px;border:0;border-radius:999px 0 0 999px;font-size:.82rem}
+  #pins a small{margin:0}
+  #pins a[aria-current]{background:transparent;color:var(--accent-strong)}
+  #pins button{flex-basis:34px;min-height:34px;border-radius:0 999px 999px 0}
+}
+@media(max-width:680px){
+  .shared-plan{padding:18px}
+  .shared-actions,.shared-actions button{width:100%}
+}

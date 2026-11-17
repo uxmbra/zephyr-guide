@@ -1,10 +1,12 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES} from './core.js?v=16';
-import {renderBusiness,configureBusiness} from './business.js?v=10';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor} from './core.js?v=17';
+import {renderBusiness,configureBusiness} from './business.js?v=11';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
 const PLAN_KEY='zephyr-plan';
 const CHANGELOG_KEY='zephyr-changelog-seen';
 const THEME_KEY='zephyr-theme';
+const PINS_KEY='zephyr-pins';
+const OFFLINE_KEY='zephyr-offline-ready';
 let changelog=[];
 let guide,recipes=[],category='ammo',selectedId,quantity=60,plan=[],inventory={},editorTab='photos';
 let smeltMode=(()=>{try{return localStorage.getItem('smeltMode')==='target'?'target':'available';}catch{return 'available';}})(),availableAmount=null,availableItemId='',availableCoal=null;
@@ -14,6 +16,11 @@ let substanceSection='meth';
 let heistGuideId;
 let gatheringMethod='hobo-camps';
 let materialId;
+// A plan opened from someone's link, waiting for the visitor to choose what to do with it.
+let sharedPlan=null;
+// Whether the plan is broken down to raw materials, and which recipe to use for a material that has more than one.
+let rawMode=false,methods={};
+let pins=(()=>{try{const saved=JSON.parse(localStorage.getItem(PINS_KEY));return Array.isArray(saved)?saved.filter(hash=>typeof hash==='string').slice(0,60):[];}catch{return [];}})();
 const EDITING=new URLSearchParams(location.search).has('edit');
 const hasGuideText=entry=>GUIDE_TEXT_FIELDS.some(key=>entry?.[key]?.trim());
 function renderGatheringMethods(){
@@ -105,14 +112,29 @@ const guideCategories=['substances','heist-guides','gathering'];
 function categoryCount(id){return id==='substances'?Object.values(guide.substanceGuides||{}).filter(hasGuideText).length:id==='heist-guides'?heistGuides().length:id==='gathering'?Object.values(guide.gatheringGuides||{}).filter(hasGuideText).length:id==='locations'?guide.locations.length:id==='materials'?guide.items.length:recipes.filter(r=>r.categoryId===id).length;}
 function categoryLink(id,name,count){const active=category===id,detail=guideCategories.includes(id)?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:id==='materials'?`${count} materials`:count?`${count} recipes`:'Coming soon';return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span><span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
 // Data is revalidated on every visit (cache:'no-cache'), so a visitor always gets the latest files but unchanged ones are not downloaded again.
-async function load(){try{if(guide)status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-cache'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const g=await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(c=>fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;restorePlan();route();status('');}catch(e){$('#content .loading')?.remove();status('The guide could not be loaded: '+e.message+'. Refresh the page to try again.',true);}}
+async function load(){try{const first=!guide;if(guide)status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-cache'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const g=await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(c=>fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;restorePlan();route();status('');if(first)saveOffline();}catch(e){$('#content .loading')?.remove();status('The guide could not be loaded: '+e.message+'. Refresh the page to try again.',true);}}
+// Offline copy: after the first visit sw.js keeps the guide on the device, so it still opens with no connection.
+// The first time that is ready the visitor is told once; a small "Offline" note shows whenever the connection is down.
+const offlineNote=()=>{$('#offline-note').hidden=navigator.onLine!==false;};
+addEventListener('online',offlineNote);addEventListener('offline',offlineNote);offlineNote();
+async function saveOffline(){
+  if(!('serviceWorker' in navigator))return;
+  try{
+    await navigator.serviceWorker.register('sw.js');await navigator.serviceWorker.ready;
+    if(localStorage.getItem(OFFLINE_KEY))return;
+    localStorage.setItem(OFFLINE_KEY,'1');
+    // Wait for any message already on screen to finish before adding this one.
+    setTimeout(()=>toast('Saved on this device. The guide now opens with no connection.'),$('#toast').hidden?0:5200);
+  }catch{}
+}
 // The crafting plan lives on this device, so it survives a refresh or a trip back into the game.
-function savePlan(){try{if(plan.length||Object.keys(inventory).length)localStorage.setItem(PLAN_KEY,JSON.stringify({plan,inventory}));else localStorage.removeItem(PLAN_KEY);}catch{}}
+function savePlan(){try{if(plan.length||Object.keys(inventory).length||rawMode)localStorage.setItem(PLAN_KEY,JSON.stringify({plan,inventory,raw:rawMode,methods}));else localStorage.removeItem(PLAN_KEY);}catch{}}
 function restorePlan(){
   let saved={};try{saved=JSON.parse(localStorage.getItem(PLAN_KEY))||{};}catch{}
-  plan=[];inventory={};
+  plan=[];inventory={};rawMode=saved.raw===true;methods={};
   for(const entry of Array.isArray(saved.plan)?saved.plan:[]){const r=recipes.find(r=>r.id===entry?.recipeId);try{if(r&&!plan.some(p=>p.recipeId===r.id)){calculate(r,entry.quantity);plan.push({recipeId:r.id,quantity:entry.quantity});}}catch{}}
   for(const [itemId,owned] of Object.entries(saved.inventory&&typeof saved.inventory==='object'?saved.inventory:{}))if(guide.items.some(i=>i.id===itemId)&&Number.isSafeInteger(owned)&&owned>=0&&owned<=1e12)inventory[itemId]=owned;
+  for(const [itemId,recipeId] of Object.entries(saved.methods&&typeof saved.methods==='object'?saved.methods:{}))if(recipes.some(r=>r.id===recipeId&&r.outputItemId===itemId))methods[itemId]=recipeId;
 }
 // Following a link starts the new page at the top; loading data or previewing an edit keeps the scroll position.
 function route(scroll=false){
@@ -125,18 +147,22 @@ function route(scroll=false){
   const choices=recipes.filter(x=>x.categoryId===category);
   // Pages without recipes (locations, materials, the plan, empty sections) leave the last recipe and amount alone, so going back restores them.
   if(choices.length&&!choices.some(x=>x.id===selectedId)){selectedId=choices[0].id;quantity=choices[0].outputQuantity;}
+  // A shared plan fills an empty plan straight away. If there is already a plan here, the visitor is asked what to do with the new one.
+  let loaded=false;sharedPlan=null;
+  if(category==='plan'&&r.shared){if(!plan.length){plan=r.shared;savePlan();loaded=true;}else if(encodePlan(plan)!==encodePlan(r.shared))sharedPlan=r.shared;}
   if(scroll)scrollTo(0,0);
   render();
+  if(loaded)toast('Shared plan loaded. It is saved on this device now.');
   if(r.location)$('#location-'+r.location)?.scrollIntoView();
 }
 // Go to an address, re-rendering if the page is already there.
 function navigate(hash){if(location.hash===hash)route(true);else location.hash=hash;}
-function currentHash(){const r=recipe(),sub=category==='substances'?substanceSection:category==='gathering'?gatheringMethod:category==='heist-guides'?heistGuideId:category==='materials'?materialId:r?.categoryId===category&&category!=='business'?r.id:'';return '#'+category+(sub?'/'+sub:'');}
+function currentHash(){const r=recipe(),sub=category==='substances'?substanceSection:category==='gathering'?gatheringMethod:category==='heist-guides'?heistGuideId:category==='materials'?materialId:category==='plan'?(sharedPlan?encodePlan(sharedPlan):''):r?.categoryId===category&&category!=='business'?r.id:'';return '#'+category+(sub?'/'+sub:'');}
 function render(){
   renderPage();
   const c=guide.categories.find(c=>c.id===category);
   document.title=(category==='materials'&&materialId?itemName(materialId)+' — ':'')+(c?c.name:EXTRA_PAGES[category])+' — '+SITE_TITLE;
-  updatePlanCount();
+  updatePlanCount();renderPins();
   // Keep the address in step with what is on screen so any page can be bookmarked or shared.
   if(category!=='locations'&&location.hash!==currentHash())history.replaceState(null,'',currentHash());
 }
@@ -156,7 +182,7 @@ function renderPage(){
   $('#page-description').textContent=category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':category==='materials'?'Look up any material: how to get it and every recipe that uses it.':category==='plan'?'Everything you have queued up, combined into one materials list.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
   if(category==='locations'){renderLocations();return;}
   if(category==='materials'){renderMaterials();return;}
-  if(category==='plan'){$('#content').innerHTML='<div id="plan" class="wide"></div>';renderPlan();return;}
+  if(category==='plan'){$('#content').innerHTML=sharedBanner()+'<div id="plan" class="wide"></div>';bindShared();renderPlan();return;}
   if(category==='business'){
     $('#page-description').textContent='Enter the parts you need to craft. Get the materials and time for your quota.';
     renderBusiness($('#content'),recipes.filter(r=>r.categoryId==='business'),guide,entries=>{const next=plan.map(e=>({...e}));for(const entry of entries){const existing=next.find(e=>e.recipeId===entry.recipeId);if(existing)existing.quantity+=entry.quantity;else next.push(entry);}next.forEach(e=>calculate(recipes.find(r=>r.id===e.recipeId),e.quantity));plan=next;renderPlan();});renderPlan();return;
@@ -262,32 +288,58 @@ function usedInRecipes(r){
 function gotoRecipe(id){const r=recipes.find(r=>r.id===id);navigate('#'+r.categoryId+'/'+r.id);}
 function runsNote(r,batches){const runs=smelterRuns(r,batches);return runs?`<p class="limit-note">That is ${fmt(runs.runs)} smelter runs of up to ${fmt(runs.perRun)} smelts each.</p>`:'';}
 function otherMethods(r){const others=recipes.filter(o=>o.categoryId===r.categoryId&&o.id!==r.id&&productName(o)===productName(r));return others.length?`<div class="other-method"><p class="eyebrow">OTHER METHOD</p>${others.map(o=>`<button type="button" data-variant="${esc(o.id)}">${esc(o.ingredients.map(i=>fmt(i.quantity)+' '+itemName(i.itemId)).join(' + '))} makes ${fmt(o.outputQuantity)} ${esc(o.outputName||o.name)}</button>`).join('')}</div>`:'';}
-function photo(src,alt,title,detail){return `<div class="photo-slot">${src?`<button data-photo="${esc(src)}" data-alt="${esc(alt||title)}" aria-label="Enlarge ${esc(title)}"><img src="${esc(src)}" alt="${esc(alt||title)}" loading="lazy" decoding="async"></button>`:`<div class="photo-placeholder"><span>⌖</span><p>${title.includes('Map')?'Map image':'Bench photo'} awaiting upload</p></div>`}<div class="photo-caption"><span>${esc(title)}</span><small>${esc(detail)}</small></div></div>`;}
-function bindPhotos(){document.querySelectorAll('[data-photo]').forEach(b=>{b.onclick=()=>{$('#large-photo').src=b.dataset.photo;$('#large-photo').alt=b.dataset.alt;$('#photo-caption').textContent=b.dataset.alt;$('#photo-dialog').showModal();};b.querySelector('img').onerror=()=>{b.disabled=true;b.innerHTML='<div class="photo-placeholder"><p>Image unavailable. Update the image path.</p></div>';};});}
+// Pages show the small copy of a photo; if that is missing the full picture is used instead.
+function photo(src,alt,title,detail){const thumb=thumbFor(src);return `<div class="photo-slot">${src?`<button data-photo="${esc(src)}" data-alt="${esc(alt||title)}" aria-label="Enlarge ${esc(title)}"><img src="${esc(thumb)}"${thumb===src?'':` data-full="${esc(src)}"`} alt="${esc(alt||title)}" loading="lazy" decoding="async"></button>`:`<div class="photo-placeholder"><span>⌖</span><p>${title.includes('Map')?'Map image':'Bench photo'} awaiting upload</p></div>`}<div class="photo-caption"><span>${esc(title)}</span><small>${esc(detail)}</small></div></div>`;}
+function bindPhotos(){document.querySelectorAll('[data-photo]').forEach(b=>{const img=b.querySelector('img');b.onclick=()=>showPhoto(b.dataset.photo,img,b.dataset.alt);img.onerror=()=>{if(img.dataset.full){const full=img.dataset.full;delete img.dataset.full;img.src=full;return;}b.disabled=true;b.innerHTML='<div class="photo-placeholder"><p>Image unavailable. Update the image path.</p></div>';};});}
+// The enlarged view opens at once with the small copy that is already on screen, then swaps in the full picture once it has
+// loaded. With no connection the small copy simply stays.
+function showPhoto(src,img,alt){
+  const large=$('#large-photo'),small=img.currentSrc||img.src,swap=img.hasAttribute('data-full');
+  large.src=small;large.alt=alt;large.dataset.want=src;large.classList.toggle('filling',swap&&img.naturalWidth>=800);
+  $('#photo-caption').textContent=alt;$('#photo-dialog').showModal();
+  if(!swap)return;
+  const full=new Image();full.onload=()=>{if(large.dataset.want===src&&$('#photo-dialog').open){large.src=src;large.classList.remove('filling');}};full.src=src;
+}
 function updateCalculation(){if(category==='smelting'&&smeltMode==='available'){updateAvailable();return;}try{const r=calculate(recipe(),quantity);$('#quantity').removeAttribute('aria-invalid');$('#calculation').innerHTML=`<div class="batch-summary"><div><strong>${fmt(r.batches)}</strong>craft${r.batches===1?'':'s'}</div><div><strong>${fmt(r.output)}</strong>total output</div><div><strong data-surplus>${fmt(r.surplus)}</strong>extra</div></div>${runsNote(recipe(),r.batches)}<div class="craft-time"><p class="eyebrow">TIME TO CRAFT</p><div class="total-row"><span>Per craft</span><b>${duration(recipe().craftTimeSeconds)}</b></div><div class="total-row"><span>${r.totalTimeSeconds===null?'Total time':'Total for '+fmt(r.batches)+(r.batches===1?' craft':' crafts')}</span><b>${duration(r.totalTimeSeconds)}</b></div></div><div class="totals"><p class="eyebrow" >MATERIALS REQUIRED</p>${r.materials.map(i=>`<div class="total-row"><span>${materialLink(i.itemId)}</span><b>${fmt(i.quantity)}</b></div>`).join('')}</div>`;$('#add-plan').disabled=false;}catch(e){$('#quantity').setAttribute('aria-invalid','true');$('#calculation').innerHTML=`<p class="fine">${esc(e.message)}</p>`;$('#add-plan').disabled=true;}}
 // The top bar always shows how many recipes are in the plan and links to the plan page.
 function updatePlanCount(){const badge=$('#plan-count'),link=$('#plan-link');badge.hidden=!plan.length;badge.textContent=plan.length;link.setAttribute('aria-label',plan.length?`Crafting plan, ${plan.length} recipe${plan.length===1?'':'s'}`:'Crafting plan');if(category==='plan')link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
 // The plan is drawn in pieces so that typing a new amount can refresh the notes, time and materials table without
 // replacing the field being typed in or the buttons around it (replacing a button mid-click would swallow the click).
 const planNote=p=>{const calc=calculate(recipes.find(r=>r.id===p.recipeId),p.quantity);return `${fmt(calc.batches)} craft${calc.batches===1?'':'s'} · ${fmt(calc.output)} output · ${duration(calc.totalTimeSeconds)}${calc.totalTimeSeconds===null?' (time pending)':' crafting'}`;};
-function planTime(){const timing=planDuration(recipes,plan);return `<strong>${timing.unknownRecipes?'Total time incomplete':'Total crafting time: '+duration(timing.totalSeconds)}</strong><p class="fine">${timing.unknownRecipes?duration(timing.knownSeconds)+' known; '+timing.unknownRecipes+(timing.unknownRecipes===1?' recipe still needs':' recipes still need')+' a duration. ':''}Consecutive crafts only; travel and gathering excluded.</p>`;}
-function planRows(){return combinePlan(recipes,plan,inventory).map(t=>`<tr><td>${materialLink(t.itemId)}</td><td data-required="${esc(t.itemId)}">${fmt(t.quantity)}</td><td><input type="number" min="0" max="1000000000000" step="1" inputmode="numeric" data-owned="${esc(t.itemId)}" aria-label="${esc(itemName(t.itemId))} already owned" value="${t.owned}"></td><td data-missing="${esc(t.itemId)}">${fmt(t.missing)}</td></tr>`).join('');}
-function planProblem(){const invalid=!!document.querySelector('.plan input[aria-invalid]');$('#copy-plan').disabled=invalid;return invalid;}
-function bindOwned(){
-  document.querySelectorAll('[data-owned]').forEach(input=>input.oninput=()=>{
-    const n=Number(input.value);
-    if(!Number.isSafeInteger(n)||n<0||n>1e12||input.value===''){input.setAttribute('aria-invalid','true');planProblem();$('#plan-status').textContent='Owned quantities must be whole numbers from 0 to 1,000,000,000,000.';return;}
-    input.removeAttribute('aria-invalid');inventory[input.dataset.owned]=n;savePlan();
-    const t=combinePlan(recipes,plan,inventory).find(t=>t.itemId===input.dataset.owned);
-    document.querySelector(`[data-missing="${input.dataset.owned}"]`).textContent=fmt(t.missing);
-    $('#plan-status').textContent=planProblem()?'Correct the highlighted amounts.':'';
-  });
+// Materials the guide has a recipe for (the smelted metals) can be broken down into what it takes to make them.
+const breakable=()=>combinePlan(recipes,plan).filter(t=>recipes.some(r=>r.outputItemId===t.itemId)).map(t=>itemName(t.itemId));
+function planView(){return rawMode&&breakable().length?expandPlan(recipes,plan,inventory,methods):{steps:[],materials:combinePlan(recipes,plan,inventory)};}
+const methodLabel=r=>r.ingredients.filter(i=>i.itemId!=='coal-ore').map(i=>itemName(i.itemId)).join(' + ')||itemName(r.ingredients[0].itemId);
+const stepVerb=(s,n)=>s.recipe.categoryId==='smelting'?(n===1?'smelt':'smelts'):(n===1?'craft':'crafts');
+const stepNote=s=>s.batches?`${fmt(s.batches)} ${stepVerb(s,s.batches)} ${s.batches===1?'makes':'make'} ${fmt(s.output)}${s.output>s.missing?', '+fmt(s.output-s.missing)+' spare':''} · ${s.totalTimeSeconds===null?'time pending':duration(s.totalTimeSeconds)}`:s.quantity?'You have enough, nothing to make':'Not needed';
+function planTime(view){const timing=planDuration(recipes,plan,view.steps);return `<strong>${timing.unknownRecipes?'Total time incomplete':'Total crafting time: '+duration(timing.totalSeconds)}</strong><p class="fine">${timing.unknownRecipes?duration(timing.knownSeconds)+' known; '+timing.unknownRecipes+(timing.unknownRecipes===1?' recipe still needs':' recipes still need')+' a duration. ':''}${view.steps.length?'Includes the smelting. ':''}Consecutive crafts only; travel and gathering excluded.</p>`;}
+function planRows(view){
+  const row=(t,extra='')=>`<tr class="${t.quantity?'':'none'}"><td>${materialLink(t.itemId)}${extra}</td><td data-required="${esc(t.itemId)}">${fmt(t.quantity)}</td><td><input type="number" min="0" max="1000000000000" step="1" inputmode="numeric" data-owned="${esc(t.itemId)}" aria-label="${esc(itemName(t.itemId))} already owned" value="${t.owned}"></td><td data-missing="${esc(t.itemId)}">${fmt(t.missing)}</td></tr>`;
+  if(!view.steps.length)return view.materials.map(t=>row(t)).join('');
+  const method=s=>s.options.length>1?`<select data-method="${esc(s.itemId)}" aria-label="What to make ${esc(itemName(s.itemId))} from">${s.options.map(o=>`<option value="${esc(o.id)}" ${o.id===s.recipe.id?'selected':''}>From ${esc(methodLabel(o))}</option>`).join('')}</select>`:`<small>From ${esc(methodLabel(s.recipe))}</small>`;
+  return `<tr class="plan-group"><th colspan="4" scope="colgroup">Make these first</th></tr>${view.steps.map(s=>row(s,`<small data-step-note="${esc(s.itemId)}">${esc(stepNote(s))}</small>${method(s)}`)).join('')}<tr class="plan-group"><th colspan="4" scope="colgroup">Gather or buy these</th></tr>${view.materials.map(t=>row(t)).join('')}`;
+}
+function planProblem(){const invalid=!!document.querySelector('.plan input[aria-invalid]');$('#copy-plan').disabled=invalid;$('#share-plan').disabled=invalid;return invalid;}
+// After an amount changes, every figure worked out from it is refreshed where it stands. The rows themselves never change while
+// typing (a row is listed even when its amount drops to 0), so no field loses its place.
+function refreshPlan(){
+  const view=planView();
+  for(const t of [...view.steps,...view.materials]){const required=document.querySelector(`[data-required="${t.itemId}"]`);if(!required)continue;required.textContent=fmt(t.quantity);required.closest('tr').classList.toggle('none',!t.quantity);document.querySelector(`[data-missing="${t.itemId}"]`).textContent=fmt(t.missing);}
+  for(const s of view.steps){const note=document.querySelector(`[data-step-note="${s.itemId}"]`);if(note)note.textContent=stepNote(s);}
+  $('.plan-time').innerHTML=planTime(view);
+  $('#plan-status').textContent=planProblem()?'Correct the highlighted amounts.':'';
+}
+const planLink=()=>location.origin+location.pathname+'#plan/'+encodePlan(plan);
+function planText(){
+  const view=planView(),timing=planDuration(recipes,plan,view.steps),line=t=>`${itemName(t.itemId)}: ${t.quantity} required / ${t.owned} owned / ${t.missing} needed`;
+  return 'ZEPHYR RP — Crafting plan\n'+plan.map(p=>{const r=recipes.find(r=>r.id===p.recipeId),calc=calculate(r,p.quantity);return `${r.name}: ${p.quantity} requested (${calc.batches} craft${calc.batches===1?'':'s'}; time: ${duration(calc.totalTimeSeconds)})`;}).join('\n')+'\n'+(timing.unknownRecipes?'Time incomplete: '+duration(timing.knownSeconds)+' known; '+timing.unknownRecipes+(timing.unknownRecipes===1?' recipe is':' recipes are')+' missing a duration.':'Total crafting time: '+duration(timing.totalSeconds))+(view.steps.length?'\n\nMake first:\n'+view.steps.map(s=>`${line(s)}${s.batches?` (${s.batches} ${stepVerb(s,s.batches)} from ${methodLabel(s.recipe)})`:''}`).join('\n')+'\n\nGather or buy:\n':'\n\n')+view.materials.map(line).join('\n');
 }
 function renderPlan(){
   updatePlanCount();
   if(!$('#plan'))return;
   savePlan();
-  $('#plan').innerHTML=`<section class="plan"><div class="section-header"><h2>Your crafting plan</h2><span class="muted">Saved on this device</span></div>${!plan.length?`<p class="muted">${category==='plan'?'Your plan is empty. Open any recipe, set how many you need and choose Add to crafting plan. Everything you add is combined here into one materials list.':'Add recipes to combine their materials into one preparation list. It stays here until you clear it.'}</p>`:`<ul>${plan.map(p=>{const r=recipes.find(r=>r.id===p.recipeId);return `<li><div><a href="#${esc(r.categoryId)}/${esc(r.id)}">${esc(r.name)}</a> <small data-plan-note="${esc(p.recipeId)}">${planNote(p)}</small></div><div class="plan-entry"><input type="number" min="1" max="${MAX_QUANTITY}" step="1" inputmode="numeric" data-plan-quantity="${esc(p.recipeId)}" aria-label="How many ${esc(r.name)} you want" value="${p.quantity}"><button data-remove="${esc(p.recipeId)}" aria-label="Remove ${esc(r.name)} from plan">Remove</button></div></li>`;}).join('')}</ul><div class="plan-time">${planTime()}</div><table><thead><tr><th>Material</th><th>Required</th><th>You have</th><th>Still need</th></tr></thead><tbody>${planRows()}</tbody></table><p class="fine">Change an amount in the list to update the totals. Repeated requests for the same recipe are combined before rounding to full crafts. Inventory reduces the shopping list, not the number of crafts.</p><div class="plan-actions"><button id="copy-plan">Copy materials list</button><button id="clear-plan" class="quiet">Clear plan</button></div><p id="plan-status" role="status" class="fine"></p>`}</section>`;
+  const view=planView(),names=breakable(),some=names.length>3?names.slice(0,3).join(', ')+' and more':names.join(', ').replace(/, ([^,]*)$/,' and $1');
+  $('#plan').innerHTML=`<section class="plan"><div class="section-header"><h2>Your crafting plan</h2><span class="muted">Saved on this device</span></div>${!plan.length?`<p class="muted">${category==='plan'?'Your plan is empty. Open any recipe, set how many you need and choose Add to crafting plan. Everything you add is combined here into one materials list.':'Add recipes to combine their materials into one preparation list. It stays here until you clear it.'}</p>`:`<ul>${plan.map(p=>{const r=recipes.find(r=>r.id===p.recipeId);return `<li><div><a href="#${esc(r.categoryId)}/${esc(r.id)}">${esc(r.name)}</a> <small data-plan-note="${esc(p.recipeId)}">${planNote(p)}</small></div><div class="plan-entry"><input type="number" min="1" max="${MAX_QUANTITY}" step="1" inputmode="numeric" data-plan-quantity="${esc(p.recipeId)}" aria-label="How many ${esc(r.name)} you want" value="${p.quantity}"><button data-remove="${esc(p.recipeId)}" aria-label="Remove ${esc(r.name)} from plan">Remove</button></div></li>`;}).join('')}</ul>${names.length?`<label class="plan-raw"><input type="checkbox" id="plan-raw" ${rawMode?'checked':''}><span><strong>Break down to raw materials</strong><small>Works out the smelting for ${esc(some)}, so the list shows what to gather.</small></span></label>`:''}<div class="plan-time">${planTime(view)}</div><table><thead><tr><th>Material</th><th>Required</th><th>You have</th><th>Still need</th></tr></thead><tbody>${planRows(view)}</tbody></table><p class="fine">Change an amount in the list to update the totals. Repeated requests for the same recipe are combined before rounding to full crafts. ${view.steps.length?'What you already have of a metal reduces how much is smelted, and so the ore for it.':'Inventory reduces the shopping list, not the number of crafts.'}</p><div class="plan-actions"><button id="copy-plan">Copy materials list</button><button id="share-plan">Copy plan link</button><button id="clear-plan" class="quiet">Clear plan</button></div><p id="plan-status" role="status" class="fine"></p>`}</section>`;
   if(!plan.length)return;
   // Typing a new amount updates that recipe and everything worked out from it straight away.
   document.querySelectorAll('[data-plan-quantity]').forEach(input=>input.oninput=()=>{
@@ -296,14 +348,50 @@ function renderPlan(){
     catch(e){input.setAttribute('aria-invalid','true');planProblem();$('#plan-status').textContent=e.message;return;}
     input.removeAttribute('aria-invalid');entry.quantity=n;savePlan();
     document.querySelector(`[data-plan-note="${entry.recipeId}"]`).textContent=planNote(entry);
-    $('.plan-time').innerHTML=planTime();$('.plan tbody').innerHTML=planRows();bindOwned();
-    $('#plan-status').textContent=planProblem()?'Correct the highlighted amounts.':'';
+    refreshPlan();
   });
-  bindOwned();
+  document.querySelectorAll('[data-owned]').forEach(input=>input.oninput=()=>{
+    const n=Number(input.value);
+    if(!Number.isSafeInteger(n)||n<0||n>1e12||input.value===''){input.setAttribute('aria-invalid','true');planProblem();$('#plan-status').textContent='Owned quantities must be whole numbers from 0 to 1,000,000,000,000.';return;}
+    input.removeAttribute('aria-invalid');inventory[input.dataset.owned]=n;savePlan();refreshPlan();
+  });
+  // Switching the breakdown on or off, or choosing another way to make a metal, changes which rows there are, so the plan is redrawn.
+  if($('#plan-raw'))$('#plan-raw').onchange=e=>{rawMode=e.target.checked;renderPlan();$('#plan-raw').focus();};
+  document.querySelectorAll('[data-method]').forEach(select=>select.onchange=()=>{methods[select.dataset.method]=select.value;renderPlan();document.querySelector(`[data-method="${select.dataset.method}"]`)?.focus();});
   document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{plan=plan.filter(p=>p.recipeId!==b.dataset.remove);renderPlan();});
   $('#clear-plan').onclick=()=>{plan=[];inventory={};renderPlan();toast('Crafting plan cleared.');};
-  $('#copy-plan').onclick=async()=>{try{const timing=planDuration(recipes,plan),text='ZEPHYR RP — Crafting plan\n'+plan.map(p=>{const r=recipes.find(r=>r.id===p.recipeId),calc=calculate(r,p.quantity);return `${r.name}: ${p.quantity} requested (${calc.batches} craft${calc.batches===1?'':'s'}; time: ${duration(calc.totalTimeSeconds)})`;}).join('\n')+'\n'+(timing.unknownRecipes?'Time incomplete: '+duration(timing.knownSeconds)+' known; '+timing.unknownRecipes+(timing.unknownRecipes===1?' recipe is':' recipes are')+' missing a duration.':'Total crafting time: '+duration(timing.totalSeconds))+'\n\n'+combinePlan(recipes,plan,inventory).map(t=>`${itemName(t.itemId)}: ${t.quantity} required / ${t.owned} owned / ${t.missing} needed`).join('\n');await navigator.clipboard.writeText(text);$('#plan-status').textContent='Materials list copied.';}catch{$('#plan-status').textContent='Clipboard access is unavailable. You can select and copy the table manually.';}};
+  $('#copy-plan').onclick=async()=>{try{await navigator.clipboard.writeText(planText());$('#plan-status').textContent='Materials list copied.';}catch{$('#plan-status').textContent='Clipboard access is unavailable. You can select and copy the table manually.';}};
+  $('#share-plan').onclick=async()=>{try{await navigator.clipboard.writeText(planLink());$('#plan-status').textContent='Plan link copied. Whoever opens it gets the same recipes and amounts.';}catch{$('#plan-status').textContent='Clipboard access is unavailable here.';}};
 }
+// A plan that arrived by link while this device already has one: show what is in it and let the visitor choose.
+function sharedBanner(){
+  if(!sharedPlan)return '';
+  const list=sharedPlan.map(p=>fmt(p.quantity)+' '+recipes.find(r=>r.id===p.recipeId).name);
+  return `<section class="shared-plan" aria-label="Shared crafting plan"><div><p class="eyebrow">SHARED WITH YOU</p><h2>A crafting plan with ${sharedPlan.length} ${sharedPlan.length===1?'recipe':'recipes'}</h2><p class="muted">${esc(list.slice(0,6).join(', '))}${list.length>6?' and '+(list.length-6)+' more':''}. You already have a plan on this device, so choose what to do with this one.</p></div><div class="shared-actions"><button id="shared-add" class="primary">Add to my plan</button><button id="shared-replace">Replace my plan</button><button id="shared-ignore" class="quiet">Ignore</button></div></section>`;
+}
+function bindShared(){
+  if(!sharedPlan)return;
+  const finish=message=>{sharedPlan=null;render();$('#main').focus({preventScroll:true});if(message)toast(message);};
+  $('#shared-add').onclick=()=>{for(const entry of sharedPlan){const mine=plan.find(p=>p.recipeId===entry.recipeId);if(mine)mine.quantity=Math.min(MAX_QUANTITY,mine.quantity+entry.quantity);else plan.push({...entry});}finish('Shared plan added to yours.');};
+  $('#shared-replace').onclick=()=>{plan=sharedPlan.map(entry=>({...entry}));finish('Your plan was replaced with the shared one.');};
+  $('#shared-ignore').onclick=()=>finish();
+}
+// Pins: any recipe, written guide or material can be kept at the top of the menu. They are saved on this device.
+const PIN_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/></svg>';
+function savePins(){try{if(pins.length)localStorage.setItem(PINS_KEY,JSON.stringify(pins));else localStorage.removeItem(PINS_KEY);}catch{}}
+function renderPins(){
+  const list=pins.map(hash=>pinDetails(hash,guide,recipes)).filter(Boolean),here=currentHash(),current=pinDetails(here,guide,recipes),host=$('#pins'),button=$('#pin-page');
+  host.hidden=!list.length;
+  host.innerHTML=list.length?`<p class="eyebrow" id="pins-title">PINNED</p><ul aria-labelledby="pins-title">${list.map(pin=>`<li><a href="${esc(pin.hash)}" ${pin.hash===here?'aria-current="page"':''}><span>${esc(pin.label)}</span><small>${esc(pin.detail)}</small></a><button type="button" data-unpin="${esc(pin.hash)}" aria-label="Unpin ${esc(pin.label)}, ${esc(pin.detail)}" title="Unpin">×</button></li>`).join('')}</ul>`:'';
+  button.hidden=!current;
+  if(!current)return;
+  const pinned=pins.includes(current.hash);
+  button.dataset.hash=current.hash;button.setAttribute('aria-pressed',String(pinned));
+  button.innerHTML=`${PIN_ICON}<span>${pinned?'Pinned':'Pin '+esc(current.label)}</span>`;
+  button.title=pinned?'Unpin '+current.label:'Keep '+current.label+' at the top of the menu';
+}
+$('#pin-page').onclick=e=>{const hash=e.currentTarget.dataset.hash,name=pinDetails(hash,guide,recipes).label;if(pins.includes(hash)){pins=pins.filter(pin=>pin!==hash);toast(name+' unpinned.');}else{pins=[...pins,hash];toast(name+' pinned to the top of the menu.');}savePins();renderPins();};
+$('#pins').onclick=e=>{const button=e.target.closest('[data-unpin]');if(!button)return;pins=pins.filter(pin=>pin!==button.dataset.unpin);savePins();renderPins();($('#pins [data-unpin]')||$('#search-input')).focus();};
 $('.skip').onclick=e=>{e.preventDefault();$('#main').focus();$('#main').scrollIntoView();};
 // Reload data is a maintainer tool: visitors always get the latest data when they open or refresh the page.
 $('#reload').hidden=!EDITING;
@@ -311,7 +399,8 @@ $('#reload').onclick=()=>{if(confirm('Reload published data? This discards any u
 // Copying: a postcode from any location tag, or the address of the page being viewed.
 async function copyText(text,done,failed){try{await navigator.clipboard.writeText(text);toast(done);}catch{toast(failed);}}
 document.addEventListener('click',e=>{const tag=e.target.closest('[data-copy-postal]');if(tag)copyText(tag.dataset.copyPostal,'Postcode '+tag.dataset.copyPostal+' copied.','Copying is blocked here. The postcode is '+tag.dataset.copyPostal+'.');});
-$('#copy-link').onclick=()=>copyText(location.href,'Link to this page copied.','Copying is blocked here. Copy the address from your browser’s address bar.');
+// On the plan page the link carries the plan itself, so whoever opens it gets the same list.
+$('#copy-link').onclick=()=>category==='plan'&&plan.length&&!sharedPlan?copyText(planLink(),'Link to your plan copied. Whoever opens it gets the same list.','Copying is blocked here. Use Copy plan link below, or copy the address from your browser’s address bar.'):copyText(location.href,'Link to this page copied.','Copying is blocked here. Copy the address from your browser’s address bar.');
 window.addEventListener('hashchange',()=>{$('#toast').hidden=true;route(true);});
 document.querySelectorAll('dialog .close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
 // Clicking the dimmed backdrop closes a dialog, like pressing Escape.
