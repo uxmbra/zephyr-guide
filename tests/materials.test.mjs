@@ -20,7 +20,7 @@ test('the materials index lists every item once, by name, with what makes it and
  assert.deepEqual(tiny.map(m=>[m.id,m.madeBy.length,m.usedIn.length]),[['a',1,0],['b',0,1]]);
 });
 test('the Materials and Plan pages have addresses',()=>{
- assert.deepEqual(Object.keys(EXTRA_PAGES),['locations','materials','plan']);
+ assert.deepEqual(Object.keys(EXTRA_PAGES),['home','locations','materials','plan']);
  assert.deepEqual(resolveRoute('#materials',guide,recipes),{category:'materials'});
  assert.deepEqual(resolveRoute('#materials/steel',guide,recipes),{category:'materials',material:'steel'});
  assert.deepEqual(resolveRoute('#materials/unobtainium',guide,recipes),{category:'materials'});

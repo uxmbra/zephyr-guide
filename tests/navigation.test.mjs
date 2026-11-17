@@ -5,8 +5,11 @@ import {resolveRoute,searchGuide,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,esc,fmt} from 
 const read=name=>JSON.parse(fs.readFileSync(new URL('../dist/data/'+name,import.meta.url)));
 const guide=read('guide.json'),recipes=guide.categories.flatMap(c=>read(c.file));
 test('addresses resolve to a section, with an optional recipe, tier, method, guide or location',()=>{
- assert.deepEqual(resolveRoute('',guide,recipes),{category:'ammo'});
- assert.deepEqual(resolveRoute('#nonsense',guide,recipes),{category:'ammo'});
+ assert.deepEqual(resolveRoute('',guide,recipes),{category:'home'});
+ assert.deepEqual(resolveRoute('#nonsense',guide,recipes),{category:'home'});
+ assert.deepEqual(resolveRoute('#home',guide,recipes),{category:'home'});
+ assert.deepEqual(resolveRoute('#home/anything',guide,recipes),{category:'home'});
+ assert.deepEqual(resolveRoute('#ammo',guide,recipes),{category:'ammo'});
  assert.deepEqual(resolveRoute('#locations',guide,recipes),{category:'locations'});
  assert.deepEqual(resolveRoute('#ammo/ammo-cayo-9mm',guide,recipes),{category:'ammo',recipeId:'ammo-cayo-9mm',method:'cayo'});
  assert.deepEqual(resolveRoute('#weapons/weapon-vector',guide,recipes),{category:'weapons',recipeId:'weapon-vector',tier:2});
