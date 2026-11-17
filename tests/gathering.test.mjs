@@ -19,6 +19,12 @@ test('hobo camps has its own tab beside bin diving, with every photo',()=>{
  assert.equal(hobo.images.length,8);
  for(const image of hobo.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
 });
+test('bin diving guide has its steps and its images exist',()=>{
+ const bins=guide.gatheringGuides['bin-diving'];
+ for(const key of ['overview','requirements','locations','steps','tips'])assert.ok(bins[key].trim(),key);
+ assert.equal(bins.steps.split('\n').length,4);
+ for(const image of bins.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
+});
 test('scrap yard guide has its steps and its map exists',()=>{
  const scrap=guide.gatheringGuides['scrap-yard'];
  for(const key of ['overview','requirements','locations','steps','tips'])assert.ok(scrap[key].trim(),key);
