@@ -25,6 +25,14 @@ test('bin diving guide has its steps and its images exist',()=>{
  assert.equal(bins.steps.split('\n').length,4);
  for(const image of bins.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
 });
+test('recycling centre guide covers both options and its images exist',()=>{
+ const recycling=guide.gatheringGuides['recycling-centre'];
+ for(const key of ['overview','requirements','locations','steps','tips'])assert.ok(recycling[key].trim(),key);
+ assert.equal(recycling.steps.split('\n').length,7);
+ assert.equal(recycling.images.length,5);
+ for(const image of recycling.images)assert.ok(fs.existsSync(new URL('../dist/'+image.src,import.meta.url)),image.src);
+ assert.deepEqual(Object.keys(guide.gatheringGuides).sort(),Object.keys(GATHERING_METHODS).sort());
+});
 test('scrap yard guide has its steps and its map exists',()=>{
  const scrap=guide.gatheringGuides['scrap-yard'];
  for(const key of ['overview','requirements','locations','steps','tips'])assert.ok(scrap[key].trim(),key);

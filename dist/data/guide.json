@@ -713,7 +713,7 @@
       "overview": "Search the car wrecks at a scrap yard for parts, then inspect each wreck again for extra parts you can recycle into more materials. Bring plenty of screwdrivers.",
       "requirements": "Screwdrivers, and plenty of them. Around 50 covers a full run, and each one usually lasts 3-4 uses.\nGet screwdrivers by bin picking, or buy them from YouTool at postal 121.",
       "locations": "Scrap yard: Postal 954. There are several scrap yards, but 954 is usually the most peaceful because it is further from the inner city.",
-      "steps": "Head to the scrap yard at postal 954 with your screwdrivers.\nGo to a wreck and choose the search wreck option.\nComplete the 3-stage skill check by pressing the 1, 2, 3 or 4 key it asks for.\nThird eye the same wreck again and choose Inspect wreck to gather more parts.\nMove on to the next wreck and repeat.\nRecycle the parts you collect for more materials.",
+      "steps": "Head to the scrap yard at postal 954 with your screwdrivers.\nGo to a wreck and choose the search wreck option.\nComplete the 3-stage skill check by pressing the 1, 2, 3 or 4 key it asks for.\nThird eye the same wreck again and choose Inspect wreck to gather more parts.\nMove on to the next wreck and repeat.\nRecycle the parts you collect for more materials at the recycling centre, postal 3021.",
       "tips": "Search the wrecks in any order. Finding a route that works for you makes each run quicker.\nOnly the first search has a skill check. Inspect wreck does not.",
       "images": [
         {
@@ -721,6 +721,45 @@
           "title": "Scrap yard",
           "detail": "Postal 954, the quieter yard outside the inner city",
           "alt": "Map showing the scrap yard at postal 954"
+        }
+      ]
+    },
+    "recycling-centre": {
+      "overview": "The recycling centre at postal 3021 gives you two options. Out the front, sell your materials or mulch useless junk in the recyclers. Inside, clock in and carry boxes to the drop-off crate for random materials.",
+      "requirements": "To sell or recycle out the front: bring the materials and junk you have gathered from bins, hobo camps and the scrap yard.",
+      "locations": "Recycling centre: Postal 3021, near Paleto Bay.",
+      "steps": "Head to the recycling centre at postal 3021.\nTo sell or recycle: talk to the Recyclables Buyer out the front to sell materials, or use the recyclers to mulch useless junk from bins and hobo camps.\nTo work inside: third eye the bottom of the door, or the floor in front of it, to go in.\nSpeak to the man inside to clock in.\nThird eye one of the outlined boxes and complete the 3-stage WASD skill check to pick it up.\nCarry the box to the red highlighted crate near the man and drop it off.\nCollect your materials. Both the item and the amount are random.",
+      "tips": "If you have nothing the Recyclables Buyer accepts, the buyer shows a Nothing to sell message.",
+      "images": [
+        {
+          "src": "images/recycling-centre-3021-map.webp",
+          "title": "Recycling centre map",
+          "detail": "Postal 3021, near Paleto Bay",
+          "alt": "Map showing the recycling centre at postal 3021 near Paleto Bay"
+        },
+        {
+          "src": "images/recycling-centre-front.webp",
+          "title": "Out the front",
+          "detail": "Where the buyer and recyclers are",
+          "alt": "The front of the recycling centre at postal 3021"
+        },
+        {
+          "src": "images/recycling-centre-buyer.webp",
+          "title": "Recyclables Buyer",
+          "detail": "Sell your materials out the front",
+          "alt": "The Recyclables Buyer standing by the wall out the front of the recycling centre"
+        },
+        {
+          "src": "images/recycling-centre-boxes.webp",
+          "title": "Outlined boxes",
+          "detail": "Inside, after you clock in",
+          "alt": "Outlined boxes on the warehouse shelves inside the recycling centre"
+        },
+        {
+          "src": "images/recycling-centre-crate.webp",
+          "title": "Drop-off crate",
+          "detail": "Highlighted in red, near the man inside",
+          "alt": "The red highlighted drop-off crate inside the recycling centre"
         }
       ]
     }
