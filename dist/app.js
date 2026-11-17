@@ -1,5 +1,5 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor} from './core.js?v=17';
-import {renderBusiness,configureBusiness} from './business.js?v=11';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor,SECTION_NOTES,homeSections} from './core.js?v=18';
+import {renderBusiness,configureBusiness} from './business.js?v=12';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
 const PLAN_KEY='zephyr-plan';
@@ -8,7 +8,7 @@ const THEME_KEY='zephyr-theme';
 const PINS_KEY='zephyr-pins';
 const OFFLINE_KEY='zephyr-offline-ready';
 let changelog=[];
-let guide,recipes=[],category='ammo',selectedId,quantity=60,plan=[],inventory={},editorTab='photos';
+let guide,recipes=[],category='home',selectedId,quantity=60,plan=[],inventory={},editorTab='photos';
 let smeltMode=(()=>{try{return localStorage.getItem('smeltMode')==='target'?'target':'available';}catch{return 'available';}})(),availableAmount=null,availableItemId='',availableCoal=null;
 let weaponTier=3;
 let ammoMethod='mainland';
@@ -106,11 +106,13 @@ const itemName=id=>guide.items.find(i=>i.id===id)?.name||id;
 // Material names link to their page: how to get it and what else uses it.
 const materialLink=id=>`<a class="material-link" href="#materials/${esc(id)}">${esc(itemName(id))}</a>`;
 const categoryLabels={ammo:'Ammo',weapons:'Weapons',substances:'Substances',attachments:'Attachments','heist-guides':'Heist guides',heist:'Heist items',generic:'Generic items',melee:'Melee',gathering:'Gathering',smelting:'Smelting',business:'Business'};
-const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',gathering:'M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7Zm0 3c0-3-2-6-7-6 0 4 2 6 7 6ZM7 21h10',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0',materials:'m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5'};
+const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',gathering:'M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7Zm0 3c0-3-2-6-7-6 0 4 2 6 7 6ZM7 21h10',home:'M4 11 12 4l8 7v9h-5v-6H9v6H4v-9Z',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0',materials:'m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5'};
 const guideCategories=['substances','heist-guides','gathering'];
 // How much each section holds: written guides for the guide sections, recipes for the rest.
-function categoryCount(id){return id==='substances'?Object.values(guide.substanceGuides||{}).filter(hasGuideText).length:id==='heist-guides'?heistGuides().length:id==='gathering'?Object.values(guide.gatheringGuides||{}).filter(hasGuideText).length:id==='locations'?guide.locations.length:id==='materials'?guide.items.length:recipes.filter(r=>r.categoryId===id).length;}
-function categoryLink(id,name,count){const active=category===id,detail=guideCategories.includes(id)?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:id==='materials'?`${count} materials`:count?`${count} recipes`:'Coming soon';return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span><span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
+function categoryCount(id){return id==='home'?1:id==='substances'?Object.values(guide.substanceGuides||{}).filter(hasGuideText).length:id==='heist-guides'?heistGuides().length:id==='gathering'?Object.values(guide.gatheringGuides||{}).filter(hasGuideText).length:id==='locations'?guide.locations.length:id==='materials'?guide.items.length:recipes.filter(r=>r.categoryId===id).length;}
+const categoryDetail=(id,count)=>id==='home'?'Start here':guideCategories.includes(id)?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:id==='materials'?`${count} materials`:count?`${count} recipes`:'Coming soon';
+const sectionIcon=id=>`<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span>`;
+function categoryLink(id,name,count){const active=category===id,detail=categoryDetail(id,count);return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}">${sectionIcon(id)}<span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
 // Data is revalidated on every visit (cache:'no-cache'), so a visitor always gets the latest files but unchanged ones are not downloaded again.
 async function load(){try{const first=!guide;if(guide)status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-cache'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const g=await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(c=>fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;restorePlan();route();status('');if(first)saveOffline();}catch(e){$('#content .loading')?.remove();status('The guide could not be loaded: '+e.message+'. Refresh the page to try again.',true);}}
 // Offline copy: after the first visit sw.js keeps the guide on the device, so it still opens with no connection.
@@ -161,14 +163,15 @@ function currentHash(){const r=recipe(),sub=category==='substances'?substanceSec
 function render(){
   renderPage();
   const c=guide.categories.find(c=>c.id===category);
-  document.title=(category==='materials'&&materialId?itemName(materialId)+' — ':'')+(c?c.name:EXTRA_PAGES[category])+' — '+SITE_TITLE;
+  document.title=category==='home'?SITE_TITLE:(category==='materials'&&materialId?itemName(materialId)+' — ':'')+(c?c.name:EXTRA_PAGES[category])+' — '+SITE_TITLE;
   updatePlanCount();renderPins();
   // Keep the address in step with what is on screen so any page can be bookmarked or shared.
-  if(category!=='locations'&&location.hash!==currentHash())history.replaceState(null,'',currentHash());
+  // The home page keeps the plain address it was opened with.
+  if(category!=='locations'&&!(category==='home'&&!location.hash)&&location.hash!==currentHash())history.replaceState(null,'',currentHash());
 }
 function renderPage(){
   const navigationFocused=$('#navigation').contains(document.activeElement);
-  $('#navigation').innerHTML=guide.categories.map(c=>categoryLink(c.id,c.name,categoryCount(c.id))).join('')+['locations','materials'].map(id=>categoryLink(id,EXTRA_PAGES[id],categoryCount(id))).join('');
+  $('#navigation').innerHTML=categoryLink('home',EXTRA_PAGES.home,1)+guide.categories.map(c=>categoryLink(c.id,c.name,categoryCount(c.id))).join('')+['locations','materials'].map(id=>categoryLink(id,EXTRA_PAGES[id],categoryCount(id))).join('');
   // Choosing the section you are already on takes you back to the top of it.
   $('#navigation').querySelectorAll('a').forEach(a=>a.onclick=e=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;e.preventDefault();navigate(a.getAttribute('href'));});
   // On narrow screens the menu scrolls sideways, so keep the current page in view.
@@ -177,9 +180,10 @@ function renderPage(){
   const c=guide.categories.find(c=>c.id===category);
   renderWeaponTiers();renderAmmoMethods();
   renderSubstanceSections();renderGatheringMethods();
-  $('#page-title').textContent=c?c.name:EXTRA_PAGES[category];
+  $('#page-title').textContent=category==='home'?'Everything you need to craft in Zephyr':c?c.name:EXTRA_PAGES[category];
   $('#breadcrumb').textContent=c?'CRAFTING':category.toUpperCase();
-  $('#page-description').textContent=category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':category==='materials'?'Look up any material: how to get it and every recipe that uses it.':category==='plan'?'Everything you have queued up, combined into one materials list.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
+  $('#page-description').textContent=category==='home'?'Pick what you want to make and the guide tells you what you need, how long it takes and where to craft it, with a map and a photo of the bench.':category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':category==='materials'?'Look up any material: how to get it and every recipe that uses it.':category==='plan'?'Everything you have queued up, combined into one materials list.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
+  if(category==='home'){renderHome();return;}
   if(category==='locations'){renderLocations();return;}
   if(category==='materials'){renderMaterials();return;}
   if(category==='plan'){$('#content').innerHTML=sharedBanner()+'<div id="plan" class="wide"></div>';bindShared();renderPlan();return;}
@@ -226,6 +230,45 @@ function renderLocations(){
   $('#content').innerHTML=locations.map(({location:l,benches,title})=>`<section class="location-section location-entry" id="location-${esc(l.id)}" aria-label="${esc(title)} — ${postalLabel(l).toLowerCase()} ${esc(l.postcode)}"><div class="section-header"><div><p class="eyebrow">CRAFTING LOCATION</p><h2>${esc(title)}</h2></div>${postalTag(l)}</div><div class="photos">${photo(l.mapImage,l.mapAlt,'Map location',postalLabel(l)+' '+l.postcode)}${benches.map(b=>photo(b.image,b.imageAlt,benches.length===1?'Bench & surroundings':b.name,postalLabel(l)+' '+l.postcode)).join('')}</div><div class="location-entry-footer"><div>${warningBanner(l)}${l.notes?`<p class="location-notes">${esc(l.notes)}</p>`:''}${benches.filter(b=>b.notes).map(b=>`<p class="location-notes">${benches.length>1?esc(b.name)+': ':''}${esc(b.notes)}</p>`).join('')}</div><div class="location-entry-actions">${benches.filter(b=>recipes.some(r=>r.benchId===b.id)).map(b=>`<button data-bench="${esc(b.id)}">${benches.length===1?'View recipes':'View '+esc(b.name)+' recipes'}</button>`).join('')}</div></div></section>`).join('')||'<div class="empty">No locations added yet.</div>';
   bindPhotos();
   document.querySelectorAll('[data-bench]').forEach(b=>b.onclick=()=>{const r=recipes.find(r=>r.benchId===b.dataset.bench);navigate('#'+r.categoryId+'/'+r.id);});
+}
+// Home: what the guide is, how to use it and where everything lives. The cards and figures come from the data, so it stays
+// current on its own; a returning visitor also gets their pins and plan at the top.
+const HOME_STEPS=[['Pick what to make','Choose a section, then a recipe. Search finds any recipe, material, guide or postcode.'],['Say how many','The calculator rounds up to full crafts and lists every material and how long it takes.'],['Head to the bench','Each recipe shows its bench with a postcode to copy, a map and a photo of the spot.']];
+const HOME_TOOLS=[
+ ['Crafting plan','Queue up several recipes and get one combined materials list. Break it down to raw ore, take off what you already have, or send it to your crew as a link.','<a class="item-link" href="#plan">Open your plan</a>'],
+ ['Search','Find any recipe, material, guide, bench or postcode. Several words work too, such as “cayo 9mm”.','<button type="button" class="item-link" data-home="search">Search the guide</button>'],
+ ['Materials','Not sure where something comes from? Look up any material to see how to get it and every recipe that uses it.','<a class="item-link" href="#materials">Browse materials</a>'],
+ ['Pins','Use the Pin button beside a page title to keep a recipe, guide or material at the top of the menu.',''],
+ ['Works offline','After your first visit the guide is saved on your device, so it still opens if your connection drops. On a phone you can add it to your home screen.',''],
+ ['Themes','Zephyr purple, light, high contrast and more. Your pick is saved on this device.','<button type="button" class="item-link" data-home="theme">Pick a theme</button>'],
+];
+function renderHome(){
+  const label=id=>categoryLabels[id]||guide.categories.find(c=>c.id===id)?.name||EXTRA_PAGES[id];
+  const card=id=>{const count=categoryCount(id);return `<a class="home-card${count?'':' pending'}" href="#${esc(id)}">${sectionIcon(id)}<span><strong>${esc(label(id))}</strong><span>${esc(SECTION_NOTES[id]||'Recipes and where to craft them.')}</span><small>${categoryDetail(id,count)}</small></span></a>`;};
+  // Sections that are still empty go to the end of their group.
+  const groups=homeSections(guide).map(group=>({...group,ids:[...group.ids.filter(categoryCount),...group.ids.filter(id=>!categoryCount(id))]}));
+  const guides=guideCategories.reduce((sum,id)=>sum+categoryCount(id),0),first=guide.categories.find(c=>recipes.some(r=>r.categoryId===c.id));
+  const stats=[[recipes.length,'recipes'],[guide.items.length,'materials'],[guide.locations.length,'crafting locations'],[guides,guides===1?'written guide':'written guides']];
+  const pinned=pins.map(hash=>pinDetails(hash,guide,recipes)).filter(Boolean);
+  const resume=pinned.length||plan.length?`<section class="home-resume" aria-labelledby="home-resume-title"><p class="eyebrow" id="home-resume-title">PICK UP WHERE YOU LEFT OFF</p><ul class="item-links">${plan.length?`<li><a class="item-link" href="#plan">Your plan <small>${plan.length} ${plan.length===1?'recipe':'recipes'}</small></a></li>`:''}${pinned.map(pin=>`<li><a class="item-link" href="${esc(pin.hash)}">${esc(pin.label)} <small>${esc(pin.detail)}</small></a></li>`).join('')}</ul></section>`:'';
+  $('#content').innerHTML=`<div class="home">
+<section class="home-hero" aria-label="Start here"><div class="home-actions"><button type="button" class="primary" data-home="search">Search the guide</button>${first?`<a class="button" href="#${esc(first.id)}">Browse recipes</a>`:''}<button type="button" data-home="news">What’s new</button></div><ul class="home-stats">${stats.map(([n,name])=>`<li><strong>${fmt(n)}</strong><span>${name}</span></li>`).join('')}</ul></section>
+${resume}
+<section aria-labelledby="home-steps-title"><p class="eyebrow">HOW IT WORKS</p><h2 id="home-steps-title">Three steps to anything in the guide</h2><ol class="home-steps">${HOME_STEPS.map(([title,text])=>`<li><h3>${title}</h3><p>${text}</p></li>`).join('')}</ol></section>
+<section aria-labelledby="home-sections-title"><p class="eyebrow">EXPLORE THE GUIDE</p><h2 id="home-sections-title">Where do you want to go?</h2>${groups.map(group=>`<div class="home-group"><h3>${group.title} <small>${group.note}</small></h3><div class="home-cards">${group.ids.map(card).join('')}</div></div>`).join('')}</section>
+<section aria-labelledby="home-tools-title"><p class="eyebrow">HANDY TOOLS</p><h2 id="home-tools-title">What else it can do</h2><div class="home-tools">${HOME_TOOLS.map(([title,text,action])=>`<article><h3>${title}</h3><p>${text}</p>${action}</article>`).join('')}</div></section>
+<section id="home-news" aria-labelledby="home-news-title" hidden></section>
+<section class="home-help" aria-labelledby="home-help-title"><div><h2 id="home-help-title">Spotted something wrong?</h2><p>Recipes change and new things get added to the city all the time. If a recipe looks off, a bench has moved or you know something the guide does not, say so and it will get updated.</p></div><button type="button" data-home="feedback">Report it</button></section>
+</div>`;
+  const actions={search:()=>{$('#search-input').scrollIntoView({block:'center'});$('#search-input').focus();},news:openChangelog,theme:()=>$('#theme-dialog').showModal(),feedback:()=>$('#feedback-dialog').showModal()};
+  $('#content').onclick=e=>{const button=e.target.closest('[data-home]');if(button&&category==='home')actions[button.dataset.home]();};
+  renderHomeNews();
+}
+// The latest changes arrive separately from the guide data, so this part is filled in whenever both are ready.
+function renderHomeNews(){
+  const host=$('#home-news');if(!host)return;
+  host.hidden=!changelog.length;
+  host.innerHTML=changelog.length?`<p class="eyebrow">WHAT’S NEW</p><h2 id="home-news-title">Latest changes</h2><ul>${changelog.slice(0,3).map(entry=>`<li><time datetime="${esc(entry.date)}">${esc(formatDate(entry.date))}</time><span>${esc(entry.title)}</span></li>`).join('')}</ul><button type="button" data-home="news">See all changes</button>`:'';
 }
 // Materials: every ingredient in the guide, how to get it and each recipe that uses it. Built from the recipes, so it never needs upkeep.
 function renderMaterials(){
@@ -391,7 +434,7 @@ function renderPins(){
   button.title=pinned?'Unpin '+current.label:'Keep '+current.label+' at the top of the menu';
 }
 $('#pin-page').onclick=e=>{const hash=e.currentTarget.dataset.hash,name=pinDetails(hash,guide,recipes).label;if(pins.includes(hash)){pins=pins.filter(pin=>pin!==hash);toast(name+' unpinned.');}else{pins=[...pins,hash];toast(name+' pinned to the top of the menu.');}savePins();renderPins();};
-$('#pins').onclick=e=>{const button=e.target.closest('[data-unpin]');if(!button)return;pins=pins.filter(pin=>pin!==button.dataset.unpin);savePins();renderPins();($('#pins [data-unpin]')||$('#search-input')).focus();};
+$('#pins').onclick=e=>{const button=e.target.closest('[data-unpin]');if(!button)return;pins=pins.filter(pin=>pin!==button.dataset.unpin);savePins();if(category==='home')render();else renderPins();($('#pins [data-unpin]')||$('#search-input')).focus();};
 $('.skip').onclick=e=>{e.preventDefault();$('#main').focus();$('#main').scrollIntoView();};
 // Reload data is a maintainer tool: visitors always get the latest data when they open or refresh the page.
 $('#reload').hidden=!EDITING;
@@ -427,7 +470,7 @@ $('#copy-discord').onclick=async e=>{const status=$('#copy-discord-status');try{
 $('#feedback').onclick=()=>$('#feedback-dialog').showModal();
 // What's new: the changelog loads on its own, so a problem with it never stops the guide, and the badge counts
 // the entries this visitor has not opened. Opening the list marks everything as seen.
-async function loadChangelog(){try{const r=await fetch('data/changelog.json',{cache:'no-store'});if(!r.ok)return;const rows=await r.json();validateChangelog(rows);changelog=rows;renderChangelogBadge();}catch(e){console.warn('What’s new is unavailable: '+e.message);}}
+async function loadChangelog(){try{const r=await fetch('data/changelog.json',{cache:'no-store'});if(!r.ok)return;const rows=await r.json();validateChangelog(rows);changelog=rows;renderChangelogBadge();renderHomeNews();}catch(e){console.warn('What’s new is unavailable: '+e.message);}}
 function seenChangelog(){try{return JSON.parse(localStorage.getItem(CHANGELOG_KEY));}catch{return null;}}
 function renderChangelogBadge(){const n=unseenChanges(changelog,seenChangelog()),badge=$('#whats-new-badge');badge.hidden=!n;badge.textContent=n>9?'9+':n;$('#whats-new').setAttribute('aria-label',n?`What’s new, ${n} unread change${n===1?'':'s'}`:'What’s new');}
 function openChangelog(){

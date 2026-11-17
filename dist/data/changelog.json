@@ -1,5 +1,15 @@
 [
   {
+    "id": "2026-11-17-home-page",
+    "date": "2026-11-17",
+    "title": "A home page",
+    "notes": [
+      "The guide now opens on a home page that explains how it works, shows every section with a line about what is in it, and lists the handy tools and the latest changes.",
+      "Your pins and your plan sit at the top of it, so you can pick up where you left off.",
+      "Get back to it any time from Home in the menu or the Zephyr logo. Links to recipes and pages you have saved still open the same place."
+    ]
+  },
+  {
     "id": "2026-11-17-share-pins-offline",
     "date": "2026-11-17",
     "title": "Share a plan, pin your favourites, and use the guide offline",

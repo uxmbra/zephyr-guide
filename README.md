@@ -10,7 +10,7 @@ Recipes, materials, maps and benches, all in one place, so you can spend less ti
 
 <br>
 
-<img src=".github/readme/guide-preview.jpg" alt="The Zephyr City Field Guide showing the Ammo Crafting page" width="900">
+<img src=".github/readme/guide-preview.jpg" alt="The home page of the Zephyr City Field Guide, with a card for every section" width="900">
 
 </div>
 

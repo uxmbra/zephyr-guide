@@ -23,11 +23,38 @@ export function resolveTheme(choice,prefersLight=false){if(choice===SYSTEM_THEME
 export const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const fmt=n=>n.toLocaleString('en-AU');
 // Pages that are built from the data rather than listed as a category in guide.json.
-export const EXTRA_PAGES={locations:'Locations & benches',materials:'Materials',plan:'Crafting plan'};
+export const EXTRA_PAGES={home:'Home',locations:'Locations & benches',materials:'Materials',plan:'Crafting plan'};
+// One line about each section, shown on its card on the home page. Every category in guide.json needs a line here (the tests check).
+export const SECTION_NOTES={
+ ammo:'Every calibre from 9mm to 12 Gauge, for the Mainland and Cayo benches.',
+ weapons:'Pistols, SMGs, shotguns and rifles, sorted by bench tier.',
+ attachments:'Suppressors, extended clips and more.',
+ melee:'From a baseball bat to a katana.',
+ heist:'Bolt cutters, thermite and electronic kits for the job.',
+ generic:'Everyday items for life in the city.',
+ smelting:'Turn raw ore into brass, steel, copper and gold. Start from what you have.',
+ business:'Repair kits and performance parts for mechanics, worked out by quota.',
+ substances:'Step-by-step guides with field and lab locations.',
+ gathering:'Where to collect raw materials, what to bring and what you get.',
+ 'heist-guides':'Plan the job: what to bring, where to go and which items to craft.',
+ locations:'Postcodes, maps and bench photos for every crafting spot.',
+ materials:'Look up any material: how to get it and every recipe that uses it.',
+};
+const HOME_GROUPS=[
+ {title:'Crafting',note:'Recipes with a calculator, a bench and a postcode.',ids:['ammo','weapons','attachments','melee','heist','generic','smelting','business']},
+ {title:'Guides',note:'Written walkthroughs for activities in the city.',ids:['substances','gathering','heist-guides']},
+ {title:'Reference',note:'Look things up fast.',ids:['locations','materials']},
+];
+// The sections on the home page, in groups. A category the groups do not name yet joins Crafting, so nothing is ever left off.
+export function homeSections(guide){
+  const exists=id=>id!=='home'&&id!=='plan'&&(Object.hasOwn(EXTRA_PAGES,id)||guide.categories.some(c=>c.id===id)),placed=new Set(HOME_GROUPS.flatMap(g=>g.ids));
+  return HOME_GROUPS.map((group,index)=>({title:group.title,note:group.note,ids:[...group.ids.filter(exists),...(index?[]:guide.categories.map(c=>c.id).filter(id=>!placed.has(id)))]})).filter(group=>group.ids.length);
+}
 // Every page has an address: #category, or #category/selection for a recipe, tier, method, guide section, heist guide, location or material.
+// No address, or one the guide does not know, is the home page.
 export function resolveRoute(hash,guide,recipes){
   const [id,sub='']=String(hash||'').replace(/^#/,'').split('/');
-  const category=Object.hasOwn(EXTRA_PAGES,id)||guide.categories.some(c=>c.id===id)?id:guide.categories[0].id;
+  const category=Object.hasOwn(EXTRA_PAGES,id)||guide.categories.some(c=>c.id===id)?id:'home';
   const route={category};
   if(!sub)return route;
   const recipe=recipes.find(r=>r.id===sub&&r.categoryId===category);

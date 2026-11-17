@@ -39,6 +39,7 @@ It adds the thumbnails that are missing and removes ones whose photo is gone (it
 
 Every page has its own address, so links can point straight at a recipe, tier, guide or location:
 
+- `#home`, or no address at all — the home page
 - `#smelting/smelting-brass` — a recipe (the section, then the recipe ID)
 - `#weapons/tier-2` or `#ammo/cayo` — a weapon tier or ammo method
 - `#substances/cocaine`, `#gathering/scrap-yard`, `#heist-guides/<guide-id>` — a written guide
@@ -47,7 +48,11 @@ Every page has its own address, so links can point straight at a recipe, tier, g
 - `#plan` — the visitor's own crafting plan
 - `#plan/ammo-9mm.600_weapon-vector.1` — a shared plan: each recipe ID, a dot and the amount, joined by underscores. **Copy plan link** writes these.
 
-An unknown ID falls back to the section it names, and an unknown section falls back to the first one.
+An unknown ID falls back to the section it names, and an unknown section falls back to the home page.
+
+## Home page
+
+The home page is built from the data, so its figures, section cards and latest changes keep themselves current. The one thing it needs from you: when you add a **new category** to `guide.json`, add a line about it to `SECTION_NOTES` in `dist/core.js`, which is the sentence shown on its card. The tests fail, and say so, if a category has no line. To move a card between the Crafting, Guides and Reference groups, edit `HOME_GROUPS` just below it; a category that no group names is shown under Crafting.
 
 ## Offline copy
 
