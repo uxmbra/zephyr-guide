@@ -1,5 +1,17 @@
 [
   {
+    "id": "2026-11-17-share-pins-offline",
+    "date": "2026-11-17",
+    "title": "Share a plan, pin your favourites, and use the guide offline",
+    "notes": [
+      "Share your crafting plan: Copy plan link gives you a link that opens the same recipes and amounts for whoever you send it to. If they already have a plan, they choose whether to add yours or swap to it.",
+      "Break a plan down to raw materials: tick the box on your plan and the guide works out the smelting for metals like Brass and Steel, then lists the ore to gather. Where a metal can be made two ways you can pick which, and anything you already have is taken off.",
+      "Pin the pages you use most: the Pin button beside the page title keeps a recipe, guide or material at the top of the menu.",
+      "Works with no connection: after your first visit the guide is saved on your device, so it still opens if your internet drops.",
+      "Photos load quicker: pages show a lighter copy of each photo, and the full picture loads when you tap to enlarge it."
+    ]
+  },
+  {
     "id": "2026-11-17-bin-diving-guide",
     "date": "2026-11-17",
     "title": "Bin Diving guide",

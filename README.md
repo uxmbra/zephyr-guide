@@ -44,6 +44,9 @@ Heist guides and generic items are on the way.
 - **Crafting calculator.** Say how many you need and the guide works out how many crafts it takes and every material to gather.
 - **"What can I make?"** Tell the smelter how much ore you've got and see what it turns into.
 - **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have. The plan has its own page, amounts can be changed in the list, and it is saved on your device.
+- **Down to the ore.** Tick "Break down to raw materials" and the plan works out the smelting for you, so the list shows what to actually go and gather.
+- **Share a plan.** Copy plan link gives your crew a link that opens the same recipes and amounts.
+- **Pins.** Keep the recipes, guides and materials you use most at the top of the menu.
 - **Materials.** Look up any material to see how to get it and every recipe that uses it. Material names in the calculator and plan link straight there.
 - **Search.** Type a recipe, material, guide, bench or postcode and jump straight to it. Several words work too, such as "cayo 9mm". Press `/` to start typing.
 - **Shareable links.** Every recipe, tier, guide, material and location has its own address. Copy link grabs it, so you can send a mate straight to the Cayo 9mm recipe or the smelter.
@@ -53,6 +56,7 @@ Heist guides and generic items are on the way.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
 - **Maps and photos.** Tap any picture to enlarge it.
 - **Works on your phone.** Keep it open on a second screen or your phone while you play, or add it to your home screen.
+- **Works offline.** After your first visit the guide is saved on your device, so it still opens with no connection.
 
 ## How to open it
 

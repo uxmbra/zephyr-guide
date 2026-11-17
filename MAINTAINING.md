@@ -29,6 +29,12 @@ Write entries for players, not for the code: say what they can now do or find, a
 
 Save screenshots as WebP, around 1600 px wide and under 1.5 MB. The tests refuse anything larger, and flag an image that no location, bench or guide points at. Reference images from the JSON as `images/<name>.webp`.
 
+Every photo also needs a small copy in `dist/images/thumbs/`, which is what pages show until a photo is enlarged. After adding or removing photos, run:
+
+    python3 scripts/make-thumbs.py
+
+It adds the thumbnails that are missing and removes ones whose photo is gone (it needs Pillow: `python3 -m pip install Pillow`). Add `--all` to remake every thumbnail, which is only needed after replacing a photo under the same filename. The tests fail, and name this command, if a thumbnail is missing. The JSON still points at the full photo; the guide works out the thumbnail's address itself.
+
 ## Links to pages
 
 Every page has its own address, so links can point straight at a recipe, tier, guide or location:
@@ -39,12 +45,19 @@ Every page has its own address, so links can point straight at a recipe, tier, g
 - `#locations/smelter-174` — one entry on the Locations page
 - `#materials/steel` — one material on the Materials page (the item ID)
 - `#plan` — the visitor's own crafting plan
+- `#plan/ammo-9mm.600_weapon-vector.1` — a shared plan: each recipe ID, a dot and the amount, joined by underscores. **Copy plan link** writes these.
 
 An unknown ID falls back to the section it names, and an unknown section falls back to the first one.
+
+## Offline copy
+
+`dist/sw.js` saves the guide on a visitor's device after their first visit, so it opens with no connection. It needs no upkeep: it reads the list of files to save from `index.html` and `guide.json`, always fetches the page and the data fresh when there is a connection, and treats any file named with a `?v=` number as unchanging (one more reason to raise that number when a CSS or JS file changes). If saved copies ever need to be thrown away for everyone, change the `CACHE` name at the top of the file.
 
 ## Materials page
 
 The **Materials** page is built from the recipes, so it needs no upkeep: every item in `guide.json` appears with the recipes that use it. A material shows a "how to get it" link when a recipe names it as its `outputItemId` (the smelting recipes do).
+
+The same `outputItemId` is what lets a crafting plan be broken down to raw materials: any material that a recipe produces is replaced by that recipe's ingredients. A new smelting recipe joins in as soon as it has an `outputItemId`.
 
 ## Link previews, icons and the font
 

@@ -39,8 +39,35 @@ export function resolveRoute(hash,guide,recipes){
   else if(category==='heist-guides'&&(guide.heistGuides||[]).some(g=>g.id===sub))route.heistGuide=sub;
   else if(category==='locations'&&guide.locations.some(l=>l.id===sub))route.location=sub;
   else if(category==='materials'&&guide.items.some(i=>i.id===sub))route.material=sub;
+  else if(category==='plan'){const shared=decodePlan(sub,recipes);if(shared.length)route.shared=shared;}
   return route;
 }
+// A plan can be passed on as an address: #plan/ammo-9mm.600_smelting-brass.12 is each recipe ID, a dot and the amount,
+// joined by underscores. Reading one back keeps only recipes the guide still has, with sensible amounts, once each.
+export function encodePlan(plan){return plan.map(p=>p.recipeId+'.'+p.quantity).join('_');}
+export function decodePlan(text,recipes){
+  const plan=[];
+  for(const part of String(text||'').split('_').slice(0,200)){
+    const match=/^([a-z0-9-]+)\.([1-9]\d{0,6})$/.exec(part);
+    if(!match||Number(match[2])>MAX_QUANTITY||plan.some(p=>p.recipeId===match[1])||!recipes.some(r=>r.id===match[1]))continue;
+    plan.push({recipeId:match[1],quantity:Number(match[2])});
+  }
+  return plan;
+}
+// Pages worth pinning are the ones with a selection in their address: a recipe, a written guide or a material.
+// Returns the tidy address with a name and a short description, or null for anything else (or anything that no longer exists).
+export function pinDetails(hash,guide,recipes){
+  const r=resolveRoute(hash,guide,recipes),category=guide.categories.find(c=>c.id===r.category);
+  if(r.category==='business')return null;
+  if(r.recipeId){const recipe=recipes.find(x=>x.id===r.recipeId);return {hash:'#'+r.category+'/'+recipe.id,label:recipe.name,detail:[category.name,recipe.tier?'Tier '+recipe.tier:'',recipe.method?AMMO_METHODS[recipe.method]:''].filter(Boolean).join(' · ')};}
+  if(r.substance)return {hash:'#substances/'+r.substance,label:SUBSTANCE_SECTIONS[r.substance],detail:'Substance guide'};
+  if(r.gathering)return {hash:'#gathering/'+r.gathering,label:GATHERING_METHODS[r.gathering],detail:'Gathering guide'};
+  if(r.heistGuide)return {hash:'#heist-guides/'+r.heistGuide,label:guide.heistGuides.find(g=>g.id===r.heistGuide).name,detail:'Heist guide'};
+  if(r.material)return {hash:'#materials/'+r.material,label:guide.items.find(i=>i.id===r.material).name,detail:'Material'};
+  return null;
+}
+// Local photos have a small copy in images/thumbs/ (always WebP) for the page; the full picture loads when it is enlarged.
+export function thumbFor(src){const match=/^images\/(?!thumbs\/)(.+)\.(?:png|jpe?g|webp|gif)$/i.exec(src||'');return match?'images/thumbs/'+match[1]+'.webp':src;}
 // The changelog is a list of entries, newest first, that the What's new button shows.
 export function validateChangelog(rows){
   const fail=m=>{throw new Error(m);};
@@ -122,6 +149,30 @@ export function combinePlan(recipes,plan,inventory={}){
   for(const entry of plan){const recipe=recipes.find(r=>r.id===entry.recipeId);if(!recipe)throw new Error('A planned recipe no longer exists.');for(const i of calculate(recipe,entry.quantity).materials)totals[i.itemId]=(totals[i.itemId]||0)+i.quantity;}
   return Object.entries(totals).map(([itemId,quantity])=>({itemId,quantity,owned:inventory[itemId]||0,missing:Math.max(0,quantity-(inventory[itemId]||0))}));
 }
+// Breaks a plan down to raw materials. Anything a recipe in the guide can make (the smelted metals) becomes a step: the amount
+// still missing after what the player already has is rounded up to full crafts, and that step's ingredients join the list.
+// Steps come out in the order to read them (Steel before the Iron it needs); `methods` picks a recipe where an item has several.
+// Every item that could be needed gets a row even when its amount is 0, so the list keeps its shape while "You have" is typed.
+export function expandPlan(recipes,plan,inventory={},methods={}){
+  const optionsFor=id=>recipes.filter(r=>r.outputItemId===id);
+  const maker=id=>{const options=optionsFor(id);return options.find(r=>r.id===methods[id])||options[0];};
+  const totals=new Map(combinePlan(recipes,plan).map(t=>[t.itemId,t.quantity]));
+  const pending=new Set();
+  const visit=id=>{const r=maker(id);if(!r||pending.has(id))return;pending.add(id);for(const i of r.ingredients)if(!totals.has(i.itemId))totals.set(i.itemId,0);for(const i of r.ingredients)visit(i.itemId);};
+  [...totals.keys()].forEach(visit);
+  const steps=[];
+  while(pending.size){
+    // An item is ready once nothing still waiting needs it as an ingredient. Recipes that feed each other in a loop are left as they are.
+    const id=[...pending].find(p=>![...pending].some(q=>q!==p&&maker(q).ingredients.some(i=>i.itemId===p)));
+    if(id===undefined)break;
+    pending.delete(id);
+    const recipe=maker(id),quantity=totals.get(id),owned=inventory[id]||0,missing=Math.max(0,quantity-owned),batches=Math.ceil(missing/recipe.outputQuantity);
+    for(const i of recipe.ingredients)totals.set(i.itemId,totals.get(i.itemId)+i.quantity*batches);
+    steps.push({itemId:id,recipe,options:optionsFor(id),quantity,owned,missing,batches,output:batches*recipe.outputQuantity,totalTimeSeconds:batches===0?0:recipe.craftTimeSeconds==null?null:batches*recipe.craftTimeSeconds});
+  }
+  const made=new Set(steps.map(s=>s.itemId));
+  return {steps,materials:[...totals].filter(([id])=>!made.has(id)).map(([itemId,quantity])=>({itemId,quantity,owned:inventory[itemId]||0,missing:Math.max(0,quantity-(inventory[itemId]||0))}))};
+}
 const validGuideImages=value=>Array.isArray(value)&&!value.some(image=>!image||typeof image!=='object'||typeof image.src!=='string'||!image.src||!safeImage(image.src)||typeof (image.title??'')!=='string'||typeof (image.alt??'')!=='string'||typeof (image.detail??'')!=='string');
 export function safeImage(value){return typeof value==='string'&&(value===''||/^https:\/\//i.test(value)||/^images\/[a-z0-9_./-]+\.(png|jpe?g|webp|gif)$/i.test(value)&&!value.includes('..'));}
 // Pass {links:false} to check guide.json on its own, before the recipe files are loaded.
@@ -167,8 +218,10 @@ export function formatDuration(seconds){
   const hours=Math.floor(seconds/3600),minutes=Math.floor(seconds%3600/60),remaining=seconds%60;
   return [hours?hours+'h':'',minutes?minutes+'m':'',remaining?remaining+'s':''].filter(Boolean).join(' ')||'0s';
 }
-export function planDuration(recipes,plan){
+// `steps` are the smelting steps from expandPlan, when the plan is broken down to raw materials.
+export function planDuration(recipes,plan,steps=[]){
   let knownSeconds=0,unknownRecipes=0;
   for(const entry of plan){const recipe=recipes.find(r=>r.id===entry.recipeId);if(!recipe)throw new Error('A planned recipe no longer exists.');const time=calculate(recipe,entry.quantity).totalTimeSeconds;if(time===null)unknownRecipes++;else knownSeconds+=time;}
+  for(const step of steps){if(step.totalTimeSeconds===null)unknownRecipes++;else knownSeconds+=step.totalTimeSeconds;}
   return {knownSeconds,unknownRecipes,totalSeconds:unknownRecipes?null:knownSeconds};
 }
