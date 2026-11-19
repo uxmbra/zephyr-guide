@@ -73,7 +73,8 @@
     },
     {
       "id": "copper",
-      "name": "Copper"
+      "name": "Copper",
+      "sellPrice": 180
     },
     {
       "id": "coal-ore",
@@ -101,7 +102,8 @@
     },
     {
       "id": "iron",
-      "name": "Iron"
+      "name": "Iron",
+      "sellPrice": 210
     },
     {
       "id": "carbon",
@@ -142,7 +144,8 @@
     },
     {
       "id": "gold-ingot",
-      "name": "Gold Ingot"
+      "name": "Gold Ingot",
+      "sellPrice": 335
     },
     {
       "id": "zephyr-lubricant-spray",
@@ -254,7 +257,8 @@
     },
     {
       "id": "silver-ingot",
-      "name": "Silver Ingot"
+      "name": "Silver Ingot",
+      "sellPrice": 225
     },
     {
       "id": "vector-blueprint",

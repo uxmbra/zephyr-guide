@@ -1,5 +1,15 @@
 [
   {
+    "id": "2026-11-19-smelting-sell-values",
+    "date": "2026-11-19",
+    "title": "Smelting sell values",
+    "notes": [
+      "The Smelting calculator now shows what your ore, the coal it uses and the smelted output sell for.",
+      "Prices: Coal Ore $20, Copper Ore $25, Iron Ore $30, Silver Ore $40, Gold Ore $50, Copper $180, Iron $210, Silver Ingot $225, Gold Ingot $335.",
+      "It also tells you how much smelting gains over selling the ore and coal as they are."
+    ]
+  },
+  {
     "id": "2026-11-17-recycling-centre-guide",
     "date": "2026-11-17",
     "title": "Recycling Centre guide",
