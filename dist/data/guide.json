@@ -77,15 +77,18 @@
     },
     {
       "id": "coal-ore",
-      "name": "Coal Ore"
+      "name": "Coal Ore",
+      "sellPrice": 20
     },
     {
       "id": "copper-ore",
-      "name": "Copper Ore"
+      "name": "Copper Ore",
+      "sellPrice": 25
     },
     {
       "id": "iron-ore",
-      "name": "Iron Ore"
+      "name": "Iron Ore",
+      "sellPrice": 30
     },
     {
       "id": "iron-trash",
@@ -93,7 +96,8 @@
     },
     {
       "id": "gold-ore",
-      "name": "Gold Ore"
+      "name": "Gold Ore",
+      "sellPrice": 50
     },
     {
       "id": "iron",
@@ -117,7 +121,8 @@
     },
     {
       "id": "silver-ore",
-      "name": "Silver Ore"
+      "name": "Silver Ore",
+      "sellPrice": 40
     },
     {
       "id": "silver-fragments",
