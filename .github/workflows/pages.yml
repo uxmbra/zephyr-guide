@@ -15,26 +15,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  # Tests, then packages dist/ for Pages. Uploading here, in a separate job
+  # from the deploy, gives the artifact time to become visible before
+  # deploy-pages looks it up.
+  build:
     runs-on: ubuntu-latest
+    outputs:
+      artifact: ${{ steps.artifact.outputs.name }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: npm test
+      - uses: actions/configure-pages@v6
+      # Name the artifact after the attempt that built it. Re-running all jobs
+      # builds a new, uniquely named one, and re-running only the failed deploy
+      # reuses this job's output, so deploy-pages always matches exactly one.
+      - id: artifact
+        run: echo "name=github-pages-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+          name: ${{ steps.artifact.outputs.name }}
 
   deploy:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
       - id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          artifact_name: ${{ needs.build.outputs.artifact }}
