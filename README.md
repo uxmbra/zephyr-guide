@@ -29,20 +29,33 @@ Everything in the guide has been gathered from real play in the city. Nothing is
 | 🎯 | **Ammo** | Every calibre from 9mm to 12 Gauge, with recipes for both the Mainland and Cayo |
 | 🔫 | **Weapons** | Pistols, SMGs, shotguns and rifles, sorted by bench tier |
 | 🧪 | **Substances** | Step-by-step guides with field and lab locations |
-| 🔧 | **Attachments** | Suppressors, extended clips and more |
-| 🧰 | **Heist items** | Bolt cutters, thermite and electronic kits |
+| 🔧 | **Attachments** | Suppressors and extended clips for pistols, SMGs and rifles |
+| 🧰 | **Heist items** | Bolt cutters, thermite, electronic kits, C4, bombs and the big drill |
 | 🗡️ | **Melee** | From a humble baseball bat to a katana (and a pink electric guitar) |
-| 🌿 | **Gathering materials** | Where to collect raw materials, what to bring and what you'll get |
-| 🔥 | **Smelting** | Turn raw ore into brass, steel, copper, gold and more |
+| 🌿 | **Gathering** | Guides to Hobo Camps, Bin Diving, Metal Detecting, the Scrap Yard and the Recycling Centre |
+| 🔥 | **Smelting** | Turn raw ore into brass, steel, copper, gold and more, and see what it all sells for |
 | 🔩 | **Business** | Repair kits and performance parts for mechanics |
 | 📍 | **Locations & benches** | Postcodes, map screenshots and bench photos for every spot |
 
 Heist guides and generic items are on the way.
 
+## Take a look
+
+<table>
+<tr>
+<td width="50%"><img src=".github/readme/smelting.jpg" alt="The Smelting calculator turning 500 Copper Ore into 1,200 Copper, with sell values"><br><sub><b>Smelting calculator.</b> Enter the ore you've got to see what it makes, how long it takes and what it's worth.</sub></td>
+<td width="50%"><img src=".github/readme/plan.jpg" alt="A crafting plan with 9mm and .38 LC broken down to raw materials"><br><sub><b>Crafting plan.</b> Queue up several recipes and get one shopping list, down to the raw ore.</sub></td>
+</tr>
+<tr>
+<td width="50%"><img src=".github/readme/gathering.jpg" alt="The Hobo Camps gathering guide"><br><sub><b>Gathering guides.</b> Where to go, what to bring and what you'll come back with.</sub></td>
+<td width="50%" align="center"><img src=".github/readme/phone.jpg" alt="The guide's home page on a phone" width="260"><br><sub><b>On your phone.</b> Keep it open beside the game, even with no connection.</sub></td>
+</tr>
+</table>
+
 ## Handy features
 
 - **Crafting calculator.** Say how many you need and the guide works out how many crafts it takes and every material to gather.
-- **"What can I make?"** Tell the smelter how much ore you've got and see what it turns into.
+- **"What can I make?"** Tell the smelter how much ore you've got and see what it turns into, plus what the ore, coal and finished metal sell for.
 - **Crafting plan.** Add several recipes to one list and get a single combined shopping list, minus anything you already have. The plan has its own page, amounts can be changed in the list, and it is saved on your device.
 - **Down to the ore.** Tick "Break down to raw materials" and the plan works out the smelting for you, so the list shows what to actually go and gather.
 - **Share a plan.** Copy plan link gives your crew a link that opens the same recipes and amounts.
@@ -56,6 +69,7 @@ Heist guides and generic items are on the way.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
 - **Maps and photos.** Tap any picture to enlarge it.
 - **Works on your phone.** Keep it open on a second screen or your phone while you play, or add it to your home screen.
+- **Zephyr links.** The Zephyr Tebex Store and Zephyr Support are one tap away from the menu.
 - **Works offline.** After your first visit the guide is saved on your device, so it still opens with no connection.
 
 ## How to open it
@@ -66,7 +80,10 @@ Just visit **[uxmbra.github.io/zephyr-guide](https://uxmbra.github.io/zephyr-gui
 
 Recipes change and new things get added to the city all the time. If a recipe looks off, a bench has moved, or you know something the guide doesn't, let us know and we'll get it updated.
 
-**[Report a problem →](https://github.com/uxmbra/zephyr-guide/issues/new?template=report-a-problem.yml)** (takes about a minute; screenshots welcome)
+- **Discord:** send a DM to **uxmbra** with what you saw and where.
+- **[Report a problem →](https://github.com/uxmbra/zephyr-guide/issues/new?template=report-a-problem.yml)** (takes about a minute; screenshots welcome)
+
+You'll find both under **Guide missing something?** in the guide too.
 
 <br>
 
