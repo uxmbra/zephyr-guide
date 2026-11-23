@@ -549,7 +549,16 @@
     "smelting-silver-fragments",
     "smelting-gold-flakes"
   ],
-  "playerPrices": [],
+  "playerPrices": [
+    {
+      "itemId": "coal-ore",
+      "clean": [
+        150,
+        180
+      ],
+      "updated": "2026-11-23"
+    }
+  ],
   "substanceGuides": {
     "meth": {
       "overview": "",
