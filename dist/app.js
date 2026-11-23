@@ -1,5 +1,5 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor,SECTION_NOTES,homeSections} from './core.js?v=19';
-import {renderBusiness,configureBusiness} from './business.js?v=12';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor,SECTION_NOTES,homeSections} from './core.js?v=20';
+import {renderBusiness,configureBusiness} from './business.js?v=13';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
 const PLAN_KEY='zephyr-plan';
@@ -114,7 +114,9 @@ const categoryDetail=(id,count)=>id==='home'?'Start here':guideCategories.includ
 const sectionIcon=id=>`<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span>`;
 function categoryLink(id,name,count){const active=category===id,detail=categoryDetail(id,count);return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}">${sectionIcon(id)}<span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
 // Data is revalidated on every visit (cache:'no-cache'), so a visitor always gets the latest files but unchanged ones are not downloaded again.
-async function load(){try{const first=!guide;if(guide)status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-cache'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const g=await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(c=>fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;restorePlan();route();status('');if(first)saveOffline();}catch(e){$('#content .loading')?.remove();status('The guide could not be loaded: '+e.message+'. Refresh the page to try again.',true);}}
+// On the first load the page itself has already asked for the data (window.guideData, started in index.html while the scripts
+// were still downloading), so that head start is used; anything it could not fetch is asked for again here, which also gives the error to show.
+async function load(){try{const first=!guide;if(guide)status('Loading latest guide…');const fetchJson=async file=>{const r=await fetch('data/'+file,{cache:'no-cache'});if(!r.ok)throw new Error('Could not load '+file);return r.json();};const started=window.guideData;window.guideData=null;const [early,earlyFiles]=(await started)||[];const g=early||await fetchJson('guide.json');validateData(g,[],{links:false});const groups=await Promise.all(g.categories.map(async(c,i)=>(earlyFiles&&await earlyFiles[i])||fetchJson(c.file)));groups.forEach((rows,i)=>{if(!Array.isArray(rows)||rows.some(r=>r.categoryId!==g.categories[i].id))throw new Error('Recipe file does not match its category.');});const all=groups.flat();validateData(g,all);guide=g;recipes=all;restorePlan();const place=first?enterPage():undefined;route();if(place!==undefined)scrollTo({top:place,behavior:'instant'});status('');if(first)saveOffline();}catch(e){$('#content .loading')?.remove();status('The guide could not be loaded: '+e.message+'. Refresh the page to try again.',true);}}
 // Offline copy: after the first visit sw.js keeps the guide on the device, so it still opens with no connection.
 // The first time that is ready the visitor is told once; a small "Offline" note shows whenever the connection is down.
 const offlineNote=()=>{$('#offline-note').hidden=navigator.onLine!==false;};
@@ -138,10 +140,35 @@ function restorePlan(){
   for(const [itemId,owned] of Object.entries(saved.inventory&&typeof saved.inventory==='object'?saved.inventory:{}))if(guide.items.some(i=>i.id===itemId)&&Number.isSafeInteger(owned)&&owned>=0&&owned<=1e12)inventory[itemId]=owned;
   for(const [itemId,recipeId] of Object.entries(saved.methods&&typeof saved.methods==='object'?saved.methods:{}))if(recipes.some(r=>r.id===recipeId&&r.outputItemId===itemId))methods[itemId]=recipeId;
 }
+// Back and Forward return to the spot you left, and a refresh keeps your place. A browser normally does this by itself, but
+// here each page is drawn after the address changes, so it has nothing to scroll to. Instead every stop in the tab's history
+// is given a short name, and how far down the page it was is remembered against that name for as long as the tab is open.
+const PLACES_KEY='zephyr-places';
+let places=(()=>{try{const saved=JSON.parse(sessionStorage.getItem(PLACES_KEY));return saved&&typeof saved==='object'&&!Array.isArray(saved)?saved:{};}catch{return {};}})();
+let stop=null,leaving=null;
+try{history.scrollRestoration='manual';}catch{}
+// Following a link to something with the same name as the address (the plan box on a recipe page) makes the browser scroll
+// to it before the page changes, so the position is noted at the click, while it is still the reader's own.
+const noteLeaving=()=>{leaving={y:scrollY,at:performance.now()};};
+document.addEventListener('click',e=>{if(e.target.closest?.('a[href^="#"]'))noteLeaving();},true);
+function keepPlace(y=leaving&&performance.now()-leaving.at<1000?leaving.y:scrollY){
+  leaving=null;if(!stop)return;
+  delete places[stop];places[stop]=Math.round(y);
+  const names=Object.keys(places);for(const old of names.slice(0,Math.max(0,names.length-60)))delete places[old];
+}
+// Names the stop the tab is on now, and returns where it was scrolled to if it has been here before.
+function enterPage(){
+  const known=history.state?.stop;
+  if(typeof known==='string'){stop=known;return places[known];}
+  stop=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  try{history.replaceState({stop},'');}catch{}
+}
+addEventListener('pagehide',()=>{keepPlace(scrollY);try{sessionStorage.setItem(PLACES_KEY,JSON.stringify(places));}catch{}});
 // Following a link starts the new page at the top; loading data or previewing an edit keeps the scroll position.
+// A different page appears at once where it should be; moving within the page you are on glides there (unless the device asks for less motion).
 function route(scroll=false){
   if(!guide)return;
-  const r=resolveRoute(location.hash,guide,recipes);
+  const r=resolveRoute(location.hash,guide,recipes),behavior=r.category===category?'auto':'instant';
   category=r.category;
   if(category==='materials')materialId=r.material;
   if(r.tier)weaponTier=r.tier;if(r.method)ammoMethod=r.method;if(r.substance)substanceSection=r.substance;if(r.gathering)gatheringMethod=r.gathering;if(r.heistGuide)heistGuideId=r.heistGuide;
@@ -152,13 +179,13 @@ function route(scroll=false){
   // A shared plan fills an empty plan straight away. If there is already a plan here, the visitor is asked what to do with the new one.
   let loaded=false;sharedPlan=null;
   if(category==='plan'&&r.shared){if(!plan.length){plan=r.shared;savePlan();loaded=true;}else if(encodePlan(plan)!==encodePlan(r.shared))sharedPlan=r.shared;}
-  if(scroll)scrollTo(0,0);
   render();
+  const target=r.location&&$('#location-'+r.location);
+  if(target)target.scrollIntoView({behavior});else if(scroll)scrollTo({top:0,behavior});
   if(loaded)toast('Shared plan loaded. It is saved on this device now.');
-  if(r.location)$('#location-'+r.location)?.scrollIntoView();
 }
 // Go to an address, re-rendering if the page is already there.
-function navigate(hash){if(location.hash===hash)route(true);else location.hash=hash;}
+function navigate(hash){if(location.hash===hash)route(true);else{noteLeaving();location.hash=hash;}}
 function currentHash(){const r=recipe(),sub=category==='substances'?substanceSection:category==='gathering'?gatheringMethod:category==='heist-guides'?heistGuideId:category==='materials'?materialId:category==='plan'?(sharedPlan?encodePlan(sharedPlan):''):r?.categoryId===category&&category!=='business'?r.id:'';return '#'+category+(sub?'/'+sub:'');}
 function render(){
   renderPage();
@@ -167,7 +194,7 @@ function render(){
   updatePlanCount();renderPins();
   // Keep the address in step with what is on screen so any page can be bookmarked or shared.
   // The home page keeps the plain address it was opened with.
-  if(category!=='locations'&&!(category==='home'&&!location.hash)&&location.hash!==currentHash())history.replaceState(null,'',currentHash());
+  if(category!=='locations'&&!(category==='home'&&!location.hash)&&location.hash!==currentHash())history.replaceState(history.state,'',currentHash());
 }
 function renderPage(){
   const navigationFocused=$('#navigation').contains(document.activeElement);
@@ -220,14 +247,15 @@ function toast(message,button){
   const host=$('#toast');host.innerHTML=`<span></span>${button?'<button type="button" class="quiet"></button>':''}`;
   host.querySelector('span').textContent=message;
   if(button){const b=host.querySelector('button');b.textContent=button.label;b.onclick=()=>{host.hidden=true;button.action();};}
-  host.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{host.hidden=true;},5000);
+  host.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{host.hidden=true;},button?8000:5000);
 }
 function usedInGuides(r){const guides=guidesUsing(r);return `<nav class="used-in" aria-label="Heist guides that use ${esc(productName(r))}"><p class="eyebrow">USED IN HEIST GUIDES</p>${guides.length?`<ul class="item-links">${guides.map(g=>`<li>${heistGuideLink(g)}</li>`).join('')}</ul>`:'<p class="muted">Not linked to a heist guide yet.</p>'}</nav>`;}
 function productName(r){return r.name.split(' (')[0].replace(/ Ingot$/,'');}
 function renderLocations(){
   const locations=guide.locations.map(location=>{const benches=guide.benches.filter(b=>b.locationId===location.id);return {location,benches,title:benches.length===1?benches[0].name:location.name};}).sort((a,b)=>a.title.localeCompare(b.title,'en',{numeric:true}));
   $('#page-description').textContent=`${locations.length} locations · Each entry pairs its map with its bench photo. Sorted by name.`;
-  $('#content').innerHTML=locations.map(({location:l,benches,title})=>`<section class="location-section location-entry" id="location-${esc(l.id)}" aria-label="${esc(title)} — ${postalLabel(l).toLowerCase()} ${esc(l.postcode)}"><div class="section-header"><div><p class="eyebrow">CRAFTING LOCATION</p><h2>${esc(title)}</h2></div>${postalTag(l)}</div><div class="photos">${photo(l.mapImage,l.mapAlt,'Map location',postalLabel(l)+' '+l.postcode)}${benches.map(b=>photo(b.image,b.imageAlt,benches.length===1?'Bench & surroundings':b.name,postalLabel(l)+' '+l.postcode)).join('')}</div><div class="location-entry-footer"><div>${warningBanner(l)}${l.notes?`<p class="location-notes">${esc(l.notes)}</p>`:''}${benches.filter(b=>b.notes).map(b=>`<p class="location-notes">${benches.length>1?esc(b.name)+': ':''}${esc(b.notes)}</p>`).join('')}</div><div class="location-entry-actions">${benches.filter(b=>recipes.some(r=>r.benchId===b.id)).map(b=>`<button data-bench="${esc(b.id)}">${benches.length===1?'View recipes':'View '+esc(b.name)+' recipes'}</button>`).join('')}</div></div></section>`).join('')||'<div class="empty">No locations added yet.</div>';
+  const jump=locations.length>2?`<nav class="location-jump" aria-label="Jump to a location"><p class="eyebrow">JUMP TO</p><ul class="item-links">${locations.map(({location:l,title})=>`<li><a class="item-link" href="#locations/${esc(l.id)}">${esc(title)} <small>${/\d/.test(l.postcode)?esc(l.postcode):'No postal'}</small></a></li>`).join('')}</ul></nav>`:'';
+  $('#content').innerHTML=jump+locations.map(({location:l,benches,title})=>`<section class="location-section location-entry" id="location-${esc(l.id)}" aria-label="${esc(title)} — ${postalLabel(l).toLowerCase()} ${esc(l.postcode)}"><div class="section-header"><div><p class="eyebrow">CRAFTING LOCATION</p><h2>${esc(title)}</h2></div>${postalTag(l)}</div><div class="photos">${photo(l.mapImage,l.mapAlt,'Map location',postalLabel(l)+' '+l.postcode)}${benches.map(b=>photo(b.image,b.imageAlt,benches.length===1?'Bench & surroundings':b.name,postalLabel(l)+' '+l.postcode)).join('')}</div><div class="location-entry-footer"><div>${warningBanner(l)}${l.notes?`<p class="location-notes">${esc(l.notes)}</p>`:''}${benches.filter(b=>b.notes).map(b=>`<p class="location-notes">${benches.length>1?esc(b.name)+': ':''}${esc(b.notes)}</p>`).join('')}</div><div class="location-entry-actions">${benches.filter(b=>recipes.some(r=>r.benchId===b.id)).map(b=>`<button data-bench="${esc(b.id)}">${benches.length===1?'View recipes':'View '+esc(b.name)+' recipes'}</button>`).join('')}</div></div></section>`).join('')||'<div class="empty">No locations added yet.</div>';
   bindPhotos();
   document.querySelectorAll('[data-bench]').forEach(b=>b.onclick=()=>{const r=recipes.find(r=>r.benchId===b.dataset.bench);navigate('#'+r.categoryId+'/'+r.id);});
 }
@@ -236,7 +264,7 @@ function renderLocations(){
 const HOME_STEPS=[['Pick what to make','Choose a section, then a recipe. Search finds any recipe, material, guide or postcode.'],['Say how many','The calculator rounds up to full crafts and lists every material and how long it takes.'],['Head to the bench','Each recipe shows its bench with a postcode to copy, a map and a photo of the spot.']];
 const HOME_TOOLS=[
  ['Crafting plan','Queue up several recipes and get one combined materials list. Break it down to raw ore, take off what you already have, or send it to your crew as a link.','<a class="item-link" href="#plan">Open your plan</a>'],
- ['Search','Find any recipe, material, guide, bench or postcode. Several words work too, such as “cayo 9mm”.','<button type="button" class="item-link" data-home="search">Search the guide</button>'],
+ ['Search','Find any recipe, material, guide, bench or postcode. It also looks inside the written guides, takes several words such as “cayo 9mm”, and forgives a small typo.','<button type="button" class="item-link" data-home="search">Search the guide</button>'],
  ['Materials','Not sure where something comes from? Look up any material to see how to get it and every recipe that uses it.','<a class="item-link" href="#materials">Browse materials</a>'],
  ['Pins','Use the Pin button beside a page title to keep a recipe, guide or material at the top of the menu.',''],
  ['Works offline','After your first visit the guide is saved on your device, so it still opens if your connection drops. On a phone you can add it to your home screen.',''],
@@ -272,11 +300,11 @@ function renderHomeNews(){
 }
 // Materials: every ingredient in the guide, how to get it and each recipe that uses it. Built from the recipes, so it never needs upkeep.
 function renderMaterials(){
-  const all=materialIndex(guide,recipes),m=all.find(x=>x.id===materialId);
+  const all=materialIndex(guide,recipes),m=all.find(x=>x.id===materialId),price=guide.items.find(i=>i.id===materialId)?.sellPrice;
   const label=r=>r.name+(r.categoryId==='weapons'?' · Tier '+r.tier:r.categoryId==='ammo'?' · '+AMMO_METHODS[r.method]:'');
   const link=(r,text,note)=>`<li><a class="item-link" href="#${esc(r.categoryId)}/${esc(r.id)}">${esc(text)}${note?` <small>${esc(note)}</small>`:''}</a></li>`;
   const groups=m?guide.categories.map(c=>[c,m.usedIn.filter(u=>u.recipe.categoryId===c.id)]).filter(([,list])=>list.length):[];
-  const detail=m?`<section class="material-detail" aria-label="${esc(m.name)}"><div class="section-header"><div><p class="eyebrow">MATERIAL</p><h2>${esc(m.name)}</h2></div><span class="muted">Used in ${fmt(m.usedIn.length)} ${m.usedIn.length===1?'recipe':'recipes'}</span></div><h3>How to get it</h3>${m.madeBy.length?`<ul class="item-links">${m.madeBy.map(r=>link(r,guide.categories.find(c=>c.id===r.categoryId).name+': '+r.ingredients.map(i=>fmt(i.quantity)+' '+itemName(i.itemId)).join(' + ')+' makes '+fmt(r.outputQuantity)+' '+m.name)).join('')}</ul>`:'<p class="muted">No recipe in the guide makes this. It is gathered, bought or found in the city.</p>'}<h3>What it is used for</h3>${groups.length?groups.map(([c,list])=>`<div class="material-uses"><h4>${esc(c.name)} <small>${fmt(list.length)}</small></h4><ul class="item-links">${list.map(u=>link(u.recipe,label(u.recipe),fmt(u.quantity)+' per craft')).join('')}</ul></div>`).join(''):'<p class="muted">No recipe in the guide uses it yet.</p>'}</section>`:'';
+  const detail=m?`<section class="material-detail" aria-label="${esc(m.name)}"><div class="section-header"><div><p class="eyebrow">MATERIAL</p><h2>${esc(m.name)}</h2></div><span class="muted">Used in ${fmt(m.usedIn.length)} ${m.usedIn.length===1?'recipe':'recipes'}${price===undefined?'':' · sells for $'+fmt(price)+' each'}</span></div><h3>How to get it</h3>${m.madeBy.length?`<ul class="item-links">${m.madeBy.map(r=>link(r,guide.categories.find(c=>c.id===r.categoryId).name+': '+r.ingredients.map(i=>fmt(i.quantity)+' '+itemName(i.itemId)).join(' + ')+' makes '+fmt(r.outputQuantity)+' '+m.name)).join('')}</ul>`:'<p class="muted">No recipe in the guide makes this. It is gathered, bought or found in the city.</p>'}<h3>What it is used for</h3>${groups.length?groups.map(([c,list])=>`<div class="material-uses"><h4>${esc(c.name)} <small>${fmt(list.length)}</small></h4><ul class="item-links">${list.map(u=>link(u.recipe,label(u.recipe),fmt(u.quantity)+' per craft')).join('')}</ul></div>`).join(''):'<p class="muted">No recipe in the guide uses it yet.</p>'}</section>`:'';
   $('#content').innerHTML=`${detail}<section class="material-list" aria-label="All materials"><div class="section-header"><div><p class="eyebrow">ALL MATERIALS</p><h2>${m?'Look up another':'Pick a material'}</h2></div><span class="muted">${fmt(all.length)} materials</span></div><label class="visually-hidden" for="material-filter">Filter materials by name</label><input id="material-filter" type="search" placeholder="Filter materials" autocomplete="off"><div class="material-grid">${all.map(x=>`<a href="#materials/${esc(x.id)}" class="material-chip${x.id===materialId?' active':''}" ${x.id===materialId?'aria-current="true"':''} data-name="${esc(x.name.toLowerCase())}"><span>${esc(x.name)}</span><small>${fmt(x.usedIn.length)} ${x.usedIn.length===1?'recipe':'recipes'}${x.madeBy.length?' · can be made':''}</small></a>`).join('')}</div><p id="material-empty" class="muted" hidden>No material matches that.</p></section>`;
   $('#material-filter').oninput=e=>{const q=e.target.value.trim().toLowerCase();let shown=0;document.querySelectorAll('.material-chip').forEach(chip=>{chip.hidden=!chip.dataset.name.includes(q);if(!chip.hidden)shown++;});$('#material-empty').hidden=shown>0;};
 }
@@ -341,16 +369,29 @@ function runsNote(r,batches){const runs=smelterRuns(r,batches);return runs?`<p c
 function otherMethods(r){const others=recipes.filter(o=>o.categoryId===r.categoryId&&o.id!==r.id&&productName(o)===productName(r));return others.length?`<div class="other-method"><p class="eyebrow">OTHER METHOD</p>${others.map(o=>`<button type="button" data-variant="${esc(o.id)}">${esc(o.ingredients.map(i=>fmt(i.quantity)+' '+itemName(i.itemId)).join(' + '))} makes ${fmt(o.outputQuantity)} ${esc(o.outputName||o.name)}</button>`).join('')}</div>`:'';}
 // Pages show the small copy of a photo; if that is missing the full picture is used instead.
 function photo(src,alt,title,detail){const thumb=thumbFor(src);return `<div class="photo-slot">${src?`<button data-photo="${esc(src)}" data-alt="${esc(alt||title)}" aria-label="Enlarge ${esc(title)}"><img src="${esc(thumb)}"${thumb===src?'':` data-full="${esc(src)}"`} alt="${esc(alt||title)}" loading="lazy" decoding="async"></button>`:`<div class="photo-placeholder"><span>⌖</span><p>${title.includes('Map')?'Map image':'Bench photo'} awaiting upload</p></div>`}<div class="photo-caption"><span>${esc(title)}</span><small>${esc(detail)}</small></div></div>`;}
-function bindPhotos(){document.querySelectorAll('[data-photo]').forEach(b=>{const img=b.querySelector('img');b.onclick=()=>showPhoto(b.dataset.photo,img,b.dataset.alt);img.onerror=()=>{if(img.dataset.full){const full=img.dataset.full;delete img.dataset.full;img.src=full;return;}b.disabled=true;b.innerHTML='<div class="photo-placeholder"><p>Image unavailable. Update the image path.</p></div>';};});}
+function bindPhotos(){document.querySelectorAll('[data-photo]').forEach(b=>{const img=b.querySelector('img');b.onclick=()=>showPhoto(b);img.onerror=()=>{if(img.dataset.full){const full=img.dataset.full;delete img.dataset.full;img.src=full;return;}b.disabled=true;b.innerHTML='<div class="photo-placeholder"><p>Image unavailable. Update the image path.</p></div>';};});}
 // The enlarged view opens at once with the small copy that is already on screen, then swaps in the full picture once it has
-// loaded. With no connection the small copy simply stays.
-function showPhoto(src,img,alt){
+// loaded. With no connection the small copy simply stays. When the page has several photos, the arrows (or the arrow keys, or
+// a swipe) step through them in the order they appear.
+const pagePhotos=()=>[...document.querySelectorAll('#content [data-photo]:not(:disabled)')];
+let shownPhoto=null;
+function showPhoto(button){
+  const img=button.querySelector('img'),src=button.dataset.photo,alt=button.dataset.alt,all=pagePhotos(),at=all.indexOf(button);
   const large=$('#large-photo'),small=img.currentSrc||img.src,swap=img.hasAttribute('data-full');
+  shownPhoto=button;
   large.src=small;large.alt=alt;large.dataset.want=src;large.classList.toggle('filling',swap&&img.naturalWidth>=800);
-  $('#photo-caption').textContent=alt;$('#photo-dialog').showModal();
+  $('#photo-caption').textContent=alt;
+  $('#photo-steps').hidden=all.length<2;$('#photo-count').textContent=all.length>1?`${at+1} of ${all.length}`:'';
+  if(!$('#photo-dialog').open)$('#photo-dialog').showModal();
   if(!swap)return;
   const full=new Image();full.onload=()=>{if(large.dataset.want===src&&$('#photo-dialog').open){large.src=src;large.classList.remove('filling');}};full.src=src;
 }
+function stepPhoto(by){const all=pagePhotos();if(all.length<2||!$('#photo-dialog').open)return;showPhoto(all[(Math.max(0,all.indexOf(shownPhoto))+by+all.length)%all.length]);}
+$('#photo-prev').onclick=()=>stepPhoto(-1);$('#photo-next').onclick=()=>stepPhoto(1);
+$('#photo-dialog').addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();stepPhoto(e.key==='ArrowLeft'?-1:1);}});
+{let from=null;const picture=$('#large-photo');
+ picture.addEventListener('touchstart',e=>{from=e.touches.length===1?{x:e.touches[0].clientX,y:e.touches[0].clientY}:null;},{passive:true});
+ picture.addEventListener('touchend',e=>{if(!from)return;const dx=e.changedTouches[0].clientX-from.x,dy=e.changedTouches[0].clientY-from.y;from=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)stepPhoto(dx<0?1:-1);},{passive:true});}
 function updateCalculation(){if(category==='smelting'&&smeltMode==='available'){updateAvailable();return;}try{const r=calculate(recipe(),quantity);$('#quantity').removeAttribute('aria-invalid');$('#calculation').innerHTML=`<div class="batch-summary"><div><strong>${fmt(r.batches)}</strong>craft${r.batches===1?'':'s'}</div><div><strong>${fmt(r.output)}</strong>total output</div><div><strong data-surplus>${fmt(r.surplus)}</strong>extra</div></div>${runsNote(recipe(),r.batches)}<div class="craft-time"><p class="eyebrow">TIME TO CRAFT</p><div class="total-row"><span>Per craft</span><b>${duration(recipe().craftTimeSeconds)}</b></div><div class="total-row"><span>${r.totalTimeSeconds===null?'Total time':'Total for '+fmt(r.batches)+(r.batches===1?' craft':' crafts')}</span><b>${duration(r.totalTimeSeconds)}</b></div></div><div class="totals"><p class="eyebrow" >MATERIALS REQUIRED</p>${r.materials.map(i=>`<div class="total-row"><span>${materialLink(i.itemId)}</span><b>${fmt(i.quantity)}</b></div>`).join('')}</div>`;$('#add-plan').disabled=false;}catch(e){$('#quantity').setAttribute('aria-invalid','true');$('#calculation').innerHTML=`<p class="fine">${esc(e.message)}</p>`;$('#add-plan').disabled=true;}}
 // The top bar always shows how many recipes are in the plan and links to the plan page.
 function updatePlanCount(){const badge=$('#plan-count'),link=$('#plan-link');badge.hidden=!plan.length;badge.textContent=plan.length;link.setAttribute('aria-label',plan.length?`Crafting plan, ${plan.length} recipe${plan.length===1?'':'s'}`:'Crafting plan');if(category==='plan')link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
@@ -409,8 +450,10 @@ function renderPlan(){
   // Switching the breakdown on or off, or choosing another way to make a metal, changes which rows there are, so the plan is redrawn.
   if($('#plan-raw'))$('#plan-raw').onchange=e=>{rawMode=e.target.checked;renderPlan();$('#plan-raw').focus();};
   document.querySelectorAll('[data-method]').forEach(select=>select.onchange=()=>{methods[select.dataset.method]=select.value;renderPlan();document.querySelector(`[data-method="${select.dataset.method}"]`)?.focus();});
-  document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{plan=plan.filter(p=>p.recipeId!==b.dataset.remove);renderPlan();});
-  $('#clear-plan').onclick=()=>{plan=[];inventory={};renderPlan();toast('Crafting plan cleared.');};
+  // Removing a recipe or clearing the plan can be taken back for a few seconds, in case of a slip.
+  const undo=()=>{const before={plan:plan.map(p=>({...p})),inventory:{...inventory}};return {label:'Undo',action:()=>{plan=before.plan;inventory=before.inventory;savePlan();renderPlan();}};};
+  document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{const back=undo(),name=recipes.find(r=>r.id===b.dataset.remove).name;plan=plan.filter(p=>p.recipeId!==b.dataset.remove);renderPlan();toast(name+' removed from your plan.',back);});
+  $('#clear-plan').onclick=()=>{const back=undo();plan=[];inventory={};renderPlan();toast('Crafting plan cleared.',back);};
   $('#copy-plan').onclick=async()=>{try{await navigator.clipboard.writeText(planText());$('#plan-status').textContent='Materials list copied.';}catch{$('#plan-status').textContent='Clipboard access is unavailable. You can select and copy the table manually.';}};
   $('#share-plan').onclick=async()=>{try{await navigator.clipboard.writeText(planLink());$('#plan-status').textContent='Plan link copied. Whoever opens it gets the same recipes and amounts.';}catch{$('#plan-status').textContent='Clipboard access is unavailable here.';}};
 }
@@ -443,6 +486,8 @@ function renderPins(){
 }
 $('#pin-page').onclick=e=>{const hash=e.currentTarget.dataset.hash,name=pinDetails(hash,guide,recipes).label;if(pins.includes(hash)){pins=pins.filter(pin=>pin!==hash);toast(name+' unpinned.');}else{pins=[...pins,hash];toast(name+' pinned to the top of the menu.');}savePins();renderPins();};
 $('#pins').onclick=e=>{const button=e.target.closest('[data-unpin]');if(!button)return;pins=pins.filter(pin=>pin!==button.dataset.unpin);savePins();if(category==='home')render();else renderPins();($('#pins [data-unpin]')||$('#search-input')).focus();};
+// Tapping into a number selects it, so typing replaces the amount instead of adding digits to it.
+document.addEventListener('focusin',e=>{const field=e.target;if(field.matches?.('input[type=number]'))requestAnimationFrame(()=>{if(document.activeElement===field)field.select();});});
 $('.skip').onclick=e=>{e.preventDefault();$('#main').focus();$('#main').scrollIntoView();};
 // Reload data is a maintainer tool: visitors always get the latest data when they open or refresh the page.
 $('#reload').hidden=!EDITING;
@@ -452,7 +497,8 @@ async function copyText(text,done,failed){try{await navigator.clipboard.writeTex
 document.addEventListener('click',e=>{const tag=e.target.closest('[data-copy-postal]');if(tag)copyText(tag.dataset.copyPostal,'Postcode '+tag.dataset.copyPostal+' copied.','Copying is blocked here. The postcode is '+tag.dataset.copyPostal+'.');});
 // On the plan page the link carries the plan itself, so whoever opens it gets the same list.
 $('#copy-link').onclick=()=>category==='plan'&&plan.length&&!sharedPlan?copyText(planLink(),'Link to your plan copied. Whoever opens it gets the same list.','Copying is blocked here. Use Copy plan link below, or copy the address from your browser’s address bar.'):copyText(location.href,'Link to this page copied.','Copying is blocked here. Copy the address from your browser’s address bar.');
-window.addEventListener('hashchange',()=>{$('#toast').hidden=true;route(true);});
+// A window left open (an enlarged photo, say) is closed when the page changes, so it never sits on top of a different page after Back.
+window.addEventListener('hashchange',()=>{$('#toast').hidden=true;document.querySelectorAll('dialog[open]').forEach(d=>d.close());keepPlace();const place=enterPage();route(true);if(place!==undefined)scrollTo({top:place,behavior:'instant'});});
 document.querySelectorAll('dialog .close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
 // Clicking the dimmed backdrop closes a dialog, like pressing Escape.
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}));
@@ -461,7 +507,7 @@ function renderSearch(){
   const input=$('#search-input'),results=$('#search-results'),query=input.value.trim();
   const matches=guide&&query?searchGuide(query,guide,recipes):[];
   results.hidden=!query;
-  results.innerHTML=matches.length?`<ul>${matches.map(m=>`<li><a href="${esc(m.hash)}"><span>${esc(m.label)}</span><small>${esc(m.detail)}</small></a></li>`).join('')}</ul>`:query?'<p class="muted">Nothing matches that. Try a recipe, guide, bench or postcode.</p>':'';
+  results.innerHTML=matches.length?`<ul>${matches.map(m=>`<li><a href="${esc(m.hash)}"><span>${esc(m.label)}</span><small>${esc(m.detail)}</small></a></li>`).join('')}</ul>`:query?'<p class="muted">Nothing matches that. Try a recipe, material, guide, bench or postcode.</p>':'';
   input.setAttribute('aria-expanded',String(!results.hidden));
 }
 function closeSearch(){$('#search-input').value='';renderSearch();}
@@ -478,7 +524,7 @@ $('#copy-discord').onclick=async e=>{const status=$('#copy-discord-status');try{
 $('#feedback').onclick=()=>$('#feedback-dialog').showModal();
 // What's new: the changelog loads on its own, so a problem with it never stops the guide, and the badge counts
 // the entries this visitor has not opened. Opening the list marks everything as seen.
-async function loadChangelog(){try{const r=await fetch('data/changelog.json',{cache:'no-store'});if(!r.ok)return;const rows=await r.json();validateChangelog(rows);changelog=rows;renderChangelogBadge();renderHomeNews();}catch(e){console.warn('What’s new is unavailable: '+e.message);}}
+async function loadChangelog(){try{const r=await fetch('data/changelog.json',{cache:'no-cache'});if(!r.ok)return;const rows=await r.json();validateChangelog(rows);changelog=rows;renderChangelogBadge();renderHomeNews();}catch(e){console.warn('What’s new is unavailable: '+e.message);}}
 function seenChangelog(){try{return JSON.parse(localStorage.getItem(CHANGELOG_KEY));}catch{return null;}}
 function renderChangelogBadge(){const n=unseenChanges(changelog,seenChangelog()),badge=$('#whats-new-badge');badge.hidden=!n;badge.textContent=n>9?'9+':n;$('#whats-new').setAttribute('aria-label',n?`What’s new, ${n} unread change${n===1?'':'s'}`:'What’s new');}
 function openChangelog(){
@@ -543,7 +589,7 @@ function renderJsonEditor(){
   $('#apply-json').onclick=()=>{try{const {value,c}=read();if(c)applyPreview(guide,[...recipes.filter(r=>r.categoryId!==c.id),...value]);else applyPreview(value,recipes);editorStatus('Valid data applied to preview. Export the file to keep your changes.');}catch(err){editorStatus(err.message,true);}};
   $('#export-json').onclick=()=>{try{const {file,value}=read();download(file,value);}catch(err){editorStatus(err.message,true);}};
 }
-if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'configure_crafting_calculator',description:'Select a guide recipe and set its desired output quantity in the visible calculator. Does not add it to a plan or save guide data.',inputSchema:{type:'object',properties:{recipeId:{type:'string'},quantity:{type:'integer',minimum:1,maximum:MAX_QUANTITY}},required:['recipeId','quantity'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||typeof input.recipeId!=='string')throw new Error('Recipe ID is required.');const r=recipes.find(r=>r.id===input.recipeId);if(!r)throw new Error('Recipe not found.');const result=calculate(r,input.quantity);selectedId=r.id;quantity=input.quantity;category=r.categoryId;if(category==='business')configureBusiness(r.id,input.quantity);if(category==='weapons')weaponTier=r.tier;if(category==='ammo')ammoMethod=r.method;if(category==='substances')substanceSection=r.substance;smeltMode='target';history.replaceState(null,'','#'+category);render();return {recipe:r.name,...result};}})).catch(()=>{});}catch{}}
+if(document.modelContext?.registerTool){try{Promise.resolve(document.modelContext.registerTool({name:'configure_crafting_calculator',description:'Select a guide recipe and set its desired output quantity in the visible calculator. Does not add it to a plan or save guide data.',inputSchema:{type:'object',properties:{recipeId:{type:'string'},quantity:{type:'integer',minimum:1,maximum:MAX_QUANTITY}},required:['recipeId','quantity'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute(input){if(!input||typeof input.recipeId!=='string')throw new Error('Recipe ID is required.');const r=recipes.find(r=>r.id===input.recipeId);if(!r)throw new Error('Recipe not found.');const result=calculate(r,input.quantity);selectedId=r.id;quantity=input.quantity;category=r.categoryId;if(category==='business')configureBusiness(r.id,input.quantity);if(category==='weapons')weaponTier=r.tier;if(category==='ammo')ammoMethod=r.method;if(category==='substances')substanceSection=r.substance;smeltMode='target';history.replaceState(history.state,'','#'+category);render();return {recipe:r.name,...result};}})).catch(()=>{});}catch{}}
 load();
 
 

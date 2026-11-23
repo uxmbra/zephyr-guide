@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex"><meta name="color-scheme" content="dark light">
+  <title>Page not found — Zephyr City Field Guide</title>
+  <!-- Shown by GitHub Pages for any address that is not part of the guide. Every page of the guide lives at one address
+       followed by #section, so a mistyped or old-style address (…/zephyr-guide/smelting) is sent to the guide with its last
+       word as the section. The guide opens its home page when it does not know the section. Nothing else is loaded here,
+       because this page can be served from any depth of address and relative files would not be found. -->
+  <script>
+    var GUIDE='https://uxmbra.github.io/zephyr-guide/';
+    try{
+      var word=(location.pathname.split('/').filter(Boolean).pop()||'').replace(/\.html?$/i,'').toLowerCase();
+      // Never send the guide's own address back to itself: if the guide ever moves, this page should simply be shown.
+      if(location.origin+location.pathname!==GUIDE)location.replace(GUIDE+(/^[a-z0-9-]{1,40}$/.test(word)&&word!=='zephyr-guide'&&word!=='404'?'#'+word:''));
+    }catch(e){}
+  </script>
+  <style>
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box;background:#0e0a17;color:#eee9f8;font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center}
+    h1{margin:0 0 8px;font-size:1.6rem}
+    p{margin:0 0 20px;color:#a69dc2}
+    a{display:inline-block;padding:10px 18px;border-radius:10px;background:#a78bfa;color:#1b0b36;font-weight:700;text-decoration:none}
+    a:focus-visible{outline:2px solid #f4b860;outline-offset:3px}
+    @media(prefers-color-scheme:light){body{background:#f3f5f7;color:#15202b}p{color:#4d5e6b}a{background:#0b7e71;color:#fff}}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>That page is not part of the guide</h1>
+    <p>The address may be mistyped, or the page may have moved.</p>
+    <a href="https://uxmbra.github.io/zephyr-guide/">Open the Zephyr City Field Guide</a>
+  </main>
+</body>
+</html>

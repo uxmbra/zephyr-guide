@@ -61,13 +61,14 @@ Heist guides and generic items are on the way.
 - **Share a plan.** Copy plan link gives your crew a link that opens the same recipes and amounts.
 - **Pins.** Keep the recipes, guides and materials you use most at the top of the menu.
 - **Materials.** Look up any material to see how to get it and every recipe that uses it. Material names in the calculator and plan link straight there.
-- **Search.** Type a recipe, material, guide, bench or postcode and jump straight to it. Several words work too, such as "cayo 9mm". Press `/` to start typing.
+- **Search.** Type a recipe, material, guide, bench or postcode and jump straight to it. Several words work too, such as "cayo 9mm". It also looks inside the written guides and forgives a small typo. Press `/` to start typing.
 - **Shareable links.** Every recipe, tier, guide, material and location has its own address. Copy link grabs it, so you can send a mate straight to the Cayo 9mm recipe or the smelter.
 - **Copy a postcode.** Tap any postcode tag to copy the number for your GPS.
 - **What's new.** A changelog of every update to the guide, with a badge for the changes you haven't read yet.
 - **Themes.** Pick a look from the Theme button: Zephyr purple, Slate, Light, Midnight, Nord, Dracula, Solarized or High contrast, or match your device. Saved on your device.
 - **Time estimates.** See roughly how long a batch will take before you commit to it.
-- **Maps and photos.** Tap any picture to enlarge it.
+- **Maps and photos.** Tap any picture to enlarge it, then use the arrows (or swipe) to step through the others on the page.
+- **Keeps your place.** Back, Forward and refresh return you to the same spot on the page, and anything removed from your plan by mistake can be undone.
 - **Works on your phone.** Keep it open on a second screen or your phone while you play, or add it to your home screen.
 - **Zephyr links.** The Zephyr Tebex Store and Zephyr Support are one tap away from the menu.
 - **Works offline.** After your first visit the guide is saved on your device, so it still opens with no connection.

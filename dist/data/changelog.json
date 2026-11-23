@@ -1,5 +1,22 @@
 [
   {
+    "id": "2026-11-23-faster-loading-and-small-conveniences",
+    "date": "2026-11-23",
+    "title": "Faster loading and a round of small conveniences",
+    "notes": [
+      "The guide opens faster, most of all on a slow connection.",
+      "Back and Forward now return to the spot you left on a page, and a refresh keeps your place.",
+      "Search looks inside the written guides and forgives a small typo. Try “3021” or “vecter”.",
+      "Removing a recipe from your plan, or clearing the plan, can be undone for a few seconds.",
+      "Locations has a row of links at the top to jump straight to a bench.",
+      "Enlarged photos have arrows to step through the pictures on the page. The arrow keys work too, and so does swiping on a phone.",
+      "Materials show what they sell for where the price is known.",
+      "Tapping a number selects it, so typing replaces the amount.",
+      "On a computer the menu fits the screen again, so Locations and Materials are no longer hidden under the buttons.",
+      "A mistyped address now takes you to the guide instead of an error page."
+    ]
+  },
+  {
     "id": "2026-11-21-zephyr-tebex-store-and-support-links",
     "date": "2026-11-21",
     "title": "Zephyr Tebex Store and Support links",
