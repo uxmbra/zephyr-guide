@@ -687,3 +687,23 @@ a.button{text-decoration:none}
 @media(max-width:680px){
   .topbar>span:first-child{display:none}
 }
+/* Player prices: one table per group, the price in the middle and the city's sell price on the right. */
+.price-list>.fine{margin:0 0 14px}
+#price-filter{width:100%;margin-bottom:6px}
+.price-group h3{margin:22px 0 8px;color:var(--accent);font-size:1rem}
+.price-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.price-table th,.price-table td{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-variant-numeric:tabular-nums}
+.price-table thead th{font-size:.72rem;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.price-table tbody th{font-weight:600}
+.price-table td:last-child,.price-table thead th:last-child{text-align:right;width:6.5rem}
+.price-table td:nth-child(2){width:38%}
+.price-table b{color:var(--accent-strong);font-weight:700}
+.price-table small{display:block;margin-top:3px;color:var(--muted);font-size:.75rem;font-weight:500}
+.price-unit{color:var(--muted);font-size:.8rem}
+.price-none{color:var(--faint)}
+.price-table tr.active{background:var(--accent-soft)}
+.price-table tr.active th{box-shadow:3px 0 0 var(--accent) inset}
+.price-table tr{scroll-margin-top:20px}
+.price-report{margin:20px 0 0}
+.price-report .quiet{padding:4px 8px;color:var(--accent-strong)}
+@media(max-width:680px){.price-table{font-size:.85rem}.price-table th,.price-table td{padding:9px 4px}.price-table td:last-child,.price-table thead th:last-child{width:4.5rem}}
