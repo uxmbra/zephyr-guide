@@ -1,4 +1,4 @@
-import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor,SECTION_NOTES,homeSections} from './core.js?v=20';
+import {calculate,combinePlan,validateData,MAX_QUANTITY,formatDuration,planDuration,calculateAvailable,smelterRuns,SUBSTANCE_SECTIONS,GUIDE_SECTIONS,GUIDE_TEXT_FIELDS,AMMO_METHODS,GATHERING_METHODS,esc,fmt,resolveRoute,searchGuide,validateChangelog,unseenChanges,formatDate,THEMES,SYSTEM_THEME,resolveTheme,materialIndex,EXTRA_PAGES,encodePlan,expandPlan,pinDetails,thumbFor,SECTION_NOTES,homeSections,priceList,formatPrice} from './core.js?v=21';
 import {renderBusiness,configureBusiness} from './business.js?v=13';
 const $=s=>document.querySelector(s);
 const SITE_TITLE='Zephyr City Field Guide';
@@ -16,6 +16,7 @@ let substanceSection='meth';
 let heistGuideId;
 let gatheringMethod='hobo-camps';
 let materialId;
+let priceKey;
 // A plan opened from someone's link, waiting for the visitor to choose what to do with it.
 let sharedPlan=null;
 // Whether the plan is broken down to raw materials, and which recipe to use for a material that has more than one.
@@ -105,12 +106,12 @@ const warningBanner=location=>location.warning?`<div class="warning-banner" role
 const itemName=id=>guide.items.find(i=>i.id===id)?.name||id;
 // Material names link to their page: how to get it and what else uses it.
 const materialLink=id=>`<a class="material-link" href="#materials/${esc(id)}">${esc(itemName(id))}</a>`;
-const categoryLabels={ammo:'Ammo',weapons:'Weapons',substances:'Substances',attachments:'Attachments','heist-guides':'Heist guides',heist:'Heist items',generic:'Generic items',melee:'Melee',gathering:'Gathering',smelting:'Smelting',business:'Business'};
-const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',gathering:'M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7Zm0 3c0-3-2-6-7-6 0 4 2 6 7 6ZM7 21h10',home:'M4 11 12 4l8 7v9h-5v-6H9v6H4v-9Z',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0',materials:'m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5'};
+const categoryLabels={ammo:'Ammo',weapons:'Weapons',substances:'Substances',attachments:'Attachments','heist-guides':'Heist guides',heist:'Heist items',generic:'Generic items',melee:'Melee',gathering:'Gathering',smelting:'Smelting',business:'Business',prices:'Prices'};
+const categoryIcons={'heist-guides':'M6 3h9l3 3v15H6V3Zm3 7h6M9 14h6M9 18h4',ammo:'M8 20V8l4-5 4 5v12H8ZM8 15h8',weapons:'M4 7h16v6h-7l-2 7H6l2-7H4V7Zm10 0v6',substances:'M9 3h6M10 3v7l-6 9a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-6-9V3M8 15h8',attachments:'M3 12h18M12 3v18M18 12a6 6 0 1 1-12 0 6 6 0 0 1 12 0',heist:'M5 7h14v14H5V7Zm4 0V3h6v4M5 12h14M10 12v3h4v-3',generic:'m3 7 9-4 9 4v10l-9 4-9-4V7Zm0 0 9 4 9-4M12 11v10',melee:'m5 20 4-4M7 14l3 3M9 14 18 3l3 1-2 5-8 7',smelting:'M12 3c1 5 7 7 7 12a7 7 0 0 1-14 0c0-3 2-5 4-7 0 3 1 4 2 4s2-4 1-9Z',gathering:'M12 21V11M12 11c0-4 3-7 8-7 0 5-3 7-8 7Zm0 3c0-3-2-6-7-6 0 4 2 6 7 6ZM7 21h10',home:'M4 11 12 4l8 7v9h-5v-6H9v6H4v-9Z',locations:'M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0ZM14 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0',materials:'m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5',prices:'M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8ZM7.5 7.5h.01'};
 const guideCategories=['substances','heist-guides','gathering'];
 // How much each section holds: written guides for the guide sections, recipes for the rest.
-function categoryCount(id){return id==='home'?1:id==='substances'?Object.values(guide.substanceGuides||{}).filter(hasGuideText).length:id==='heist-guides'?heistGuides().length:id==='gathering'?Object.values(guide.gatheringGuides||{}).filter(hasGuideText).length:id==='locations'?guide.locations.length:id==='materials'?guide.items.length:recipes.filter(r=>r.categoryId===id).length;}
-const categoryDetail=(id,count)=>id==='home'?'Start here':guideCategories.includes(id)?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:id==='materials'?`${count} materials`:count?`${count} recipes`:'Coming soon';
+function categoryCount(id){return id==='home'?1:id==='substances'?Object.values(guide.substanceGuides||{}).filter(hasGuideText).length:id==='heist-guides'?heistGuides().length:id==='gathering'?Object.values(guide.gatheringGuides||{}).filter(hasGuideText).length:id==='locations'?guide.locations.length:id==='materials'?guide.items.length:id==='prices'?(guide.playerPrices||[]).length:recipes.filter(r=>r.categoryId===id).length;}
+const categoryDetail=(id,count)=>id==='home'?'Start here':guideCategories.includes(id)?(count?`${count} guide${count===1?'':'s'}`:'Coming soon'):id==='locations'?`${count} locations`:id==='materials'?`${count} materials`:id==='prices'?(count?`${count} price${count===1?'':'s'}`:'Coming soon'):count?`${count} recipes`:'Coming soon';
 const sectionIcon=id=>`<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${categoryIcons[id]||categoryIcons.generic}"/></svg></span>`;
 function categoryLink(id,name,count){const active=category===id,detail=categoryDetail(id,count);return `<a href="#${esc(id)}" class="${active?'active':''} ${count?'':'pending'}" ${active?'aria-current="page"':''} aria-label="${esc(categoryLabels[id]||name)} — ${detail}">${sectionIcon(id)}<span class="nav-label">${esc(categoryLabels[id]||name)}<small>${detail}</small></span></a>`;}
 // Data is revalidated on every visit (cache:'no-cache'), so a visitor always gets the latest files but unchanged ones are not downloaded again.
@@ -171,6 +172,7 @@ function route(scroll=false){
   const r=resolveRoute(location.hash,guide,recipes),behavior=r.category===category?'auto':'instant';
   category=r.category;
   if(category==='materials')materialId=r.material;
+  if(category==='prices')priceKey=r.price;
   if(r.tier)weaponTier=r.tier;if(r.method)ammoMethod=r.method;if(r.substance)substanceSection=r.substance;if(r.gathering)gatheringMethod=r.gathering;if(r.heistGuide)heistGuideId=r.heistGuide;
   if(r.recipeId&&r.recipeId!==selectedId){selectedId=r.recipeId;quantity=recipe().outputQuantity;availableAmount=null;}
   const choices=recipes.filter(x=>x.categoryId===category);
@@ -180,13 +182,13 @@ function route(scroll=false){
   let loaded=false;sharedPlan=null;
   if(category==='plan'&&r.shared){if(!plan.length){plan=r.shared;savePlan();loaded=true;}else if(encodePlan(plan)!==encodePlan(r.shared))sharedPlan=r.shared;}
   render();
-  const target=r.location&&$('#location-'+r.location);
+  const target=r.location&&$('#location-'+r.location)||r.price&&$('#price-'+r.price);
   if(target)target.scrollIntoView({behavior});else if(scroll)scrollTo({top:0,behavior});
   if(loaded)toast('Shared plan loaded. It is saved on this device now.');
 }
 // Go to an address, re-rendering if the page is already there.
 function navigate(hash){if(location.hash===hash)route(true);else{noteLeaving();location.hash=hash;}}
-function currentHash(){const r=recipe(),sub=category==='substances'?substanceSection:category==='gathering'?gatheringMethod:category==='heist-guides'?heistGuideId:category==='materials'?materialId:category==='plan'?(sharedPlan?encodePlan(sharedPlan):''):r?.categoryId===category&&category!=='business'?r.id:'';return '#'+category+(sub?'/'+sub:'');}
+function currentHash(){const r=recipe(),sub=category==='substances'?substanceSection:category==='gathering'?gatheringMethod:category==='heist-guides'?heistGuideId:category==='materials'?materialId:category==='prices'?priceKey:category==='plan'?(sharedPlan?encodePlan(sharedPlan):''):r?.categoryId===category&&category!=='business'?r.id:'';return '#'+category+(sub?'/'+sub:'');}
 function render(){
   renderPage();
   const c=guide.categories.find(c=>c.id===category);
@@ -198,7 +200,7 @@ function render(){
 }
 function renderPage(){
   const navigationFocused=$('#navigation').contains(document.activeElement);
-  $('#navigation').innerHTML=categoryLink('home',EXTRA_PAGES.home,1)+guide.categories.map(c=>categoryLink(c.id,c.name,categoryCount(c.id))).join('')+['locations','materials'].map(id=>categoryLink(id,EXTRA_PAGES[id],categoryCount(id))).join('');
+  $('#navigation').innerHTML=categoryLink('home',EXTRA_PAGES.home,1)+guide.categories.map(c=>categoryLink(c.id,c.name,categoryCount(c.id))).join('')+['locations','materials','prices'].map(id=>categoryLink(id,EXTRA_PAGES[id],categoryCount(id))).join('');
   // Choosing the section you are already on takes you back to the top of it.
   $('#navigation').querySelectorAll('a').forEach(a=>a.onclick=e=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;e.preventDefault();navigate(a.getAttribute('href'));});
   // On narrow screens the menu scrolls sideways, so keep the current page in view.
@@ -209,10 +211,11 @@ function renderPage(){
   renderSubstanceSections();renderGatheringMethods();
   $('#page-title').textContent=category==='home'?'Everything you need to craft in Zephyr':c?c.name:EXTRA_PAGES[category];
   $('#breadcrumb').textContent=c?'CRAFTING':category.toUpperCase();
-  $('#page-description').textContent=category==='home'?'Pick what you want to make and the guide tells you what you need, how long it takes and where to craft it, with a map and a photo of the bench.':category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':category==='materials'?'Look up any material: how to get it and every recipe that uses it.':category==='plan'?'Everything you have queued up, combined into one materials list.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
+  $('#page-description').textContent=category==='home'?'Pick what you want to make and the guide tells you what you need, how long it takes and where to craft it, with a map and a photo of the bench.':category==='gathering'?'Know where to find raw materials, what to bring and what you’ll get.':category==='smelting'?'Start with the ore you have. See your yield, fuel requirements and leftovers.':category==='materials'?'Look up any material: how to get it and every recipe that uses it.':category==='prices'?'What players pay each other for items and materials, with the city’s sell price beside it where it is known.':category==='plan'?'Everything you have queued up, combined into one materials list.':c?'Choose a recipe, prepare your materials, find your bench.':'Know where to go. Find the bench when you get there.';
   if(category==='home'){renderHome();return;}
   if(category==='locations'){renderLocations();return;}
   if(category==='materials'){renderMaterials();return;}
+  if(category==='prices'){renderPrices();return;}
   if(category==='plan'){$('#content').innerHTML=sharedBanner()+'<div id="plan" class="wide"></div>';bindShared();renderPlan();return;}
   if(category==='business'){
     $('#page-description').textContent='Enter the parts you need to craft. Get the materials and time for your quota.';
@@ -300,13 +303,25 @@ function renderHomeNews(){
 }
 // Materials: every ingredient in the guide, how to get it and each recipe that uses it. Built from the recipes, so it never needs upkeep.
 function renderMaterials(){
-  const all=materialIndex(guide,recipes),m=all.find(x=>x.id===materialId),price=guide.items.find(i=>i.id===materialId)?.sellPrice;
+  const all=materialIndex(guide,recipes),m=all.find(x=>x.id===materialId),price=guide.items.find(i=>i.id===materialId)?.sellPrice,player=priceList(guide,recipes).find(p=>p.key===materialId&&p.low!==null);
   const label=r=>r.name+(r.categoryId==='weapons'?' · Tier '+r.tier:r.categoryId==='ammo'?' · '+AMMO_METHODS[r.method]:'');
   const link=(r,text,note)=>`<li><a class="item-link" href="#${esc(r.categoryId)}/${esc(r.id)}">${esc(text)}${note?` <small>${esc(note)}</small>`:''}</a></li>`;
   const groups=m?guide.categories.map(c=>[c,m.usedIn.filter(u=>u.recipe.categoryId===c.id)]).filter(([,list])=>list.length):[];
-  const detail=m?`<section class="material-detail" aria-label="${esc(m.name)}"><div class="section-header"><div><p class="eyebrow">MATERIAL</p><h2>${esc(m.name)}</h2></div><span class="muted">Used in ${fmt(m.usedIn.length)} ${m.usedIn.length===1?'recipe':'recipes'}${price===undefined?'':' · sells for $'+fmt(price)+' each'}</span></div><h3>How to get it</h3>${m.madeBy.length?`<ul class="item-links">${m.madeBy.map(r=>link(r,guide.categories.find(c=>c.id===r.categoryId).name+': '+r.ingredients.map(i=>fmt(i.quantity)+' '+itemName(i.itemId)).join(' + ')+' makes '+fmt(r.outputQuantity)+' '+m.name)).join('')}</ul>`:'<p class="muted">No recipe in the guide makes this. It is gathered, bought or found in the city.</p>'}<h3>What it is used for</h3>${groups.length?groups.map(([c,list])=>`<div class="material-uses"><h4>${esc(c.name)} <small>${fmt(list.length)}</small></h4><ul class="item-links">${list.map(u=>link(u.recipe,label(u.recipe),fmt(u.quantity)+' per craft')).join('')}</ul></div>`).join(''):'<p class="muted">No recipe in the guide uses it yet.</p>'}</section>`:'';
+  const detail=m?`<section class="material-detail" aria-label="${esc(m.name)}"><div class="section-header"><div><p class="eyebrow">MATERIAL</p><h2>${esc(m.name)}</h2></div><span class="muted">Used in ${fmt(m.usedIn.length)} ${m.usedIn.length===1?'recipe':'recipes'}${price===undefined?'':' · sells for $'+fmt(price)+' each'}${player?` · <a href="#prices/${esc(player.key)}">players pay ${formatPrice(player)} ${esc(player.unit)}</a>`:''}</span></div><h3>How to get it</h3>${m.madeBy.length?`<ul class="item-links">${m.madeBy.map(r=>link(r,guide.categories.find(c=>c.id===r.categoryId).name+': '+r.ingredients.map(i=>fmt(i.quantity)+' '+itemName(i.itemId)).join(' + ')+' makes '+fmt(r.outputQuantity)+' '+m.name)).join('')}</ul>`:'<p class="muted">No recipe in the guide makes this. It is gathered, bought or found in the city.</p>'}<h3>What it is used for</h3>${groups.length?groups.map(([c,list])=>`<div class="material-uses"><h4>${esc(c.name)} <small>${fmt(list.length)}</small></h4><ul class="item-links">${list.map(u=>link(u.recipe,label(u.recipe),fmt(u.quantity)+' per craft')).join('')}</ul></div>`).join(''):'<p class="muted">No recipe in the guide uses it yet.</p>'}</section>`:'';
   $('#content').innerHTML=`${detail}<section class="material-list" aria-label="All materials"><div class="section-header"><div><p class="eyebrow">ALL MATERIALS</p><h2>${m?'Look up another':'Pick a material'}</h2></div><span class="muted">${fmt(all.length)} materials</span></div><label class="visually-hidden" for="material-filter">Filter materials by name</label><input id="material-filter" type="search" placeholder="Filter materials" autocomplete="off"><div class="material-grid">${all.map(x=>`<a href="#materials/${esc(x.id)}" class="material-chip${x.id===materialId?' active':''}" ${x.id===materialId?'aria-current="true"':''} data-name="${esc(x.name.toLowerCase())}"><span>${esc(x.name)}</span><small>${fmt(x.usedIn.length)} ${x.usedIn.length===1?'recipe':'recipes'}${x.madeBy.length?' · can be made':''}</small></a>`).join('')}</div><p id="material-empty" class="muted" hidden>No material matches that.</p></section>`;
   $('#material-filter').oninput=e=>{const q=e.target.value.trim().toLowerCase();let shown=0;document.querySelectorAll('.material-chip').forEach(chip=>{chip.hidden=!chip.dataset.name.includes(q);if(!chip.hidden)shown++;});$('#material-empty').hidden=shown>0;};
+}
+// Player prices: what players pay each other, grouped like the rest of the guide, beside the city's sell price where it is known.
+// Built from playerPrices in guide.json (see MAINTAINING.md); a row links to its material or recipe page.
+function renderPrices(){
+  const rows=priceList(guide,recipes),known=rows.filter(r=>r.low!==null).length,groups=[...new Set(rows.map(r=>r.group))];
+  const name=r=>r.hash?`<a class="material-link" href="${esc(r.hash)}">${esc(r.name)}</a>`:esc(r.name);
+  const row=r=>`<tr id="price-${esc(r.key)}" class="${r.key===priceKey?'active':''}${r.low===null?' unknown':''}" data-name="${esc(r.name.toLowerCase())}"><th scope="row">${name(r)}${r.notes?`<small>${esc(r.notes)}</small>`:''}</th><td>${r.low===null?'<span class="price-none">Not known yet</span>':`<b>${formatPrice(r)}</b> <span class="price-unit">${esc(r.unit)}</span>${r.updated?`<small>Checked ${esc(formatDate(r.updated))}</small>`:''}`}</td><td>${r.sellPrice===undefined?'<span class="price-none">—</span>':'$'+fmt(r.sellPrice)}</td></tr>`;
+  const table=group=>`<div class="price-group"><h3>${esc(group)}</h3><table class="price-table"><thead><tr><th scope="col">Item</th><th scope="col">Between players</th><th scope="col">Sells for</th></tr></thead><tbody>${rows.filter(r=>r.group===group).map(row).join('')}</tbody></table></div>`;
+  $('#content').innerHTML=`<section class="material-list price-list" aria-label="Player prices"><div class="section-header"><div><p class="eyebrow">BETWEEN PLAYERS</p><h2>What things go for</h2></div><span class="muted">${known?`${fmt(known)} known ${known===1?'price':'prices'}`:'No player prices yet'}</span></div><p class="fine">Player prices move with supply, so treat them as a starting point when you buy or sell. “Sells for” is what the item fetches when sold in the city, for comparison.</p>${rows.length>8?`<label class="visually-hidden" for="price-filter">Filter prices by name</label><input id="price-filter" type="search" placeholder="Filter prices" autocomplete="off">`:''}${groups.map(table).join('')}<p id="price-empty" class="muted" hidden>No item matches that.</p><p class="fine price-report">Know what something sells for between players, or see a price that is out of date? <button id="price-report" class="quiet" type="button">Let us know</button></p></section>`;
+  $('#price-report').onclick=()=>$('#feedback-dialog').showModal();
+  const filter=$('#price-filter');
+  if(filter)filter.oninput=e=>{const q=e.target.value.trim().toLowerCase();let shown=0;document.querySelectorAll('.price-group').forEach(group=>{let any=0;group.querySelectorAll('tbody tr').forEach(tr=>{tr.hidden=!tr.dataset.name.includes(q);if(!tr.hidden)any++;});group.hidden=!any;shown+=any;});$('#price-empty').hidden=shown>0;};
 }
 function selectRecipe(id){const sameItem=recipe()&&productName(recipe())===productName(recipes.find(r=>r.id===id));selectedId=id;quantity=recipe().outputQuantity;if(!sameItem)availableAmount=null;availableItemId='';render();}
 function recipePicker(rows,current){

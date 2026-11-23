@@ -61,6 +61,7 @@ Heist guides and generic items are on the way.
 - **Share a plan.** Copy plan link gives your crew a link that opens the same recipes and amounts.
 - **Pins.** Keep the recipes, guides and materials you use most at the top of the menu.
 - **Materials.** Look up any material to see how to get it and every recipe that uses it. Material names in the calculator and plan link straight there.
+- **Player prices.** See what players pay each other for items and materials, next to what they sell for in the city.
 - **Search.** Type a recipe, material, guide, bench or postcode and jump straight to it. Several words work too, such as "cayo 9mm". It also looks inside the written guides and forgives a small typo. Press `/` to start typing.
 - **Shareable links.** Every recipe, tier, guide, material and location has its own address. Copy link grabs it, so you can send a mate straight to the Cayo 9mm recipe or the smelter.
 - **Copy a postcode.** Tap any postcode tag to copy the number for your GPS.

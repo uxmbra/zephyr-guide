@@ -72,6 +72,26 @@ The **Materials** page is built from the recipes, so it needs no upkeep: every i
 
 The same `outputItemId` is what lets a crafting plan be broken down to raw materials: any material that a recipe produces is replaced by that recipe's ingredients. A new smelting recipe joins in as soon as it has an `outputItemId`.
 
+## Player prices
+
+The **Prices** page (`#prices`) lists what players pay each other. The prices live in the `playerPrices` list in `dist/data/guide.json`. Every material with a `sellPrice` is listed there too, marked "Not known yet" until it has a player price, so the two can be compared.
+
+Each entry names exactly one thing:
+
+- `"itemId": "steel"` for a material in `items` (it links to its Materials page and shows its sell price beside it),
+- `"recipeId": "weapon-vector"` for anything the guide crafts (it takes the recipe's name and sits under that recipe's category), or
+- `"id": "fresh-cocaine-brick", "name": "Fresh Cocaine Brick"` for anything else, with an optional `"group"` heading (otherwise "Other items").
+
+Then `"price"`: whole dollars, either one number (`200`) or a range (`[40, 60]`). Optional: `"unit"` (defaults to "each", for example `"per brick"`), `"notes"`, and `"updated"` written `YYYY-MM-DD`, shown as "Checked …". For example:
+
+    "playerPrices": [
+      {"itemId": "steel", "price": [40, 60], "updated": "2026-11-23"},
+      {"recipeId": "weapon-vector", "price": 15000, "notes": "Less with your own attachments"},
+      {"id": "fresh-cocaine-brick", "name": "Fresh Cocaine Brick", "group": "Substances", "price": 900, "unit": "per brick"}
+    ]
+
+The tests refuse an unknown material or recipe, an entry listed twice, a price that is not whole dollars, and any field not named above. Priced entries also show up in search, and a material's page shows "players pay …" with a link here.
+
 ## Link previews, icons and the font
 
 - `dist/social-card.jpg` is the picture Discord and other apps show when the guide's link is posted. The address of the live site is written into the `og:` tags in `dist/index.html`; change it there if the site ever moves.

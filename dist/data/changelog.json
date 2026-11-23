@@ -1,5 +1,14 @@
 [
   {
+    "id": "2026-11-23-player-prices",
+    "date": "2026-11-23",
+    "title": "Player prices",
+    "notes": [
+      "A new Prices page lists what players pay each other for items and materials, with the city's sell price beside it.",
+      "Find it under Reference on the home page or at the bottom of the menu. Search finds priced items too."
+    ]
+  },
+  {
     "id": "2026-11-23-faster-loading-and-small-conveniences",
     "date": "2026-11-23",
     "title": "Faster loading and a round of small conveniences",
