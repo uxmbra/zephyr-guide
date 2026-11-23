@@ -4,7 +4,8 @@
     "date": "2026-11-23",
     "title": "Player prices",
     "notes": [
-      "A new Prices page lists what players pay each other for items and materials, with the city's sell price beside it.",
+      "A new Prices page lists what players pay each other, with a tab for clean money and one for dirty money.",
+      "Each tab is split into Materials, Guns, Ammo, BP's and Drugs. Clean prices for materials show the city's sell price beside them.",
       "Find it under Reference on the home page or at the bottom of the menu. Search finds priced items too."
     ]
   },

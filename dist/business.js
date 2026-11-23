@@ -1,4 +1,4 @@
-import {calculate,combinePlan,planDuration,formatDuration,MAX_QUANTITY,esc,fmt} from './core.js?v=21';
+import {calculate,combinePlan,planDuration,formatDuration,MAX_QUANTITY,esc,fmt} from './core.js?v=22';
 let configured=null;
 export function configureBusiness(id,quantity){configured={id,quantity};}
 export function renderBusiness(host,recipes,guide,onAdd){
