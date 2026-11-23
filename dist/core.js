@@ -124,27 +124,63 @@ export function formatDate(date){return new Date(date+'T00:00:00').toLocaleDateS
 export function materialIndex(guide,recipes){
   return guide.items.map(item=>({id:item.id,name:item.name,madeBy:recipes.filter(r=>r.outputItemId===item.id),usedIn:recipes.flatMap(r=>{const i=r.ingredients.find(i=>i.itemId===item.id);return i?[{recipe:r,quantity:i.quantity}]:[];})})).sort((a,b)=>a.name.localeCompare(b.name,'en',{numeric:true}));
 }
-// Finds recipes, guides, locations and materials by name or postcode. Exact names first, then names that start with the query,
-// then any match. Several words match when every word appears in the name or its detail line, so "cayo 9mm" finds the Cayo recipe.
+// How many single-letter slips (a wrong, missing, extra or swapped letter) turn one word into another, up to `max`.
+// Used to forgive a typo in a search, so it gives up as soon as the words are clearly different.
+export function typoDistance(a,b,max=2){
+  if(Math.abs(a.length-b.length)>max)return max+1;
+  let before=null,previous=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){
+    const row=[i];let least=i;
+    for(let j=1;j<=b.length;j++){
+      const cost=a[i-1]===b[j-1]?0:1;
+      row[j]=Math.min(previous[j]+1,row[j-1]+1,previous[j-1]+cost);
+      if(before&&i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])row[j]=Math.min(row[j],before[j-2]+1);
+      least=Math.min(least,row[j]);
+    }
+    if(least>max)return max+1;
+    before=previous;previous=row;
+  }
+  return previous[b.length];
+}
+// Finds recipes, guides, locations and materials by name or postcode. Results are ranked: an exact name, then a name that starts
+// with the search, then one that contains it, then several words found across a name and its detail line (so "cayo 9mm" finds
+// the Cayo recipe), then a written guide that mentions it. Only when nothing at all matches are near misses offered, so a typo
+// such as "vecter" still finds Vector.
 export function searchGuide(query,guide,recipes,limit=8){
   const q=String(query||'').trim().toLowerCase().replace(/\s+/g,' ');
   if(!q)return [];
   const categoryName=id=>guide.categories.find(c=>c.id===id)?.name||id;
+  const guideText=entry=>GUIDE_TEXT_FIELDS.map(key=>entry?.[key]||'').join(' ').toLowerCase();
   const entries=[];
   for(const r of recipes)entries.push({label:r.name,detail:[categoryName(r.categoryId),r.tier?'Tier '+r.tier:'',r.method?AMMO_METHODS[r.method]:''].filter(Boolean).join(' · '),hash:'#'+r.categoryId+'/'+r.id,keys:[r.name,r.outputName]});
-  for(const [id,name] of Object.entries(SUBSTANCE_SECTIONS))entries.push({label:name,detail:'Substance guide',hash:'#substances/'+id,keys:[name]});
-  for(const [id,name] of Object.entries(GATHERING_METHODS))entries.push({label:name,detail:'Gathering guide',hash:'#gathering/'+id,keys:[name]});
-  for(const g of guide.heistGuides||[])entries.push({label:g.name,detail:'Heist guide',hash:'#heist-guides/'+g.id,keys:[g.name]});
+  for(const [id,name] of Object.entries(SUBSTANCE_SECTIONS))entries.push({label:name,detail:'Substance guide',hash:'#substances/'+id,keys:[name],text:guideText(guide.substanceGuides?.[id])});
+  for(const [id,name] of Object.entries(GATHERING_METHODS))entries.push({label:name,detail:'Gathering guide',hash:'#gathering/'+id,keys:[name],text:guideText(guide.gatheringGuides?.[id])});
+  for(const g of guide.heistGuides||[])entries.push({label:g.name,detail:'Heist guide',hash:'#heist-guides/'+g.id,keys:[g.name],text:guideText(g)});
   for(const l of guide.locations){const benches=guide.benches.filter(b=>b.locationId===l.id);entries.push({label:benches.length===1?benches[0].name:l.name,detail:'Location'+(l.postcode?' · postcode '+l.postcode:''),hash:'#locations/'+l.id,keys:[l.name,l.postcode,...benches.map(b=>b.name)]});}
   for(const m of materialIndex(guide,recipes))entries.push({label:m.name,detail:'Material · used in '+m.usedIn.length+(m.usedIn.length===1?' recipe':' recipes'),hash:'#materials/'+m.id,keys:[m.name]});
   const words=q.split(' ');
+  // Inside a guide a word has to start with what was typed: "bin" finds "bins", but "ion" does not find "location".
+  const mentions=(text,word)=>{for(let at=text.indexOf(word);at>=0;at=text.indexOf(word,at+1))if(!at||!/[a-z0-9]/.test(text[at-1]))return true;return false;};
   const score=entry=>{
     const best=entry.keys.reduce((best,key)=>{const value=String(key||'').toLowerCase();return Math.max(best,!value?0:value===q?3:value.startsWith(q)?2:value.includes(q)?1:0);},0);
-    if(best||words.length<2)return best;
+    if(best)return best;
     const text=[...entry.keys,entry.detail].join(' ').toLowerCase();
-    return words.every(word=>text.includes(word))?.5:0;
+    if(words.length>1&&words.every(word=>text.includes(word)))return .5;
+    // What a guide says inside: two letters would match almost anything, so this starts at three.
+    return entry.text&&q.length>2&&words.every(word=>text.includes(word)||mentions(entry.text,word))?.25:0;
   };
-  return entries.map(({keys,...entry})=>({...entry,score:score({keys,...entry})})).filter(entry=>entry.score).sort((a,b)=>b.score-a.score).slice(0,limit).map(({score,...entry})=>entry);
+  const pick=rank=>entries.map(({keys,text,...entry})=>{const value=rank({keys,text,...entry});return {...entry,detail:value===.25?entry.detail+(text.includes(q)?' · mentions “'+String(query).trim().replace(/\s+/g,' ')+'”':' · mentions these words'):entry.detail,score:value};}).filter(entry=>entry.score).sort((a,b)=>b.score-a.score).slice(0,limit).map(({score,...entry})=>entry);
+  const found=pick(score);
+  if(found.length)return found;
+  // Near misses: every word typed must be in a name, or one slip away from a word in it (two slips for long words).
+  // Short words and numbers are left alone, because one letter out in "9mm" or a postcode is a different thing.
+  const near=(word,target)=>word.length>3&&!/\d/.test(word)&&typoDistance(word,target,word.length>7?2:1)<=(word.length>7?2:1);
+  return pick(entry=>{
+    const names=entry.keys.join(' ').toLowerCase(),parts=names.split(/[^a-z0-9]+/).filter(Boolean);
+    let close=0;
+    for(const word of words){if(names.includes(word))continue;if(!parts.some(part=>near(word,part)))return 0;close++;}
+    return close?.1:0;
+  });
 }
 // limits: other ingredients the player has, e.g. {'coal-ore':200}. The scarcest one sets the number of crafts.
 export function calculateAvailable(recipe,itemId,available,limits={}){

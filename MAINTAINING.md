@@ -50,9 +50,17 @@ Every page has its own address, so links can point straight at a recipe, tier, g
 
 An unknown ID falls back to the section it names, and an unknown section falls back to the home page.
 
+An address that is not part of the site at all (say `…/zephyr-guide/smelting`, without the `#`) gets `dist/404.html` from GitHub Pages, which sends the visitor on to the guide with the last word as the section. It holds the guide's full address, so if the site ever moves to another address, change it there and in the `og:url` line of `index.html` together (the tests check they match).
+
 ## Home page
 
 The home page is built from the data, so its figures, section cards and latest changes keep themselves current. The one thing it needs from you: when you add a **new category** to `guide.json`, add a line about it to `SECTION_NOTES` in `dist/core.js`, which is the sentence shown on its card. The tests fail, and say so, if a category has no line. To move a card between the Crafting, Guides and Reference groups, edit `HOME_GROUPS` just below it; a category that no group names is shown under Crafting.
+
+## Loading speed
+
+The first lines of `dist/index.html` ask for `guide.json` and each category file while the stylesheets and scripts are still downloading, and `app.js` picks the answers up from `window.guideData`. Nothing needs doing when data changes. If you ever rename the `data/` folder or change how files are fetched in `load()` in `app.js`, change that small script to match.
+
+When rewriting the address in `app.js`, always pass `history.state` to `history.replaceState` rather than `null`: the state names the visitor's stop in the tab's history, which is how Back, Forward and refresh return to the same spot on the page.
 
 ## Offline copy
 

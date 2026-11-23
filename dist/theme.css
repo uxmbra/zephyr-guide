@@ -368,12 +368,15 @@ a.button{text-decoration:none}
   .brand{padding:0 6px}
   #navigation{flex:1}
   .sidebar-foot{position:sticky;bottom:-20px;margin:0 -16px -20px;padding:12px 16px 20px;background:var(--sidebar);border-top:1px solid var(--line)}
+  /* When the menu is longer than the screen (a short window, or several pins) it scrolls under these buttons; the fade shows there is more. */
+  .sidebar-foot::before{content:'';position:absolute;left:0;right:0;bottom:calc(100% + 1px);height:26px;background:linear-gradient(transparent,var(--sidebar));pointer-events:none}
   .workspace{width:100%;max-width:1240px;margin:0 auto;padding:0 40px}
   .topbar{padding:24px 0 0}
   main{padding:30px 0 30px}
 }
-/* Shorter screens: tighten the menu so every section and the feedback button fit without scrolling the sidebar. */
-@media(min-width:1001px) and (max-height:940px){
+/* Shorter screens: tighten the menu so every section and the buttons under it fit without scrolling the sidebar. The roomy
+   menu needs 1148px of height and this one 954px, so each takes over exactly where the one before stops fitting. */
+@media(min-width:1001px) and (max-height:1147px){
   .sidebar{gap:14px;padding-top:18px;padding-bottom:14px}
   #navigation{gap:1px}
   #navigation a{padding:5px 12px}
@@ -382,6 +385,15 @@ a.button{text-decoration:none}
   .nav-icon svg{width:17px;height:17px}
   .sidebar-foot{gap:6px;margin-bottom:-14px;padding-top:10px;padding-bottom:14px;bottom:-14px}
   #zephyr-links a,#feedback,#manage{min-height:34px;padding-top:6px;padding-bottom:6px}
+}
+/* Laptop screens: tighter again, which fits everything from 841px of height. Below that the menu scrolls. */
+@media(min-width:1001px) and (max-height:953px){
+  .sidebar{gap:10px;padding-top:14px}
+  #navigation{gap:0}
+  #navigation a{padding:3px 12px}
+  #navigation a.active::before{top:6px;bottom:6px}
+  .nav-icon{flex-basis:28px;height:28px}
+  .nav-label small{margin-top:1px}
 }
 @media(min-width:1001px) and (max-width:1250px){
   #content{grid-template-columns:minmax(0,1fr)}
@@ -650,4 +662,28 @@ a.button{text-decoration:none}
   #home-news time{flex:0 0 auto}
   .home-help{padding:18px}
   .home-help button{width:100%}
+}
+
+/* Photo viewer: arrows to step through the photos on the page. */
+#photo-steps{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
+#photo-steps[hidden]{display:none}
+#photo-steps button{width:42px;min-height:42px;padding:0;border-radius:999px}
+#photo-steps svg{width:18px;height:18px}
+#photo-count{min-width:70px;text-align:center;color:var(--muted);font-size:.85rem;font-weight:600;font-variant-numeric:tabular-nums}
+#large-photo{touch-action:pan-y pinch-zoom}
+
+/* Locations: links at the top that jump straight to one. */
+.location-jump{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.location-jump .eyebrow{margin:0}
+.location-jump .item-links{gap:8px}
+.location-jump .item-link{font-size:.85rem}
+.location-entry{scroll-margin-top:16px}
+
+/* Fingers need a bigger target than a mouse pointer does. */
+@media(pointer:coarse){
+  button.tag{min-height:36px;padding-inline:12px}
+}
+/* Phones: the line that repeats the section name above the page buttons is dropped, so the page itself starts sooner. */
+@media(max-width:680px){
+  .topbar>span:first-child{display:none}
 }
