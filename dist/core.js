@@ -2,6 +2,11 @@ export const MAX_QUANTITY=1000000;
 export const SUBSTANCE_SECTIONS={meth:'Meth',cocaine:'Cocaine',weed:'Weed',lsd:'LSD'};
 export const GATHERING_METHODS={'hobo-camps':'Hobo Camps','bin-diving':'Bin Diving','metal-detecting':'Metal Detecting','scrap-yard':'Scrap Yard','recycling-centre':'Recycling Centre'};
 export const AMMO_METHODS={mainland:'Mainland',cayo:'Cayo'};
+// Player prices come in clean and dirty money, each split into these categories (in display order).
+export const PRICE_MONEY={clean:'Clean',dirty:'Dirty'};
+export const PRICE_CATEGORIES={materials:'Materials',guns:'Guns',ammo:'Ammo',blueprints:'BP’s',drugs:'Drugs'};
+// The price category a crafted item falls under when its entry does not name one.
+const RECIPE_PRICE_CATEGORY={weapons:'guns',ammo:'ammo',substances:'drugs'};
 // Chapters of every written guide (substances, gathering and heists), in display order.
 export const GUIDE_SECTIONS={overview:'Overview',requirements:'Before you start',locations:'Locations',steps:'Step-by-step guide',tips:'Tips & notes'};
 export const GUIDE_TEXT_FIELDS=Object.keys(GUIDE_SECTIONS);
@@ -39,7 +44,7 @@ export const SECTION_NOTES={
  'heist-guides':'Plan the job: what to bring, where to go and which items to craft.',
  locations:'Postcodes, maps and bench photos for every crafting spot.',
  materials:'Look up any material: how to get it and every recipe that uses it.',
- prices:'What players pay each other for items and materials.',
+ prices:'What players pay each other, in clean or dirty money.',
 };
 const HOME_GROUPS=[
  {title:'Crafting',note:'Recipes with a calculator, a bench and a postcode.',ids:['ammo','weapons','attachments','melee','heist','generic','smelting','business']},
@@ -54,7 +59,7 @@ export function homeSections(guide){
 // Every page has an address: #category, or #category/selection for a recipe, tier, method, guide section, heist guide, location or material.
 // No address, or one the guide does not know, is the home page.
 export function resolveRoute(hash,guide,recipes){
-  const [id,sub='']=String(hash||'').replace(/^#/,'').split('/');
+  const [id,sub='',extra='']=String(hash||'').replace(/^#/,'').split('/');
   const category=Object.hasOwn(EXTRA_PAGES,id)||guide.categories.some(c=>c.id===id)?id:'home';
   const route={category};
   if(!sub)return route;
@@ -67,7 +72,11 @@ export function resolveRoute(hash,guide,recipes){
   else if(category==='heist-guides'&&(guide.heistGuides||[]).some(g=>g.id===sub))route.heistGuide=sub;
   else if(category==='locations'&&guide.locations.some(l=>l.id===sub))route.location=sub;
   else if(category==='materials'&&guide.items.some(i=>i.id===sub))route.material=sub;
-  else if(category==='prices'&&priceList(guide,recipes).some(p=>p.key===sub))route.price=sub;
+  else if(category==='prices'){
+    // #prices/clean, #prices/dirty/<item>, or #prices/<item> for whichever money it has a price in (clean first).
+    if(Object.hasOwn(PRICE_MONEY,sub)){route.money=sub;if(priceList(guide,recipes,sub).some(p=>p.key===extra))route.price=extra;}
+    else{const money=Object.keys(PRICE_MONEY).find(m=>priceList(guide,recipes,m).some(p=>p.key===sub));if(money){route.money=money;route.price=sub;}}
+  }
   else if(category==='plan'){const shared=decodePlan(sub,recipes);if(shared.length)route.shared=shared;}
   return route;
 }
@@ -123,20 +132,28 @@ export function unseenChanges(changelog,seen,today=new Date()){
 }
 export function formatDate(date){return new Date(date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
 // Every material with the recipes that make it and the recipes that use it, sorted by name.
-// Player prices: what players pay each other, from guide.playerPrices. Every material with a known sell price is listed too,
-// with no player price yet, so the two can be compared. Each row has a `key` (its item, recipe or own ID) that is its address
-// on the page (#prices/<key>). `low` and `high` are null until a price is known; a single price has low equal to high.
-// Rows are grouped: Materials first, then the crafting categories in guide order, then any other group by name.
-export function priceList(guide,recipes){
+// Player prices: what players pay each other in clean or dirty money, from guide.playerPrices. Each entry names a material
+// (itemId), a crafted item (recipeId) or its own item (id and name), with a clean price, a dirty price or both.
+// priceList gives the rows for one kind of money. Each row has a `key` (its item, recipe or own ID), which is its address
+// (#prices/<money>/<key>), and a `category` from PRICE_CATEGORIES. `low` and `high` are null until a price is known; a single
+// price has low equal to high. The clean list also holds every material with a city sell price, so the two can be compared.
+export function priceCategory(entry,guide,recipes){
+  if(entry.category)return entry.category;
+  if(entry.itemId!==undefined)return 'materials';
+  const recipe=entry.recipeId!==undefined&&recipes.find(r=>r.id===entry.recipeId);
+  return recipe?RECIPE_PRICE_CATEGORY[recipe.categoryId]:undefined;
+}
+export function priceList(guide,recipes,money='clean'){
   const rows=[];
   for(const p of guide.playerPrices||[]){
+    if(p[money]===undefined)continue;
     const item=p.itemId!==undefined?guide.items.find(i=>i.id===p.itemId):undefined,recipe=p.recipeId!==undefined?recipes.find(r=>r.id===p.recipeId):undefined;
-    const [low,high]=Array.isArray(p.price)?p.price:[p.price,p.price];
-    rows.push({key:p.itemId||p.recipeId||p.id,name:p.name||item?.name||recipe?.name||p.recipeId,group:p.group||(item?'Materials':recipe?guide.categories.find(c=>c.id===recipe.categoryId)?.name:'Other items')||'Other items',low,high,unit:p.unit||'each',notes:p.notes||'',updated:p.updated||'',sellPrice:item?.sellPrice,hash:item?'#materials/'+item.id:recipe?'#'+recipe.categoryId+'/'+recipe.id:''});
+    const [low,high]=Array.isArray(p[money])?p[money]:[p[money],p[money]];
+    rows.push({key:p.itemId||p.recipeId||p.id,name:p.name||item?.name||recipe?.name||p.recipeId,category:priceCategory(p,guide,recipes)||'materials',low,high,unit:p.unit||'each',notes:p.notes||'',updated:p.updated||'',sellPrice:money==='clean'?item?.sellPrice:undefined,hash:item?'#materials/'+item.id:recipe?'#'+recipe.categoryId+'/'+recipe.id:''});
   }
-  for(const item of guide.items)if(item.sellPrice!==undefined&&!rows.some(r=>r.key===item.id))rows.push({key:item.id,name:item.name,group:'Materials',low:null,high:null,unit:'each',notes:'',updated:'',sellPrice:item.sellPrice,hash:'#materials/'+item.id});
-  const order=['Materials',...guide.categories.map(c=>c.name)],rank=group=>{const at=order.indexOf(group);return at<0?order.length:at;};
-  return rows.sort((a,b)=>rank(a.group)-rank(b.group)||a.group.localeCompare(b.group)||a.name.localeCompare(b.name,'en',{numeric:true}));
+  if(money==='clean')for(const item of guide.items)if(item.sellPrice!==undefined&&!rows.some(r=>r.key===item.id))rows.push({key:item.id,name:item.name,category:'materials',low:null,high:null,unit:'each',notes:'',updated:'',sellPrice:item.sellPrice,hash:'#materials/'+item.id});
+  const order=Object.keys(PRICE_CATEGORIES);
+  return rows.sort((a,b)=>order.indexOf(a.category)-order.indexOf(b.category)||a.name.localeCompare(b.name,'en',{numeric:true}));
 }
 // "$40" for one price, "$40–$60" for a range, or "" while it is not known.
 export const formatPrice=row=>row.low===null?'':'$'+fmt(row.low)+(row.high!==row.low?'–$'+fmt(row.high):'');
@@ -177,7 +194,7 @@ export function searchGuide(query,guide,recipes,limit=8){
   for(const g of guide.heistGuides||[])entries.push({label:g.name,detail:'Heist guide',hash:'#heist-guides/'+g.id,keys:[g.name],text:guideText(g)});
   for(const l of guide.locations){const benches=guide.benches.filter(b=>b.locationId===l.id);entries.push({label:benches.length===1?benches[0].name:l.name,detail:'Location'+(l.postcode?' · postcode '+l.postcode:''),hash:'#locations/'+l.id,keys:[l.name,l.postcode,...benches.map(b=>b.name)]});}
   for(const m of materialIndex(guide,recipes))entries.push({label:m.name,detail:'Material · used in '+m.usedIn.length+(m.usedIn.length===1?' recipe':' recipes'),hash:'#materials/'+m.id,keys:[m.name]});
-  for(const p of priceList(guide,recipes))if(p.low!==null)entries.push({label:p.name,detail:'Player price · '+formatPrice(p)+' '+p.unit,hash:'#prices/'+p.key,keys:[p.name]});
+  for(const money of Object.keys(PRICE_MONEY))for(const p of priceList(guide,recipes,money))if(p.low!==null)entries.push({label:p.name,detail:PRICE_MONEY[money]+' price · '+formatPrice(p)+' '+p.unit,hash:'#prices/'+money+'/'+p.key,keys:[p.name]});
   const words=q.split(' ');
   // Inside a guide a word has to start with what was typed: "bin" finds "bins", but "ion" does not find "location".
   const mentions=(text,word)=>{for(let at=text.indexOf(word);at>=0;at=text.indexOf(word,at+1))if(!at||!/[a-z0-9]/.test(text[at-1]))return true;return false;};
@@ -286,7 +303,7 @@ export function validateData(guide,recipes,{links=true}={}){
   for(const item of guide.items)if(item.sellPrice!==undefined&&(!Number.isSafeInteger(item.sellPrice)||item.sellPrice<0))fail(item.name+' needs a sell price in whole dollars.');
   if(guide.playerPrices!==undefined){
     if(!Array.isArray(guide.playerPrices))fail('Player prices must be a list.');
-    const keys=new Set(),dollars=n=>Number.isSafeInteger(n)&&n>=0;
+    const keys=new Set(),dollars=n=>Number.isSafeInteger(n)&&n>=0,price=v=>dollars(v)||Array.isArray(v)&&v.length===2&&v.every(dollars)&&v[0]<v[1];
     for(const p of guide.playerPrices){
       if(!p||typeof p!=='object'||Array.isArray(p))fail('Each player price must be an object.');
       const refs=['itemId','recipeId','id'].filter(key=>p[key]!==undefined),key=p[refs[0]];
@@ -294,10 +311,13 @@ export function validateData(guide,recipes,{links=true}={}){
       if(typeof key!=='string'||!/^[a-z0-9-]+$/.test(key)||keys.has(key))fail('Player price '+key+' is listed twice or has an invalid ID.');keys.add(key);
       if(p.itemId!==undefined&&!ids.items.has(p.itemId))fail('Player price names an unknown material: '+p.itemId+'.');
       if(p.id!==undefined&&(typeof p.name!=='string'||!p.name.trim()))fail('Player price '+p.id+' needs a name.');
-      if(!(dollars(p.price)||Array.isArray(p.price)&&p.price.length===2&&p.price.every(dollars)&&p.price[0]<p.price[1]))fail('Player price '+key+' needs a price in whole dollars, or a range such as [40, 60].');
-      for(const field of ['name','group','unit','notes'])if(p[field]!==undefined&&(typeof p[field]!=='string'||!p[field].trim()))fail('Player price '+key+' has an empty or non-text '+field+'.');
+      if(p.category!==undefined&&!Object.hasOwn(PRICE_CATEGORIES,p.category))fail('Player price '+key+' needs a category of '+Object.keys(PRICE_CATEGORIES).join(', ')+'.');
+      if(p.id!==undefined&&p.category===undefined)fail('Player price '+key+' needs a category of '+Object.keys(PRICE_CATEGORIES).join(', ')+'.');
+      if(p.clean===undefined&&p.dirty===undefined)fail('Player price '+key+' needs a clean price, a dirty price or both.');
+      for(const money of Object.keys(PRICE_MONEY))if(p[money]!==undefined&&!price(p[money]))fail('Player price '+key+' needs its '+money+' price in whole dollars, or a range such as [40, 60].');
+      for(const field of ['name','unit','notes'])if(p[field]!==undefined&&(typeof p[field]!=='string'||!p[field].trim()))fail('Player price '+key+' has an empty or non-text '+field+'.');
       if(p.updated!==undefined&&(typeof p.updated!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(p.updated)))fail('Player price '+key+' needs its updated date written YYYY-MM-DD.');
-      for(const field of Object.keys(p))if(!['itemId','recipeId','id','name','group','price','unit','notes','updated'].includes(field))fail('Player price '+key+' has an unknown field: '+field+'.');
+      for(const field of Object.keys(p))if(!['itemId','recipeId','id','name','category','clean','dirty','unit','notes','updated'].includes(field))fail('Player price '+key+' has an unknown field: '+field+'.');
     }
   }
   const files=new Set();for(const c of guide.categories){if(!/^[a-z0-9-]+\.json$/.test(c.file)||c.file==='guide.json'||files.has(c.file))fail('Category files must be unique simple JSON filenames.');files.add(c.file);}
@@ -309,7 +329,7 @@ export function validateData(guide,recipes,{links=true}={}){
   for(const r of recipes)if(r?.categoryId==='substances'&&!Object.hasOwn(SUBSTANCE_SECTIONS,r.substance))fail('Substance recipes require a section: meth, cocaine, weed or lsd.');
   for(const r of recipes){if(!r||typeof r.id!=='string'||!/^[a-z0-9-]+$/.test(r.id)||seen.has(r.id)||typeof r.name!=='string'||!r.name.trim())fail('Recipes need unique IDs and names.');seen.add(r.id);if(r.craftTimeSeconds===null){if(!guide.pendingCraftTimeRecipeIds?.includes(r.id))fail('Craft time is required for '+r.name+'.');}else if(!Number.isSafeInteger(r.craftTimeSeconds)||r.craftTimeSeconds<1||r.craftTimeSeconds>86400)fail('Craft time must be a whole number of seconds from 1 to 86,400 for '+r.name+'.');if(!ids.categories.has(r.categoryId)||(r.benchId!==null&&!ids.benches.has(r.benchId)))fail('Recipe references an unknown category or bench.');if(!Number.isSafeInteger(r.outputQuantity)||r.outputQuantity<1||r.outputQuantity>MAX_QUANTITY)fail('Recipe output must be a positive whole number up to 1,000,000.');if(!Array.isArray(r.ingredients)||!r.ingredients.length)fail('Recipes need at least one ingredient.');const ing=new Set();for(const i of r.ingredients){if(!ids.items.has(i.itemId)||ing.has(i.itemId)||!Number.isSafeInteger(i.quantity)||i.quantity<1||i.quantity>MAX_QUANTITY)fail('Ingredient IDs must exist, appear once, and have positive whole quantities up to 1,000,000.');ing.add(i.itemId);}}
   for(const r of recipes)if(r.outputItemId!==undefined&&!ids.items.has(r.outputItemId))fail(r.name+' produces an unknown item.');
-  if(links)for(const p of guide.playerPrices||[])if(p.recipeId!==undefined&&!recipes.some(r=>r.id===p.recipeId))fail('Player price names an unknown recipe: '+p.recipeId+'.');
+  if(links)for(const p of guide.playerPrices||[])if(p.recipeId!==undefined){if(!recipes.some(r=>r.id===p.recipeId))fail('Player price names an unknown recipe: '+p.recipeId+'.');if(!priceCategory(p,guide,recipes))fail('Player price '+p.recipeId+' needs a category of '+Object.keys(PRICE_CATEGORIES).join(', ')+'.');}
   if(links)for(const entry of guide.heistGuides||[])for(const id of entry.itemIds||[])if(!recipes.some(r=>r.id===id&&r.categoryId==='heist'))fail('Heist guide '+entry.name+' links to '+id+', which is not a heist item recipe.');
   return true;
 }

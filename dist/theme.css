@@ -705,5 +705,8 @@ a.button{text-decoration:none}
 .price-table tr.active th{box-shadow:3px 0 0 var(--accent) inset}
 .price-table tr{scroll-margin-top:20px}
 .price-report{margin:20px 0 0}
+.price-tabs{margin-bottom:22px}
+.price-table.two-columns td:last-child,.price-table.two-columns thead th:last-child{text-align:left;width:50%}
+.price-empty-group{margin:0;padding:10px 6px;border-top:1px solid var(--line);font-size:.85rem}
 .price-report .quiet{padding:4px 8px;color:var(--accent-strong)}
 @media(max-width:680px){.price-table{font-size:.85rem}.price-table th,.price-table td{padding:9px 4px}.price-table td:last-child,.price-table thead th:last-child{width:4.5rem}}

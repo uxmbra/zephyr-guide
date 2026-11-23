@@ -74,23 +74,24 @@ The same `outputItemId` is what lets a crafting plan be broken down to raw mater
 
 ## Player prices
 
-The **Prices** page (`#prices`) lists what players pay each other. The prices live in the `playerPrices` list in `dist/data/guide.json`. Every material with a `sellPrice` is listed there too, marked "Not known yet" until it has a player price, so the two can be compared.
+The **Prices** page lists what players pay each other. It has a **Clean** and a **Dirty** tab (`#prices/clean`, `#prices/dirty`), and each tab groups its prices under Materials, Guns, Ammo, BP's and Drugs (the list is `PRICE_CATEGORIES` in `dist/core.js`). The prices live in the `playerPrices` list in `dist/data/guide.json`. The Clean tab also lists every material with a `sellPrice`, marked "Not known yet" until it has a player price, so the two can be compared.
 
 Each entry names exactly one thing:
 
-- `"itemId": "steel"` for a material in `items` (it links to its Materials page and shows its sell price beside it),
-- `"recipeId": "weapon-vector"` for anything the guide crafts (it takes the recipe's name and sits under that recipe's category), or
-- `"id": "fresh-cocaine-brick", "name": "Fresh Cocaine Brick"` for anything else, with an optional `"group"` heading (otherwise "Other items").
+- `"itemId": "steel"` for a material in `items`. It goes under Materials, links to its Materials page, and shows its sell price beside the clean price.
+- `"recipeId": "weapon-vector"` for anything the guide crafts. It takes the recipe's name. Weapons go under Guns, ammo under Ammo and substances under Drugs; anything else needs a `"category"`.
+- `"id": "vector-bp", "name": "Vector BP", "category": "blueprints"` for anything else.
 
-Then `"price"`: whole dollars, either one number (`200`) or a range (`[40, 60]`). Optional: `"unit"` (defaults to "each", for example `"per brick"`), `"notes"`, and `"updated"` written `YYYY-MM-DD`, shown as "Checked …". For example:
+Then a `"clean"` price, a `"dirty"` price, or both: whole dollars, either one number (`200`) or a range (`[40, 60]`). `"category"` is one of `materials`, `guns`, `ammo`, `blueprints` or `drugs`, and can be given on any entry to move it. Optional: `"unit"` (defaults to "each", for example `"per brick"`), `"notes"`, and `"updated"` written `YYYY-MM-DD`, shown as "Checked …". For example:
 
     "playerPrices": [
-      {"itemId": "steel", "price": [40, 60], "updated": "2026-11-23"},
-      {"recipeId": "weapon-vector", "price": 15000, "notes": "Less with your own attachments"},
-      {"id": "fresh-cocaine-brick", "name": "Fresh Cocaine Brick", "group": "Substances", "price": 900, "unit": "per brick"}
+      {"itemId": "steel", "clean": [40, 60], "dirty": 35, "updated": "2026-11-23"},
+      {"recipeId": "weapon-vector", "dirty": 15000, "notes": "Less with your own attachments"},
+      {"id": "vector-bp", "name": "Vector BP", "category": "blueprints", "dirty": [50000, 60000]},
+      {"id": "fresh-cocaine-brick", "name": "Fresh Cocaine Brick", "category": "drugs", "dirty": 900, "unit": "per brick"}
     ]
 
-The tests refuse an unknown material or recipe, an entry listed twice, a price that is not whole dollars, and any field not named above. Priced entries also show up in search, and a material's page shows "players pay …" with a link here.
+The tests refuse an unknown material or recipe, a missing or unknown category, an entry listed twice, a price that is not whole dollars, and any field not named above. Priced entries also show up in search, and a material's page shows "players pay … clean/dirty" with a link to its row.
 
 ## Link previews, icons and the font
 
