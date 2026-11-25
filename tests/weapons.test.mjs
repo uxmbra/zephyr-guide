@@ -18,7 +18,7 @@ test('weapon quantities preserve gold exclusions, assault costs and distinct blu
 test('seventeen tier 2 recipes share one cost and take 90 seconds',()=>{
  assert.equal(validateData(guide,all),true);
  assert.equal(all.length,38);
- assert.deepEqual(tier2.map(r=>r.name),['Vector','Pump Shotgun','Double Barrel Shotgun','H2 SMG','Assault SMG','MP9','Pump Shotgun MK2','SMG','Heavy SMG','Combat PDW','Sawn Off Shotgun','MP5X','Bullpup SMG','SR-3M VVS','Machine Pistol','Tommygun Chrome','Sweeper Shotgun']);
+ assert.deepEqual(tier2.map(r=>r.name),['Vector','Pump Shotgun','Double Barrel Shotgun','H2 SMG','Assault SMG','MP9','Pump Shotgun MK2','SMG','Heavy SMG','Combat PDW','Sawn Off Shotgun','MP5X','Bullpup SMG','SR-3M VVS','Machine Pistol','Tommy Gun','Sweeper Shotgun']);
  for(const r of tier2){
   assert.deepEqual([r.outputQuantity,r.craftTimeSeconds,r.benchId],[1,90,'weapons-tier-2']);
   const expected=[['iron',180],['steel',135],['rubber',60],['plastic',85],['silver-ingot',20],['zephyr-lubricant-spray',2]];
